@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "bmewburn.vscode-intelephense-client",
+        "shufo.vscode-blade-formatter",
+        "onecentlin.laravel-blade",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "codingyu.laravel-goto-view",
+        "absszero.vscode-laravel-pint",
+        "open-southeners.laravel-pint",
+        "ryannaddy.laravel-artisan",
+        "mikestead.dotenv",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens"
+    ]
+}

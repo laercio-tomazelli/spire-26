@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": {
+                "${workspaceFolder}": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Laravel Artisan",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/artisan",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "port": 9003
+        },
+        {
+            "name": "Run Pest Tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/vendor/bin/pest",
+            "args": ["--colors=always"],
+            "cwd": "${workspaceFolder}",
+            "port": 9003
+        }
+    ]
+}
