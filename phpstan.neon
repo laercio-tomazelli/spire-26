@@ -23,13 +23,13 @@ parameters:
     ignoreErrors:
         # Métodos do Faker que são válidos mas o PHPStan não reconhece
         - '#Call to an undefined method Faker\\Generator::(secondaryAddress|stateAbbr)\(\)#'
-        
+
         # Propriedades dinâmicas do Eloquent (acessadas via __get)
         - '#Access to an undefined property App\\Models\\[A-Za-z]+::\$[a-z_]+#'
-        
+
         # Return types que funcionam em runtime mas PHPStan não entende
         - '#should return .* but returns#'
         - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Relations\\Pivot::#'
-        
+
         # Comentários em ForeignKey que funcionam no MySQL
         - '#Call to an undefined method Illuminate\\Database\\Schema\\ForeignKeyDefinition::comment\(\)#'
