@@ -63,6 +63,94 @@ O trait adiciona automaticamente:
 -   **Pint** (code style Laravel)
 -   **Rector** (refactoring)
 -   **Tailwind CSS** 4
+-   **spire-ui** (biblioteca de componentes TypeScript/Blade)
+
+## Frontend - spire-ui
+
+O projeto utiliza a biblioteca **spire-ui** (`laercio-tomazelli/spire-ui`) para todos os componentes de interface.
+
+### Diretrizes Obrigatórias
+
+1. **Sempre usar componentes spire-ui** - Verificar primeiro se existe um componente disponível
+2. **TypeScript** - Preferir TypeScript sobre JavaScript puro
+3. **Tailwind CSS** - Usar classes Tailwind para estilos, evitar CSS inline ou classes CSS comuns
+4. **Contribuir com spire-ui** - Se um componente não existir ou precisar de alteração:
+    - Criar/modificar no repositório `spire-ui-package`
+    - Manter compatibilidade com versões anteriores
+    - Seguir as convenções do projeto spire-ui
+    - Fazer push e atualizar o package no projeto principal
+
+### Componentes Blade Disponíveis
+
+Usar com prefixo `<x-ui.nome>`:
+
+```blade
+{{-- Exemplos de uso --}}
+<x-ui.button variant="primary">Salvar</x-ui.button>
+<x-ui.modal id="confirm-modal" title="Confirmar">...</x-ui.modal>
+<x-ui.input name="email" type="email" label="E-mail" />
+<x-ui.select name="status" :options="$statuses" />
+<x-ui.dropdown>...</x-ui.dropdown>
+<x-ui.card>...</x-ui.card>
+<x-ui.alert type="success">Salvo com sucesso!</x-ui.alert>
+<x-ui.tabs>...</x-ui.tabs>
+<x-ui.accordion>...</x-ui.accordion>
+```
+
+**Componentes disponíveis:** accordion, alert, avatar, badge, banner, breadcrumbs, button, card, carousel, clipboard, collapse, combobox, context-menu, date-range-picker, drawer, dropdown, empty-state, header, icon, input, mini-chart, modal, multiselect, notification-bell, pin, popover, pricing-card, progress, rating, select, skeleton, stats-card, stepper, swap, tabs, tag-input, timeline, tooltip
+
+### Componentes TypeScript
+
+Localização: `resources/js/spire/`
+
+```typescript
+// Importar componentes
+import { Modal, Dropdown, Tabs } from "@/spire/components";
+import { Toast, Http, Mask, Currency } from "@/spire/utilities";
+
+// Uso
+Modal.open("my-modal");
+Toast.success("Operação realizada!");
+const formatted = Currency.format(1234.56, "BRL");
+```
+
+**Componentes:** Accordion, Button, Carousel, Clipboard, Collapse, ColorPicker, CommandPalette, ContextMenu, DatePicker, DateRangePicker, Drawer, Dropdown, FileUpload, FormValidator, InfiniteScroll, Input, LazyLoad, Modal, MultiSelect, Persist, Popover, Progress, RangeSlider, Rating, Select, Skeleton, Stepper, Table, Tabs, Tooltip, VirtualScroll
+
+**Utilitários:** A11y, Confirm, Currency, EventBus, Http, Mask, Perf, Shortcuts, Toast
+
+### Quando Criar/Modificar spire-ui
+
+Se precisar de um componente que não existe ou modificar um existente:
+
+```bash
+# 1. Ir para o repositório spire-ui-package
+cd /home/ldo/dev/projects/spire-ui-package
+
+# 2. Fazer as alterações necessárias
+# - Componentes Blade: resources/views/components/ui/
+# - Componentes TS: resources/js/spire/components/
+# - Utilitários TS: resources/js/spire/utilities/
+
+# 3. Commit e push
+git add .
+git commit -m "feat: add NewComponent"
+git push
+
+# 4. Voltar ao projeto e atualizar
+cd /home/ldo/dev/projects/spire-26
+composer update laercio-tomazelli/spire-ui
+php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServiceProvider" --tag=spire-ui-assets --force
+php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServiceProvider" --tag=spire-ui-views --force
+```
+
+### O que NÃO fazer no Frontend
+
+-   ❌ Não usar JavaScript puro quando TypeScript é possível
+-   ❌ Não criar componentes diretamente no projeto (criar no spire-ui)
+-   ❌ Não usar estilos inline (`style="..."`)
+-   ❌ Não criar classes CSS comuns (usar Tailwind)
+-   ❌ Não usar jQuery ou bibliotecas externas sem necessidade
+-   ❌ Não duplicar funcionalidade que já existe no spire-ui
 
 ## Comandos
 
@@ -238,6 +326,8 @@ it('creates a service order for a partner', function (): void {
 
 ## O que NÃO fazer
 
+### Backend
+
 -   ❌ Não usar `env()` fora de config/
 -   ❌ Não criar classes sem type hints
 -   ❌ Não usar `==`, sempre `===`
@@ -246,11 +336,23 @@ it('creates a service order for a partner', function (): void {
 -   ❌ Não usar `auth()` helper, usar `Auth` facade
 -   ❌ Não esquecer de rodar `composer check` antes de finalizar
 
+### Frontend
+
+-   ❌ Não usar JavaScript puro quando TypeScript é possível
+-   ❌ Não criar componentes UI diretamente no projeto (criar no spire-ui-package)
+-   ❌ Não usar estilos inline (`style="..."`)
+-   ❌ Não criar classes CSS comuns (usar Tailwind)
+-   ❌ Não usar jQuery ou bibliotecas externas sem necessidade
+-   ❌ Não duplicar funcionalidade que já existe no spire-ui
+
 ## Arquivos Importantes
 
 -   `docs/data-migration-mapping.md` - Mapeamento do banco legado para o novo
 -   `database/seeders/` - Seeders com dados de exemplo realistas
 -   `app/Models/Concerns/BelongsToTenant.php` - Trait de multi-tenancy
+-   `resources/js/spire/` - Componentes e utilitários TypeScript do spire-ui
+-   `resources/views/vendor/spire-ui/` - Componentes Blade do spire-ui
+-   `/home/ldo/dev/projects/spire-ui-package/` - Repositório fonte do spire-ui
 
 ## Verificação
 
