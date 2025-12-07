@@ -1,25 +1,43 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="mb-6 text-center">
+        <h2 class="text-2xl font-bold text-white">{{ __('Recuperar senha') }}</h2>
+        <p class="mt-2 text-sm text-gray-400">
+            {{ __('Informe seu e-mail e enviaremos um link para redefinir sua senha.') }}
+        </p>
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <x-spire::alert type="success" class="mb-4">
+            {{ session('status') }}
+        </x-spire::alert>
+    @endif
 
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
 
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <x-spire::input
+            name="email"
+            type="email"
+            label="E-mail"
+            :value="old('email')"
+            placeholder="seu@email.com"
+            required
+            autofocus
+            :error="$errors->first('email')"
+        />
+
+        <div class="mt-6">
+            <x-spire::button type="submit" class="w-full justify-center">
+                {{ __('Enviar link de recuperação') }}
+            </x-spire::button>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+        <div class="mt-4 text-center">
+            <a class="text-sm text-indigo-400 hover:text-indigo-300 transition" href="{{ route('login') }}">
+                ← {{ __('Voltar para o login') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>
