@@ -58,33 +58,32 @@ class AuthServiceProvider extends ServiceProvider
         // User type gates
         Gate::define('is-spire', fn (User $user): bool => $user->isSpire());
 
+        Gate::define('is-spire-client', fn (User $user): bool => $user->isSpireClient());
+
+        Gate::define('is-spire-user', fn (User $user): bool => $user->isSpireUser());
+
         Gate::define('is-partner', fn (User $user): bool => $user->isPartner());
 
         Gate::define('is-manufacturer', fn (User $user): bool => $user->isManufacturer());
 
-        Gate::define('is-client', fn (User $user): bool => $user->isClient());
-
-        Gate::define('is-internal', fn (User $user): bool => $user->isInternal());
-
         Gate::define('is-partner-admin', fn (User $user): bool => $user->isPartnerAdmin());
 
-        // Module access gates
-        Gate::define('access-dashboard', fn (User $user): bool => $user->isInternal());
+        // Module access gates (all authenticated users are "internal" now)
+        Gate::define('access-dashboard', fn (User $user): bool => true);
 
-        Gate::define('access-service-orders', fn (User $user): bool => $user->user_type->canManageServiceOrders() || $user->isClient(),
-        );
+        Gate::define('access-service-orders', fn (User $user): bool => $user->user_type->canManageServiceOrders());
 
         Gate::define('access-parts', fn (User $user): bool => $user->user_type->canManageParts());
 
-        Gate::define('access-orders', fn (User $user): bool => $user->isInternal());
+        Gate::define('access-orders', fn (User $user): bool => true);
 
-        Gate::define('access-exchanges', fn (User $user): bool => $user->isInternal());
+        Gate::define('access-exchanges', fn (User $user): bool => true);
 
-        Gate::define('access-inventory', fn (User $user): bool => $user->isSpire() || $user->isPartner());
+        Gate::define('access-inventory', fn (User $user): bool => $user->isSpireUser() || $user->isPartner());
 
-        Gate::define('access-reports', fn (User $user): bool => $user->isInternal() && $user->hasPermission('reports.view'));
+        Gate::define('access-reports', fn (User $user): bool => $user->hasPermission('reports.view'));
 
-        Gate::define('access-financial', fn (User $user): bool => ($user->isSpire() || $user->isPartnerAdmin())
+        Gate::define('access-financial', fn (User $user): bool => ($user->isSpireUser() || $user->isPartnerAdmin())
             && $user->hasPermission('financial.view'),
         );
 
@@ -107,7 +106,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('view-audit-log', fn (User $user): bool => $user->isSpire() && $user->hasPermission('audit.view'));
 
-        Gate::define('export-data', fn (User $user): bool => $user->isInternal() && $user->hasPermission('data.export'));
+        Gate::define('export-data', fn (User $user): bool => $user->hasPermission('data.export'));
 
         Gate::define('import-data', fn (User $user): bool => $user->isSpire() && $user->hasPermission('data.import'));
     }

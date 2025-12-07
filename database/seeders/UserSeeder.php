@@ -128,26 +128,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // ========================================
-        // CLIENT USERS (End Customers - optional)
-        // ========================================
-
-        // Create one example client user
-        $customer = DB::table('customers')->first();
-
-        if ($customer) {
-            User::create([
-                'tenant_id' => $tenant->id,
-                'customer_id' => $customer->id,
-                'user_type' => 'client',
-                'username' => null, // Clients typically use email to login
-                'name' => $customer->name,
-                'email' => $customer->email ?? 'cliente@exemplo.com.br',
-                'password' => Hash::make('password'),
-                'phone' => $customer->phone,
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ]);
-        }
+        // Nota: Consumidores finais (Customers) não têm usuário no sistema.
+        // Quando necessário acesso, é feito via tokens temporários.
     }
 }

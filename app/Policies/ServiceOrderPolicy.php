@@ -12,15 +12,10 @@ final class ServiceOrderPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        // Clients can only see their own orders (handled by scope)
-        // All internal users can view orders list
-        if ($user->isInternal()) {
-            return true;
-        }
-
-        return $user->isClient();
+        // All authenticated users can view service orders list
+        return true;
     }
 
     /**
@@ -41,11 +36,6 @@ final class ServiceOrderPolicy
         // Manufacturer can view orders for their brands
         if ($user->isManufacturer()) {
             return $this->isOrderFromManufacturerBrand($user, $serviceOrder);
-        }
-
-        // Client can view their own orders
-        if ($user->isClient()) {
-            return $user->customer_id === $serviceOrder->customer_id;
         }
 
         return false;

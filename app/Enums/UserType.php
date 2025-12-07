@@ -4,12 +4,23 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Tipos de usuário do sistema SPIRE.
+ *
+ * - Spire: Equipe interna da Spire (administradores do sistema)
+ * - SpireClient: Clientes da Spire (empresas que contratam o sistema = Tenants)
+ * - Partner: Técnicos/funcionários de assistências técnicas autorizadas
+ * - Manufacturer: Representantes de fabricantes
+ *
+ * Nota: Consumidores finais (atendidos nas OS) não têm usuário no sistema.
+ * Quando necessário acesso, é feito via tokens temporários.
+ */
 enum UserType: string
 {
     case Spire = 'spire';
+    case SpireClient = 'spire_client';
     case Partner = 'partner';
     case Manufacturer = 'manufacturer';
-    case Client = 'client';
 
     /**
      * Get all values as array.
@@ -28,9 +39,9 @@ enum UserType: string
     {
         return match ($this) {
             self::Spire => 'Administrador Spire',
+            self::SpireClient => 'Cliente Spire',
             self::Partner => 'Posto Autorizado',
             self::Manufacturer => 'Fabricante',
-            self::Client => 'Cliente',
         };
     }
 
@@ -39,7 +50,7 @@ enum UserType: string
      */
     public function canManageServiceOrders(): bool
     {
-        return in_array($this, [self::Spire, self::Partner, self::Manufacturer], true);
+        return true; // Todos os tipos podem gerenciar OS
     }
 
     /**
@@ -47,15 +58,7 @@ enum UserType: string
      */
     public function canManageParts(): bool
     {
-        return in_array($this, [self::Spire, self::Partner, self::Manufacturer], true);
-    }
-
-    /**
-     * Check if user type is internal (not client).
-     */
-    public function isInternal(): bool
-    {
-        return $this !== self::Client;
+        return true; // Todos os tipos podem gerenciar peças
     }
 
     /**
@@ -63,7 +66,15 @@ enum UserType: string
      */
     public function requiresEntity(): bool
     {
-        return $this !== self::Spire;
+        return ! in_array($this, [self::Spire, self::SpireClient], true);
+    }
+
+    /**
+     * Check if this is a Spire internal user (Spire or SpireClient).
+     */
+    public function isSpireUser(): bool
+    {
+        return in_array($this, [self::Spire, self::SpireClient], true);
     }
 
     /**
@@ -74,8 +85,7 @@ enum UserType: string
         return match ($this) {
             self::Partner => 'partner',
             self::Manufacturer => 'manufacturer',
-            self::Client => 'customer',
-            self::Spire => null,
+            self::Spire, self::SpireClient => null,
         };
     }
 }

@@ -12,10 +12,10 @@ final class ExchangePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        // Only internal users can view exchanges
-        return $user->isInternal();
+        // All authenticated users can view exchanges
+        return true;
     }
 
     /**

@@ -12,10 +12,10 @@ final class OrderPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        // Only internal users can view orders
-        return $user->isInternal();
+        // All authenticated users can view orders
+        return true;
     }
 
     /**

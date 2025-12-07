@@ -6,9 +6,14 @@
 
 **SPIRE** (Sistema de Pós-Venda Integrado para Redes de Assistência) é um ERP para gestão de pós-venda de eletrodomésticos e eletrônicos, conectando fabricantes, assistências técnicas autorizadas e consumidores.
 
+### Terminologia Importante
+
+-   **Tenant** - Cliente da Spire (empresa que contrata o sistema). Cada tenant é isolado.
+-   **Consumer/Customer** - Consumidor final atendido em uma Ordem de Serviço. **NÃO tem usuário no sistema**. Quando necessário acesso externo, é feito via tokens temporários.
+
 ### Entidades Principais
 
--   **Tenant** - Empresa/organização (multi-tenant)
+-   **Tenant** - Cliente da Spire (multi-tenant)
 -   **Manufacturer** - Fabricante (Samsung, LG, Electrolux, etc.)
 -   **Brand** - Marca do fabricante
 -   **ProductLine** - Linha de produtos (ex: Refrigeradores, Lavadoras)
@@ -16,7 +21,7 @@
 -   **ProductModel** - Modelo específico do produto
 -   **Part** - Peça de reposição
 -   **Partner** - Assistência técnica autorizada
--   **Customer** - Consumidor final
+-   **Customer** - Consumidor final (atendido na OS, sem user no sistema)
 -   **ServiceOrder** - Ordem de serviço (core do sistema)
 -   **Order** - Pedido de peças
 -   **Exchange** - Troca de produto
@@ -28,11 +33,12 @@
 
 ```php
 enum UserType: string {
-    case Spire = 'spire';           // Administrador do sistema
-    case Partner = 'partner';        // Técnico/funcionário de assistência
-    case Manufacturer = 'manufacturer'; // Funcionário do fabricante
-    case Client = 'client';          // Consumidor final
+    case Spire = 'spire';               // Administrador do sistema (equipe interna Spire)
+    case SpireClient = 'spire_client';  // Usuário de um Tenant (cliente corporativo da Spire)
+    case Partner = 'partner';           // Técnico/funcionário de assistência técnica
+    case Manufacturer = 'manufacturer'; // Funcionário/representante do fabricante
 }
+// Nota: Consumidores finais (Customer) NÃO têm usuário no sistema
 ```
 
 ### Arquitetura Multi-Tenant
@@ -57,13 +63,21 @@ O trait adiciona automaticamente:
 
 -   **PHP** 8.4+ (com `declare(strict_types=1)`)
 -   **Laravel** 12
--   **MariaDB** 11.4+
+-   **MariaDB** 11.4+ (desenvolvimento e testes)
 -   **Pest** 4 (testes)
 -   **PHPStan** level 5
 -   **Pint** (code style Laravel)
 -   **Rector** (refactoring)
 -   **Tailwind CSS** 4
 -   **spire-ui** (biblioteca de componentes TypeScript/Blade)
+
+### Banco de Dados
+
+-   **Desenvolvimento**: `spire26`
+-   **Testes**: `spire26_testing` (mesmo MariaDB, banco separado)
+-   **Configuração de testes**: `.env.testing` e `phpunit.xml`
+
+> ⚠️ **NÃO usar SQLite** - Projeto usa features específicas do MariaDB (ENUMs, etc.)
 
 ## Frontend - spire-ui
 

@@ -18,10 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('tenant_id')->nullable();
             $table->unsignedBigInteger('partner_id')->nullable()->comment('Vínculo com Posto Autorizado');
             $table->unsignedBigInteger('manufacturer_id')->nullable()->comment('Vínculo com Fabricante');
-            $table->unsignedBigInteger('customer_id')->nullable()->comment('Vínculo com Cliente final');
 
             // Tipo de usuário - determina permissões base e fluxo de navegação
-            $table->enum('user_type', ['spire', 'partner', 'manufacturer', 'client'])->default('spire');
+            // spire = Equipe interna Spire | spire_client = Clientes da Spire (Tenants)
+            // partner = Assistências técnicas | manufacturer = Fabricantes
+            // Nota: Consumidores finais (Customer) não têm usuário no sistema
+            $table->enum('user_type', ['spire', 'spire_client', 'partner', 'manufacturer'])->default('spire');
 
             // Para usuários de Posto (partner)
             $table->boolean('is_partner_admin')->default(false)->comment('Admin do posto, criado automaticamente');
@@ -45,7 +47,6 @@ return new class extends Migration
             $table->index('tenant_id');
             $table->index('partner_id');
             $table->index('manufacturer_id');
-            $table->index('customer_id');
             $table->index('user_type');
         });
 

@@ -109,7 +109,6 @@ class User extends Authenticatable
         'tenant_id',
         'partner_id',
         'manufacturer_id',
-        'customer_id',
         'user_type',
         'is_partner_admin',
         'created_by_user_id',
@@ -167,11 +166,6 @@ class User extends Authenticatable
     public function manufacturer(): BelongsTo
     {
         return $this->belongsTo(Manufacturer::class);
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
     }
 
     public function createdByUser(): BelongsTo
@@ -330,30 +324,29 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is a Client (end customer).
+     * Check if user is a Spire Client (empresa que contrata a Spire).
      */
-    public function isClient(): bool
+    public function isSpireClient(): bool
     {
-        return $this->user_type === UserType::Client;
+        return $this->user_type === UserType::SpireClient;
     }
 
     /**
-     * Check if user is internal (not a client).
+     * Check if user is a Spire internal user (Spire admin or SpireClient).
      */
-    public function isInternal(): bool
+    public function isSpireUser(): bool
     {
-        return $this->user_type->isInternal();
+        return $this->user_type->isSpireUser();
     }
 
     /**
-     * Get the entity (Partner, Manufacturer, Customer) this user belongs to.
+     * Get the entity (Partner or Manufacturer) this user belongs to.
      */
-    public function getLinkedEntity(): Partner|Manufacturer|Customer|null
+    public function getLinkedEntity(): Partner|Manufacturer|null
     {
         return match ($this->user_type) {
             UserType::Partner => $this->partner,
             UserType::Manufacturer => $this->manufacturer,
-            UserType::Client => $this->customer,
             default => null,
         };
     }
@@ -365,6 +358,11 @@ class User extends Authenticatable
     {
         // Spire users with permission can always create
         if ($this->isSpire() && $this->hasPermission('users.create')) {
+            return true;
+        }
+
+        // SpireClient admins can create users for their tenant
+        if ($this->isSpireClient() && $this->hasPermission('users.create')) {
             return true;
         }
 
