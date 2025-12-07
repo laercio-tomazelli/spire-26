@@ -82,19 +82,25 @@ O projeto utiliza a biblioteca **spire-ui** (`laercio-tomazelli/spire-ui`) para 
 
 ### Componentes Blade Disponíveis
 
-Usar com prefixo `<x-ui.nome>`:
+> ⚠️ **IMPORTANTE**: A sintaxe correta para componentes spire-ui usa `::` (namespace) e NÃO `.` (diretório).
+>
+> -   ✅ Correto: `<x-spire::button>`, `<x-spire::input>`
+> -   ❌ Errado: `<x-spire.button>`, `<x-ui.button>`
+
+Usar com prefixo `<x-spire::nome>`:
 
 ```blade
 {{-- Exemplos de uso --}}
-<x-ui.button variant="primary">Salvar</x-ui.button>
-<x-ui.modal id="confirm-modal" title="Confirmar">...</x-ui.modal>
-<x-ui.input name="email" type="email" label="E-mail" />
-<x-ui.select name="status" :options="$statuses" />
-<x-ui.dropdown>...</x-ui.dropdown>
-<x-ui.card>...</x-ui.card>
-<x-ui.alert type="success">Salvo com sucesso!</x-ui.alert>
-<x-ui.tabs>...</x-ui.tabs>
-<x-ui.accordion>...</x-ui.accordion>
+<x-spire::button>Salvar</x-spire::button>
+<x-spire::input name="email" type="email" label="E-mail" />
+<x-spire::input name="password" type="password" label="Senha" password />
+<x-spire::select name="status" :options="$statuses" />
+<x-spire::alert type="success">Salvo com sucesso!</x-spire::alert>
+<x-spire::card>...</x-spire::card>
+<x-spire::modal id="confirm-modal" title="Confirmar">...</x-spire::modal>
+<x-spire::dropdown>...</x-spire::dropdown>
+<x-spire::tabs>...</x-spire::tabs>
+<x-spire::accordion>...</x-spire::accordion>
 ```
 
 **Componentes disponíveis:** accordion, alert, avatar, badge, banner, breadcrumbs, button, card, carousel, clipboard, collapse, combobox, context-menu, date-range-picker, drawer, dropdown, empty-state, header, icon, input, mini-chart, modal, multiselect, notification-bell, pin, popover, pricing-card, progress, rating, select, skeleton, stats-card, stepper, swap, tabs, tag-input, timeline, tooltip
