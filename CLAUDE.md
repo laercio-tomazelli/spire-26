@@ -8,21 +8,21 @@
 
 ### Entidades Principais
 
-- **Tenant** - Empresa/organização (multi-tenant)
-- **Manufacturer** - Fabricante (Samsung, LG, Electrolux, etc.)
-- **Brand** - Marca do fabricante
-- **ProductLine** - Linha de produtos (ex: Refrigeradores, Lavadoras)
-- **ProductCategory** - Categoria (ex: Frost Free, Top Load)
-- **ProductModel** - Modelo específico do produto
-- **Part** - Peça de reposição
-- **Partner** - Assistência técnica autorizada
-- **Customer** - Consumidor final
-- **ServiceOrder** - Ordem de serviço (core do sistema)
-- **Order** - Pedido de peças
-- **Exchange** - Troca de produto
-- **Invoice** - Nota fiscal
-- **MonthlyClosing** - Fechamento mensal de pagamentos
-- **Shipment** - Envio/remessa de peças
+-   **Tenant** - Empresa/organização (multi-tenant)
+-   **Manufacturer** - Fabricante (Samsung, LG, Electrolux, etc.)
+-   **Brand** - Marca do fabricante
+-   **ProductLine** - Linha de produtos (ex: Refrigeradores, Lavadoras)
+-   **ProductCategory** - Categoria (ex: Frost Free, Top Load)
+-   **ProductModel** - Modelo específico do produto
+-   **Part** - Peça de reposição
+-   **Partner** - Assistência técnica autorizada
+-   **Customer** - Consumidor final
+-   **ServiceOrder** - Ordem de serviço (core do sistema)
+-   **Order** - Pedido de peças
+-   **Exchange** - Troca de produto
+-   **Invoice** - Nota fiscal
+-   **MonthlyClosing** - Fechamento mensal de pagamentos
+-   **Shipment** - Envio/remessa de peças
 
 ### Tipos de Usuário
 
@@ -49,19 +49,20 @@ class ServiceOrder extends Model
 ```
 
 O trait adiciona automaticamente:
-- Global scope para filtrar por tenant
-- Auto-preenchimento do `tenant_id` ao criar
+
+-   Global scope para filtrar por tenant
+-   Auto-preenchimento do `tenant_id` ao criar
 
 ## Stack Técnica
 
-- **PHP** 8.4+ (com `declare(strict_types=1)`)
-- **Laravel** 12
-- **MariaDB** 11.4+
-- **Pest** 4 (testes)
-- **PHPStan** level 5
-- **Pint** (code style Laravel)
-- **Rector** (refactoring)
-- **Tailwind CSS** 4
+-   **PHP** 8.4+ (com `declare(strict_types=1)`)
+-   **Laravel** 12
+-   **MariaDB** 11.4+
+-   **Pest** 4 (testes)
+-   **PHPStan** level 5
+-   **Pint** (code style Laravel)
+-   **Rector** (refactoring)
+-   **Tailwind CSS** 4
 
 ## Comandos
 
@@ -80,11 +81,11 @@ php artisan ide-helper:models --write  # Atualizar PHPDocs dos Models
 
 ### Obrigatório
 
-- `declare(strict_types=1)` em todo arquivo PHP
-- Type hints em parâmetros e retornos
-- Constructor property promotion
-- Early return pattern
-- Usar `Auth` facade em vez de `auth()` helper (melhor para IDE)
+-   `declare(strict_types=1)` em todo arquivo PHP
+-   Type hints em parâmetros e retornos
+-   Constructor property promotion
+-   Early return pattern
+-   Usar `Auth` facade em vez de `auth()` helper (melhor para IDE)
 
 ### Exemplo de Model
 
@@ -164,19 +165,19 @@ final readonly class ServiceOrderService
 
 ## Estrutura Laravel 12
 
-- **Sem** `app/Http/Kernel.php` - use `bootstrap/app.php`
-- **Sem** `app/Console/Kernel.php` - comandos auto-registram
-- Middleware registrado em `bootstrap/app.php`
-- Providers em `bootstrap/providers.php`
+-   **Sem** `app/Http/Kernel.php` - use `bootstrap/app.php`
+-   **Sem** `app/Console/Kernel.php` - comandos auto-registram
+-   Middleware registrado em `bootstrap/app.php`
+-   Providers em `bootstrap/providers.php`
 
 ## Database
 
-- Usar Eloquent, evitar `DB::` facade
-- Eager loading para evitar N+1
-- Migrations com return type `: void`
-- Factories para todos os models
-- Usar `decimal(15, 4)` para valores monetários
-- Usar `comment()` nas foreign keys para documentar
+-   Usar Eloquent, evitar `DB::` facade
+-   Eager loading para evitar N+1
+-   Migrations com return type `: void`
+-   Factories para todos os models
+-   Usar `decimal(15, 4)` para valores monetários
+-   Usar `comment()` nas foreign keys para documentar
 
 ### Padrão de Migrations
 
@@ -224,7 +225,7 @@ use App\Models\Partner;
 
 it('creates a service order for a partner', function (): void {
     $partner = Partner::factory()->create();
-    
+
     $order = ServiceOrder::factory()
         ->for($partner)
         ->create();
@@ -237,19 +238,19 @@ it('creates a service order for a partner', function (): void {
 
 ## O que NÃO fazer
 
-- ❌ Não usar `env()` fora de config/
-- ❌ Não criar classes sem type hints
-- ❌ Não usar `==`, sempre `===`
-- ❌ Não criar arquivos de documentação sem pedir
-- ❌ Não remover testes existentes
-- ❌ Não usar `auth()` helper, usar `Auth` facade
-- ❌ Não esquecer de rodar `composer check` antes de finalizar
+-   ❌ Não usar `env()` fora de config/
+-   ❌ Não criar classes sem type hints
+-   ❌ Não usar `==`, sempre `===`
+-   ❌ Não criar arquivos de documentação sem pedir
+-   ❌ Não remover testes existentes
+-   ❌ Não usar `auth()` helper, usar `Auth` facade
+-   ❌ Não esquecer de rodar `composer check` antes de finalizar
 
 ## Arquivos Importantes
 
-- `docs/data-migration-mapping.md` - Mapeamento do banco legado para o novo
-- `database/seeders/` - Seeders com dados de exemplo realistas
-- `app/Models/Concerns/BelongsToTenant.php` - Trait de multi-tenancy
+-   `docs/data-migration-mapping.md` - Mapeamento do banco legado para o novo
+-   `database/seeders/` - Seeders com dados de exemplo realistas
+-   `app/Models/Concerns/BelongsToTenant.php` - Trait de multi-tenancy
 
 ## Verificação
 
