@@ -223,4 +223,14 @@ class Exchange extends Model
     {
         return ! is_null($this->completed_at);
     }
+
+    public function isPending(): bool
+    {
+        return is_null($this->approved_at) && is_null($this->canceled_at);
+    }
+
+    public function isApproved(): bool
+    {
+        return ! is_null($this->approved_at);
+    }
 }

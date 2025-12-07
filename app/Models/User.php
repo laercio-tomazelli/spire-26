@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserType;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +25,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $partner_id Vínculo com Posto Autorizado
  * @property int|null $manufacturer_id Vínculo com Fabricante
  * @property int|null $customer_id Vínculo com Cliente final
- * @property string $user_type
+ * @property UserType $user_type
  * @property bool $is_partner_admin Admin do posto, criado automaticamente
  * @property int|null $created_by_user_id Usuário que criou (hierarquia partner)
  * @property string|null $username Para partners = código do posto
@@ -147,6 +148,7 @@ class User extends Authenticatable
             'is_active' => 'boolean',
             'is_partner_admin' => 'boolean',
             'last_login_at' => 'datetime',
+            'user_type' => UserType::class,
         ];
     }
 
@@ -300,7 +302,7 @@ class User extends Authenticatable
      */
     public function isSpire(): bool
     {
-        return $this->user_type === 'spire';
+        return $this->user_type === UserType::Spire;
     }
 
     /**
@@ -308,7 +310,7 @@ class User extends Authenticatable
      */
     public function isPartner(): bool
     {
-        return $this->user_type === 'partner';
+        return $this->user_type === UserType::Partner;
     }
 
     /**
@@ -316,7 +318,7 @@ class User extends Authenticatable
      */
     public function isPartnerAdmin(): bool
     {
-        return $this->user_type === 'partner' && $this->is_partner_admin;
+        return $this->user_type === UserType::Partner && $this->is_partner_admin;
     }
 
     /**
@@ -324,7 +326,7 @@ class User extends Authenticatable
      */
     public function isManufacturer(): bool
     {
-        return $this->user_type === 'manufacturer';
+        return $this->user_type === UserType::Manufacturer;
     }
 
     /**
@@ -332,7 +334,15 @@ class User extends Authenticatable
      */
     public function isClient(): bool
     {
-        return $this->user_type === 'client';
+        return $this->user_type === UserType::Client;
+    }
+
+    /**
+     * Check if user is internal (not a client).
+     */
+    public function isInternal(): bool
+    {
+        return $this->user_type->isInternal();
     }
 
     /**
@@ -341,9 +351,9 @@ class User extends Authenticatable
     public function getLinkedEntity(): Partner|Manufacturer|Customer|null
     {
         return match ($this->user_type) {
-            'partner' => $this->partner,
-            'manufacturer' => $this->manufacturer,
-            'client' => $this->customer,
+            UserType::Partner => $this->partner,
+            UserType::Manufacturer => $this->manufacturer,
+            UserType::Client => $this->customer,
             default => null,
         };
     }

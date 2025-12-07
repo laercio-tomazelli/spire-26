@@ -221,6 +221,16 @@ class Order extends Model
         return $this->payment_status === 'paid';
     }
 
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completed';
+    }
+
     /**
      * Recalculate totals.
      */
