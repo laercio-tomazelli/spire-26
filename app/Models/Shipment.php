@@ -5,11 +5,108 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $tenant_id
+ * @property int|null $carrier_id
+ * @property string|null $tracking_code
+ * @property string $type
+ * @property string|null $origin_name
+ * @property string|null $origin_document
+ * @property string|null $origin_address
+ * @property string|null $origin_address_number
+ * @property string|null $origin_neighborhood
+ * @property string|null $origin_city
+ * @property string|null $origin_state
+ * @property string|null $origin_postal_code
+ * @property string|null $destination_name
+ * @property string|null $destination_document
+ * @property string|null $destination_address
+ * @property string|null $destination_address_number
+ * @property string|null $destination_neighborhood
+ * @property string|null $destination_city
+ * @property string|null $destination_state
+ * @property string|null $destination_postal_code
+ * @property numeric|null $weight
+ * @property numeric|null $length
+ * @property numeric|null $width
+ * @property numeric|null $height
+ * @property numeric|null $declared_value
+ * @property int $volumes
+ * @property numeric|null $shipping_cost
+ * @property numeric|null $insurance_cost
+ * @property numeric|null $total_cost
+ * @property string $status
+ * @property Carbon|null $shipped_at
+ * @property Carbon|null $estimated_delivery_at
+ * @property Carbon|null $delivered_at
+ * @property string|null $invoice_number
+ * @property string|null $invoice_key
+ * @property string|null $notes
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Carrier|null $carrier
+ * @property-read string|null $tracking_url
+ * @property-read Collection<int, ShipmentItem> $items
+ * @property-read int|null $items_count
+ * @property-read Tenant $tenant
+ * @property-read Collection<int, ShipmentTrackingEvent> $trackingEvents
+ * @property-read int|null $tracking_events_count
+ *
+ * @method static Builder<static>|Shipment forTenant(int $tenantId)
+ * @method static Builder<static>|Shipment newModelQuery()
+ * @method static Builder<static>|Shipment newQuery()
+ * @method static Builder<static>|Shipment query()
+ * @method static Builder<static>|Shipment whereCarrierId($value)
+ * @method static Builder<static>|Shipment whereCreatedAt($value)
+ * @method static Builder<static>|Shipment whereDeclaredValue($value)
+ * @method static Builder<static>|Shipment whereDeliveredAt($value)
+ * @method static Builder<static>|Shipment whereDestinationAddress($value)
+ * @method static Builder<static>|Shipment whereDestinationAddressNumber($value)
+ * @method static Builder<static>|Shipment whereDestinationCity($value)
+ * @method static Builder<static>|Shipment whereDestinationDocument($value)
+ * @method static Builder<static>|Shipment whereDestinationName($value)
+ * @method static Builder<static>|Shipment whereDestinationNeighborhood($value)
+ * @method static Builder<static>|Shipment whereDestinationPostalCode($value)
+ * @method static Builder<static>|Shipment whereDestinationState($value)
+ * @method static Builder<static>|Shipment whereEstimatedDeliveryAt($value)
+ * @method static Builder<static>|Shipment whereHeight($value)
+ * @method static Builder<static>|Shipment whereId($value)
+ * @method static Builder<static>|Shipment whereInsuranceCost($value)
+ * @method static Builder<static>|Shipment whereInvoiceKey($value)
+ * @method static Builder<static>|Shipment whereInvoiceNumber($value)
+ * @method static Builder<static>|Shipment whereLength($value)
+ * @method static Builder<static>|Shipment whereNotes($value)
+ * @method static Builder<static>|Shipment whereOriginAddress($value)
+ * @method static Builder<static>|Shipment whereOriginAddressNumber($value)
+ * @method static Builder<static>|Shipment whereOriginCity($value)
+ * @method static Builder<static>|Shipment whereOriginDocument($value)
+ * @method static Builder<static>|Shipment whereOriginName($value)
+ * @method static Builder<static>|Shipment whereOriginNeighborhood($value)
+ * @method static Builder<static>|Shipment whereOriginPostalCode($value)
+ * @method static Builder<static>|Shipment whereOriginState($value)
+ * @method static Builder<static>|Shipment whereShippedAt($value)
+ * @method static Builder<static>|Shipment whereShippingCost($value)
+ * @method static Builder<static>|Shipment whereStatus($value)
+ * @method static Builder<static>|Shipment whereTenantId($value)
+ * @method static Builder<static>|Shipment whereTotalCost($value)
+ * @method static Builder<static>|Shipment whereTrackingCode($value)
+ * @method static Builder<static>|Shipment whereType($value)
+ * @method static Builder<static>|Shipment whereUpdatedAt($value)
+ * @method static Builder<static>|Shipment whereVolumes($value)
+ * @method static Builder<static>|Shipment whereWeight($value)
+ * @method static Builder<static>|Shipment whereWidth($value)
+ *
+ * @mixin \Eloquent
+ */
 class Shipment extends Model
 {
     use BelongsToTenant;

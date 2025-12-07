@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read ServiceOrder|null $serviceOrder
+ * @property-read User|null $user
+ *
+ * @method static Builder<static>|ServiceOrderSupport newModelQuery()
+ * @method static Builder<static>|ServiceOrderSupport newQuery()
+ * @method static Builder<static>|ServiceOrderSupport query()
+ *
+ * @mixin \Eloquent
+ */
 class ServiceOrderSupport extends Model
 {
     use HasFactory;

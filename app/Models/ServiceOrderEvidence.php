@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read string $formatted_file_size
+ * @property-read ServiceOrder|null $serviceOrder
+ * @property-read User|null $uploadedByUser
+ *
+ * @method static Builder<static>|ServiceOrderEvidence newModelQuery()
+ * @method static Builder<static>|ServiceOrderEvidence newQuery()
+ * @method static Builder<static>|ServiceOrderEvidence query()
+ *
+ * @mixin \Eloquent
+ */
 class ServiceOrderEvidence extends Model
 {
     use HasFactory;

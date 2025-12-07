@@ -5,11 +5,55 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $tenant_id
+ * @property int $brand_id
+ * @property int $year
+ * @property int $month
+ * @property string $status
+ * @property Carbon|null $closing_date
+ * @property int|null $closed_by
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Brand $brand
+ * @property-read User|null $closedByUser
+ * @property-read Collection<int, MonthlyClosingDiscount> $discounts
+ * @property-read int|null $discounts_count
+ * @property-read string $period_label
+ * @property-read Collection<int, MonthlyClosingItem> $items
+ * @property-read int|null $items_count
+ * @property-read Collection<int, ServiceOrder> $serviceOrders
+ * @property-read int|null $service_orders_count
+ * @property-read Collection<int, MonthlyClosingSummary> $summaries
+ * @property-read int|null $summaries_count
+ * @property-read Tenant $tenant
+ *
+ * @method static Builder<static>|MonthlyClosing forTenant(int $tenantId)
+ * @method static Builder<static>|MonthlyClosing newModelQuery()
+ * @method static Builder<static>|MonthlyClosing newQuery()
+ * @method static Builder<static>|MonthlyClosing query()
+ * @method static Builder<static>|MonthlyClosing whereBrandId($value)
+ * @method static Builder<static>|MonthlyClosing whereClosedBy($value)
+ * @method static Builder<static>|MonthlyClosing whereClosingDate($value)
+ * @method static Builder<static>|MonthlyClosing whereCreatedAt($value)
+ * @method static Builder<static>|MonthlyClosing whereId($value)
+ * @method static Builder<static>|MonthlyClosing whereMonth($value)
+ * @method static Builder<static>|MonthlyClosing whereStatus($value)
+ * @method static Builder<static>|MonthlyClosing whereTenantId($value)
+ * @method static Builder<static>|MonthlyClosing whereUpdatedAt($value)
+ * @method static Builder<static>|MonthlyClosing whereYear($value)
+ *
+ * @mixin \Eloquent
+ */
 class MonthlyClosing extends Model
 {
     use BelongsToTenant;

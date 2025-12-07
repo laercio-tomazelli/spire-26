@@ -5,10 +5,49 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int|null $tenant_id
+ * @property int|null $user_id
+ * @property string $action
+ * @property string|null $model_type
+ * @property int|null $model_id
+ * @property array<array-key, mixed>|null $old_values
+ * @property array<array-key, mixed>|null $new_values
+ * @property string|null $ip_address
+ * @property string|null $user_agent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Model|null $model
+ * @property-read Tenant|null $tenant
+ * @property-read User|null $user
+ *
+ * @method static Builder<static>|UserActivityLog action(string $action)
+ * @method static Builder<static>|UserActivityLog forModel(string $modelType, ?int $modelId = null)
+ * @method static Builder<static>|UserActivityLog newModelQuery()
+ * @method static Builder<static>|UserActivityLog newQuery()
+ * @method static Builder<static>|UserActivityLog query()
+ * @method static Builder<static>|UserActivityLog whereAction($value)
+ * @method static Builder<static>|UserActivityLog whereCreatedAt($value)
+ * @method static Builder<static>|UserActivityLog whereId($value)
+ * @method static Builder<static>|UserActivityLog whereIpAddress($value)
+ * @method static Builder<static>|UserActivityLog whereModelId($value)
+ * @method static Builder<static>|UserActivityLog whereModelType($value)
+ * @method static Builder<static>|UserActivityLog whereNewValues($value)
+ * @method static Builder<static>|UserActivityLog whereOldValues($value)
+ * @method static Builder<static>|UserActivityLog whereTenantId($value)
+ * @method static Builder<static>|UserActivityLog whereUpdatedAt($value)
+ * @method static Builder<static>|UserActivityLog whereUserAgent($value)
+ * @method static Builder<static>|UserActivityLog whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class UserActivityLog extends Model
 {
     use HasFactory;

@@ -5,11 +5,51 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $warehouse_id
+ * @property int $part_id
+ * @property string $part_code
+ * @property float $available_quantity
+ * @property numeric $reserved_quantity
+ * @property int $pending_quantity
+ * @property int $defective_quantity
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read Part $part
+ * @property-read Partner|null $partner
+ * @property-read Tenant|null $tenant
+ * @property-read Collection<int, InventoryTransaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read Warehouse $warehouse
+ *
+ * @method static Builder<static>|InventoryItem forTenant(int $tenantId)
+ * @method static Builder<static>|InventoryItem newModelQuery()
+ * @method static Builder<static>|InventoryItem newQuery()
+ * @method static Builder<static>|InventoryItem query()
+ * @method static Builder<static>|InventoryItem whereAvailableQuantity($value)
+ * @method static Builder<static>|InventoryItem whereCreatedAt($value)
+ * @method static Builder<static>|InventoryItem whereDefectiveQuantity($value)
+ * @method static Builder<static>|InventoryItem whereDeletedAt($value)
+ * @method static Builder<static>|InventoryItem whereId($value)
+ * @method static Builder<static>|InventoryItem wherePartCode($value)
+ * @method static Builder<static>|InventoryItem wherePartId($value)
+ * @method static Builder<static>|InventoryItem wherePendingQuantity($value)
+ * @method static Builder<static>|InventoryItem whereReservedQuantity($value)
+ * @method static Builder<static>|InventoryItem whereUpdatedAt($value)
+ * @method static Builder<static>|InventoryItem whereWarehouseId($value)
+ *
+ * @mixin \Eloquent
+ */
 class InventoryItem extends Model
 {
     use BelongsToTenant;

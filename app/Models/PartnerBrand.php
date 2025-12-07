@@ -4,10 +4,34 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $partner_id
+ * @property int $brand_id
+ * @property bool $is_active
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Brand $brand
+ * @property-read Partner $partner
+ *
+ * @method static Builder<static>|PartnerBrand newModelQuery()
+ * @method static Builder<static>|PartnerBrand newQuery()
+ * @method static Builder<static>|PartnerBrand query()
+ * @method static Builder<static>|PartnerBrand whereBrandId($value)
+ * @method static Builder<static>|PartnerBrand whereCreatedAt($value)
+ * @method static Builder<static>|PartnerBrand whereId($value)
+ * @method static Builder<static>|PartnerBrand whereIsActive($value)
+ * @method static Builder<static>|PartnerBrand wherePartnerId($value)
+ * @method static Builder<static>|PartnerBrand whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 class PartnerBrand extends Model
 {
     use HasFactory;

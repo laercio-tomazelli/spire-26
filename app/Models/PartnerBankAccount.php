@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read string $formatted_account
+ * @property-read string $formatted_agency
+ * @property-read Partner|null $partner
+ *
+ * @method static Builder<static>|PartnerBankAccount newModelQuery()
+ * @method static Builder<static>|PartnerBankAccount newQuery()
+ * @method static Builder<static>|PartnerBankAccount query()
+ *
+ * @mixin \Eloquent
+ */
 class PartnerBankAccount extends Model
 {
     use HasFactory;
