@@ -2,10 +2,17 @@
     // PHP
     "php.validate.enable": true,
     "php.suggest.basic": false,
-    
+
     // Intelephense
     "intelephense.environment.phpVersion": "8.4.0",
+    "intelephense.environment.includePaths": ["vendor"],
     "intelephense.files.associations": ["*.php", "*.blade.php"],
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/node_modules/**",
+        "**/storage/**",
+        "**/bootstrap/cache/**"
+    ],
     "intelephense.stubs": [
         "apache",
         "bcmath",
