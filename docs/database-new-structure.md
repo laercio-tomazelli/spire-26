@@ -14,15 +14,15 @@
 
 ## 👥 Atores do Sistema
 
-| Ator | Descrição |
-|------|-----------|
-| **Spire** | Fornece, desenvolve e dá suporte ao software |
-| **Cliente** | Empresas que operam o pós-vendas de Fabricantes |
-| **Fabricante** | Possui marcas e terceiriza pós-vendas aos Clientes |
-| **Posto Autorizado** | Empresas que prestam serviço de reparo/manutenção |
-| **Consumidor** | Consumidor final que necessita de pós-venda |
-| **Call Center** | Central de atendimento aos Consumidores |
-| **Transportadora** | Empresas que transportam Parts |
+| Ator                 | Descrição                                          |
+| -------------------- | -------------------------------------------------- |
+| **Spire**            | Fornece, desenvolve e dá suporte ao software       |
+| **Cliente**          | Empresas que operam o pós-vendas de Fabricantes    |
+| **Fabricante**       | Possui marcas e terceiriza pós-vendas aos Clientes |
+| **Posto Autorizado** | Empresas que prestam serviço de reparo/manutenção  |
+| **Consumidor**       | Consumidor final que necessita de pós-venda        |
+| **Call Center**      | Central de atendimento aos Consumidores            |
+| **Transportadora**   | Empresas que transportam Parts                     |
 
 ---
 
@@ -30,14 +30,14 @@
 
 ### Convenções Adotadas
 
-- **Nomes de tabelas:** plural, snake_case, inglês
-- **Primary key:** `id` (bigint unsigned auto_increment)
-- **Foreign keys:** `{tabela_singular}_id`
-- **Timestamps:** `created_at`, `updated_at`
-- **Soft deletes:** `deleted_at` (quando aplicável)
-- **Booleanos:** `is_*` ou `has_*` (tinyint 1)
-- **Valores monetários:** `decimal(12,2)`
-- **Status/Tipos:** tabelas lookup ou enums
+-   **Nomes de tabelas:** plural, snake_case, inglês
+-   **Primary key:** `id` (bigint unsigned auto_increment)
+-   **Foreign keys:** `{tabela_singular}_id`
+-   **Timestamps:** `created_at`, `updated_at`
+-   **Soft deletes:** `deleted_at` (quando aplicável)
+-   **Booleanos:** `is_*` ou `has_*` (tinyint 1)
+-   **Valores monetários:** `decimal(12,2)`
+-   **Status/Tipos:** tabelas lookup ou enums
 
 ---
 
@@ -314,7 +314,7 @@ service_orders (Ordens de Serviço)
 ├── tenant_id → tenants
 ├── order_number (número sequencial por tenant)
 ├── protocol
-├── 
+├──
 ├── # Referências Externas
 ├── manufacturer_pre_order
 ├── manufacturer_pre_order_date
@@ -323,38 +323,38 @@ service_orders (Ordens de Serviço)
 ├── partner_order
 ├── partner_order_date
 ├── external_id (ID sistema externo TPV)
-├── 
+├──
 ├── # Relacionamentos
 ├── customer_id → customers
 ├── partner_id → partners
 ├── brand_id → brands
 ├── product_model_id → product_models
 ├── product_category_id → product_categories
-├── 
+├──
 ├── # Dados do Produto
 ├── model_received (modelo informado)
 ├── serial_number
-├── 
+├──
 ├── # Dados da Compra
 ├── retailer_name
 ├── purchase_invoice_number
 ├── purchase_invoice_date
 ├── purchase_value (decimal 12,2)
 ├── purchase_invoice_file
-├── 
+├──
 ├── # Classificação
 ├── service_location_id → service_locations (Balcão, Domicílio, Depósito)
 ├── service_order_type_id → service_order_types (Consumidor, Revenda, etc.)
 ├── service_type_id → service_types (Reparo, Instalação, etc.)
 ├── repair_type_id → repair_types
 ├── warranty_type (in_warranty, out_of_warranty)
-├── 
+├──
 ├── # Status
 ├── status_id → service_order_statuses
 ├── tracking_status_id → tracking_statuses
 ├── accept_status_id → accept_statuses
 ├── manufacturer_status
-├── 
+├──
 ├── # Defeito e Reparo
 ├── reported_defect
 ├── confirmed_defect
@@ -364,7 +364,7 @@ service_orders (Ordens de Serviço)
 ├── accessories
 ├── conditions
 ├── observations
-├── 
+├──
 ├── # Flags
 ├── is_reentry (bool - reingresso)
 ├── reentry_order_id → service_orders
@@ -372,7 +372,7 @@ service_orders (Ordens de Serviço)
 ├── is_no_defect (bool - sem defeito)
 ├── has_parts_used (bool)
 ├── is_display (bool)
-├── 
+├──
 ├── # Troca/Devolução
 ├── is_exchange (bool)
 ├── exchange_type (product, refund)
@@ -383,14 +383,14 @@ service_orders (Ordens de Serviço)
 ├── exchange_approval_date
 ├── exchange_analyzed_by → users
 ├── exchange_result
-├── 
+├──
 ├── # Custos Adicionais
 ├── labor_cost (decimal 12,2)
 ├── distance_km
 ├── km_cost (decimal 12,2)
 ├── extra_cost (decimal 12,2)
 ├── visit_count
-├── 
+├──
 ├── # Datas do Fluxo
 ├── opened_at
 ├── opened_by → users
@@ -403,40 +403,40 @@ service_orders (Ordens de Serviço)
 ├── manufacturer_closed_at
 ├── manufacturer_approved_at
 ├── manufacturer_approved_by → users
-├── 
+├──
 ├── # Aceite/Rejeição do Posto
 ├── accepted_at
 ├── accepted_by → users
 ├── rejected_at
 ├── rejected_by → users
 ├── rejection_reason
-├── 
+├──
 ├── # Logística de Entrada
 ├── entry_invoice_number
 ├── entry_invoice_date
 ├── entry_tracking_code
 ├── received_at
 ├── received_serial
-├── 
+├──
 ├── # Logística de Saída
 ├── exit_invoice_number
 ├── exit_invoice_date
 ├── exit_tracking_code
 ├── exit_sent_at
 ├── delivered_at
-├── 
+├──
 ├── # Coleta (para domicílio)
 ├── collection_invoice_number
 ├── collection_invoice_date
 ├── collection_number
 ├── collection_date
 ├── scheduled_visit_date
-├── 
+├──
 ├── # Controle
 ├── closing_type_id → closing_types
 ├── is_admin_closed (bool)
 ├── process_observations
-├── 
+├──
 ├── created_at
 ├── updated_at
 └── deleted_at
@@ -450,7 +450,7 @@ service_order_parts (Peças da OS)
 ├── quantity
 ├── unit_price (decimal 12,2)
 ├── total_price (decimal 12,2)
-├── 
+├──
 ├── # Classificação
 ├── section
 ├── defect_code
@@ -459,25 +459,25 @@ service_order_parts (Peças da OS)
 ├── position
 ├── type (normal, special)
 ├── request_type (normal, special)
-├── 
+├──
 ├── # Status
 ├── status
 ├── is_approved (bool)
 ├── approval_reason
 ├── rejection_reason
 ├── request_reason
-├── 
+├──
 ├── # Pedido
 ├── order_id → orders
 ├── order_item_id → order_items
 ├── order_date
 ├── order_number
 ├── generates_order (bool)
-├── 
+├──
 ├── # NF de Envio
 ├── invoice_number
 ├── invoice_date
-├── 
+├──
 ├── # Logística
 ├── eticket
 ├── sent_at
@@ -486,7 +486,7 @@ service_order_parts (Peças da OS)
 ├── tracking_code_return
 ├── shipping_observations
 ├── received_at_cr_date
-├── 
+├──
 ├── # Recebimento e Aplicação
 ├── substitute_part_code
 ├── is_received (bool)
@@ -495,7 +495,7 @@ service_order_parts (Peças da OS)
 ├── applied_at
 ├── shipping_type
 ├── partner_part_code
-├── 
+├──
 ├── created_at
 └── updated_at
 
@@ -643,20 +643,20 @@ orders (Pedidos)
 ├── exchange_id → exchanges
 ├── partner_id → partners
 ├── brand_id → brands
-├── 
+├──
 ├── # Classificação
 ├── order_type (parts, exchange, buffer)
 ├── service_order_type
-├── 
+├──
 ├── # Status
 ├── status_id → order_statuses
 ├── billing_status
 ├── gateway_status
-├── 
+├──
 ├── # Valores
 ├── total_items
 ├── total_value (decimal 12,2)
-├── 
+├──
 ├── # Integração Gateway/Bling
 ├── gateway_order_id
 ├── gateway_order_date
@@ -664,7 +664,7 @@ orders (Pedidos)
 ├── gateway_input_order_date
 ├── bling_order_id
 ├── bling_order_date
-├── 
+├──
 ├── # Datas do Fluxo
 ├── order_date
 ├── verified_at
@@ -672,16 +672,16 @@ orders (Pedidos)
 ├── collected_at
 ├── delivered_at
 ├── estimated_delivery_date
-├── 
+├──
 ├── # Aprovação
 ├── is_approved (bool)
 ├── approved_at
 ├── approved_by → users
-├── 
+├──
 ├── # Cancelamento
 ├── cancelled_at
 ├── cancellation_reason
-├── 
+├──
 ├── observations
 ├── created_at
 ├── updated_at
@@ -700,7 +700,7 @@ order_items (Itens do Pedido)
 ├── ipi_value (decimal 12,2)
 ├── st_value (decimal 12,2)
 ├── total_value (decimal 12,2)
-├── 
+├──
 ├── # NF
 ├── invoice_number
 ├── invoice_date
@@ -708,20 +708,20 @@ order_items (Itens do Pedido)
 ├── manufacturer_invoice_date
 ├── invoice_binding_id
 ├── is_invoice_ok (bool)
-├── 
+├──
 ├── # Status
 ├── billing_status
 ├── is_reserved (bool)
 ├── is_blocked (bool)
 ├── is_approved (bool)
-├── 
+├──
 ├── # Datas do Fluxo
 ├── verified_at
 ├── verified_by
 ├── separated_at
 ├── separated_by
 ├── collected_at
-├── 
+├──
 ├── observations
 ├── created_at
 └── updated_at
@@ -762,10 +762,10 @@ exchanges (Trocas de Produto)
 ├── id
 ├── tenant_id → tenants
 ├── uuid
-├── 
+├──
 ├── # Tipo
 ├── exchange_type (via_partner, direct_consumer)
-├── 
+├──
 ├── # Relacionamentos
 ├── service_order_id → service_orders (OS origem)
 ├── exchange_service_order_id → service_orders (OS troca)
@@ -773,7 +773,7 @@ exchanges (Trocas de Produto)
 ├── partner_id → partners
 ├── order_id → orders
 ├── order_item_id → order_items
-├── 
+├──
 ├── # Produto Original
 ├── original_model_id → product_models
 ├── original_model_name
@@ -782,11 +782,11 @@ exchanges (Trocas de Produto)
 ├── purchase_invoice_number
 ├── purchase_invoice_date
 ├── purchase_value (decimal 12,2)
-├── 
+├──
 ├── # Defeito/Condições
 ├── reported_defect
 ├── product_conditions
-├── 
+├──
 ├── # Decisão de Troca
 ├── exchange_decision (product, refund)
 ├── negotiated_value (decimal 12,2)
@@ -794,25 +794,25 @@ exchanges (Trocas de Produto)
 ├── exchange_model_name
 ├── exchange_reason_id → exchange_reasons
 ├── exchange_reason_text
-├── 
+├──
 ├── # Status
 ├── status_id → exchange_statuses
-├── 
+├──
 ├── # Evidências (paths)
 ├── invoice_evidence_path
 ├── label_evidence_path
 ├── defect_evidence_path
-├── 
+├──
 ├── # Solicitação
 ├── requested_by → users
 ├── requested_at
-├── 
+├──
 ├── # Aprovação
 ├── approved_by → users
 ├── approved_at
 ├── approval_notes
 ├── rejection_reason
-├── 
+├──
 ├── observations
 ├── created_at
 └── updated_at
@@ -957,7 +957,7 @@ invoices (Notas Fiscais)
 ├── invoice_type (entrada, saida)
 ├── purpose (normal, complementar, devolucao)
 ├── operation_nature
-├── 
+├──
 ├── # Emitente
 ├── issuer_document
 ├── issuer_name
@@ -974,7 +974,7 @@ invoices (Notas Fiscais)
 ├── issuer_phone
 ├── issuer_state_registration
 ├── issuer_tax_regime
-├── 
+├──
 ├── # Destinatário
 ├── recipient_document
 ├── recipient_name
@@ -990,7 +990,7 @@ invoices (Notas Fiscais)
 ├── recipient_phone
 ├── recipient_state_registration
 ├── recipient_ie_indicator
-├── 
+├──
 ├── # Valores e Impostos
 ├── products_total (decimal 12,2)
 ├── freight_value (decimal 12,2)
@@ -1005,7 +1005,7 @@ invoices (Notas Fiscais)
 ├── ipi_value (decimal 12,2)
 ├── pis_value (decimal 12,2)
 ├── cofins_value (decimal 12,2)
-├── 
+├──
 ├── # Controle
 ├── invoice_key
 ├── status
@@ -1016,10 +1016,10 @@ invoices (Notas Fiscais)
 ├── receipt_date
 ├── is_stock_updated (bool)
 ├── brand_id → brands
-├── 
+├──
 ├── # Referências
 ├── referenced_invoices (JSON)
-├── 
+├──
 ├── created_at
 └── updated_at
 
@@ -1036,7 +1036,7 @@ invoice_items (Itens da NF)
 ├── quantity
 ├── unit_price (decimal 12,4)
 ├── total_price (decimal 12,2)
-├── 
+├──
 ├── # Tributação
 ├── icms_origin
 ├── icms_cst
@@ -1054,7 +1054,7 @@ invoice_items (Itens da NF)
 ├── cofins_base (decimal 12,2)
 ├── cofins_rate (decimal 5,4)
 ├── cofins_value (decimal 12,2)
-├── 
+├──
 ├── created_at
 └── updated_at
 
@@ -1086,32 +1086,32 @@ monthly_closings (Fechamento Mensal)
 ├── partner_code
 ├── partner_document
 ├── partner_name
-├── 
+├──
 ├── # Valores
 ├── total_value (decimal 12,2)
-├── 
+├──
 ├── # NF do Posto
 ├── has_invoice_uploaded (bool)
 ├── invoice_number
 ├── invoice_files (JSON)
-├── 
+├──
 ├── # Status Financeiro
 ├── financial_status (pending, approved, rejected, paid)
 ├── rejection_reason
-├── 
+├──
 ├── # Alteração de NF
 ├── invoice_change_reason
 ├── invoice_changed_at
 ├── previous_invoice_number
-├── 
+├──
 ├── # Pagamento
 ├── payment_forecast_date
 ├── paid_at
-├── 
+├──
 ├── # Manifestação
 ├── manifestation_notes
 ├── manifestation_status (pending, approved, rejected)
-├── 
+├──
 ├── created_at
 └── updated_at
 
@@ -1150,25 +1150,25 @@ call_center_tickets (Chamados)
 ├── id
 ├── tenant_id → tenants
 ├── ticket_number
-├── 
+├──
 ├── # Relacionamentos
 ├── customer_id → customers
 ├── service_order_id → service_orders
 ├── partner_id → partners
-├── 
+├──
 ├── # Classificação
 ├── channel (phone, email, chat, whatsapp)
 ├── priority (low, medium, high, critical)
 ├── category_id → ticket_categories
-├── 
+├──
 ├── # Status
 ├── status (open, in_progress, waiting, resolved, closed)
-├── 
+├──
 ├── # Conteúdo
 ├── subject
 ├── description
 ├── resolution
-├── 
+├──
 ├── # Datas
 ├── opened_at
 ├── opened_by → users
@@ -1177,7 +1177,7 @@ call_center_tickets (Chamados)
 ├── resolved_at
 ├── resolved_by → users
 ├── closed_at
-├── 
+├──
 ├── created_at
 └── updated_at
 
@@ -1369,14 +1369,14 @@ cost_types (Tipos de Custo Adicional)
 ├── is_fixed_unit (bool)
 ├── is_default (bool)
 ├── requires_approval (bool)
-├── 
+├──
 ├── # Valores por Marca
 ├── lg_value (decimal 12,2)
 ├── tcl_value (decimal 12,2)
 ├── britania_value (decimal 12,2)
 ├── efl_value (decimal 12,2)
 ├── default_value (decimal 12,2)
-├── 
+├──
 ├── created_by → users
 ├── updated_by → users
 ├── created_at
@@ -1541,55 +1541,55 @@ notifications
 
 ## 📊 Mapeamento: Tabela Antiga → Nova
 
-| Tabela Antiga | Tabela Nova | Observações |
-|---------------|-------------|-------------|
-| `os` | `service_orders` | Renomear campos |
-| `os_follow` | - | REMOVER (duplicada) |
-| `os_follows` | `service_order_comments` | - |
-| `os_parts` | `service_order_parts` | - |
-| `os_costs` | `service_order_costs` | - |
-| `os_evidence_files` | `service_order_evidence_files` | - |
-| `os_technical_support` | `service_order_technical_support` | - |
-| `os_adm_support` | `service_order_admin_support` | - |
-| `os_invites` | `service_order_invites` | - |
-| `os_schedules` | `service_order_schedules` | - |
-| `os_changes` | `service_order_changes` | - |
-| `os_closings` | `monthly_closing_items` | - |
-| `os_closing_consolidateds` | `monthly_closings` | - |
-| `clifor` | `customers` | - |
-| `clifor_changes` | `customer_changes` | - |
-| `partners` | `partners` | Ajustar campos |
-| `contacts` | `partner_contacts` | - |
-| `parts` | `parts` | Ajustar tipos |
-| `itemlocs` | `inventory_items` | - |
-| `itemtrans` | `inventory_transactions` | - |
-| `itemres` | `inventory_reserves` | - |
-| `itempend` | `inventory_pending` | - |
-| `warehouses` | `warehouses` | - |
-| `orders` | `orders` | - |
-| `orders_items` | `order_items` | - |
-| `order_follows` | `order_comments` | - |
-| `orders_nfs` | `order_invoices` | - |
-| `orders_statuses` | `order_statuses` | - |
-| `exchanges` | `exchanges` | - |
-| `ex_follows` | `exchange_comments` | - |
-| `ex_evidence_files` | `exchange_evidence_files` | - |
-| `ex_statuses` | `exchange_statuses` | - |
-| `fiscal_invoices` | `invoices` | - |
-| `fiscal_invoice_items` | `invoice_items` | - |
-| `nfs` | - | REMOVER (duplicada) |
-| `brands` | `brands` | - |
-| `product_models` | `product_models` | - |
-| `product_types` | `product_categories` | - |
-| `fornecedores` | - | REMOVER (usar manufacturers) |
-| `tipodocumento` | - | REMOVER (usar document_types) |
-| `tipotrans` | - | REMOVER (usar transaction_types) |
-| `tipores` | - | REMOVER (legado) |
-| `ceps` | `postal_codes` | - |
-| `ufs` | `states` | - |
-| `bling_tokens` | `integration_tokens` | Generalizar |
-| `service_order_invites` | - | REMOVER (duplicada) |
-| `service_order_schedules` | - | REMOVER (duplicada) |
+| Tabela Antiga              | Tabela Nova                       | Observações                      |
+| -------------------------- | --------------------------------- | -------------------------------- |
+| `os`                       | `service_orders`                  | Renomear campos                  |
+| `os_follow`                | -                                 | REMOVER (duplicada)              |
+| `os_follows`               | `service_order_comments`          | -                                |
+| `os_parts`                 | `service_order_parts`             | -                                |
+| `os_costs`                 | `service_order_costs`             | -                                |
+| `os_evidence_files`        | `service_order_evidence_files`    | -                                |
+| `os_technical_support`     | `service_order_technical_support` | -                                |
+| `os_adm_support`           | `service_order_admin_support`     | -                                |
+| `os_invites`               | `service_order_invites`           | -                                |
+| `os_schedules`             | `service_order_schedules`         | -                                |
+| `os_changes`               | `service_order_changes`           | -                                |
+| `os_closings`              | `monthly_closing_items`           | -                                |
+| `os_closing_consolidateds` | `monthly_closings`                | -                                |
+| `clifor`                   | `customers`                       | -                                |
+| `clifor_changes`           | `customer_changes`                | -                                |
+| `partners`                 | `partners`                        | Ajustar campos                   |
+| `contacts`                 | `partner_contacts`                | -                                |
+| `parts`                    | `parts`                           | Ajustar tipos                    |
+| `itemlocs`                 | `inventory_items`                 | -                                |
+| `itemtrans`                | `inventory_transactions`          | -                                |
+| `itemres`                  | `inventory_reserves`              | -                                |
+| `itempend`                 | `inventory_pending`               | -                                |
+| `warehouses`               | `warehouses`                      | -                                |
+| `orders`                   | `orders`                          | -                                |
+| `orders_items`             | `order_items`                     | -                                |
+| `order_follows`            | `order_comments`                  | -                                |
+| `orders_nfs`               | `order_invoices`                  | -                                |
+| `orders_statuses`          | `order_statuses`                  | -                                |
+| `exchanges`                | `exchanges`                       | -                                |
+| `ex_follows`               | `exchange_comments`               | -                                |
+| `ex_evidence_files`        | `exchange_evidence_files`         | -                                |
+| `ex_statuses`              | `exchange_statuses`               | -                                |
+| `fiscal_invoices`          | `invoices`                        | -                                |
+| `fiscal_invoice_items`     | `invoice_items`                   | -                                |
+| `nfs`                      | -                                 | REMOVER (duplicada)              |
+| `brands`                   | `brands`                          | -                                |
+| `product_models`           | `product_models`                  | -                                |
+| `product_types`            | `product_categories`              | -                                |
+| `fornecedores`             | -                                 | REMOVER (usar manufacturers)     |
+| `tipodocumento`            | -                                 | REMOVER (usar document_types)    |
+| `tipotrans`                | -                                 | REMOVER (usar transaction_types) |
+| `tipores`                  | -                                 | REMOVER (legado)                 |
+| `ceps`                     | `postal_codes`                    | -                                |
+| `ufs`                      | `states`                          | -                                |
+| `bling_tokens`             | `integration_tokens`              | Generalizar                      |
+| `service_order_invites`    | -                                 | REMOVER (duplicada)              |
+| `service_order_schedules`  | -                                 | REMOVER (duplicada)              |
 
 ---
 
@@ -1609,4 +1609,3 @@ notifications
 ## ✏️ Notas e Decisões
 
 _Adicione aqui observações e decisões tomadas durante o desenvolvimento_
-

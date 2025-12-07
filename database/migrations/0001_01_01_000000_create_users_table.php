@@ -15,12 +15,38 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table): void {
             $table->id();
+            $table->unsignedBigInteger('tenant_id')->nullable();
+            $table->unsignedBigInteger('partner_id')->nullable()->comment('Vínculo com Posto Autorizado');
+            $table->unsignedBigInteger('manufacturer_id')->nullable()->comment('Vínculo com Fabricante');
+            $table->unsignedBigInteger('customer_id')->nullable()->comment('Vínculo com Cliente final');
+
+            // Tipo de usuário - determina permissões base e fluxo de navegação
+            $table->enum('user_type', ['spire', 'partner', 'manufacturer', 'client'])->default('spire');
+
+            // Para usuários de Posto (partner)
+            $table->boolean('is_partner_admin')->default(false)->comment('Admin do posto, criado automaticamente');
+            $table->unsignedBigInteger('created_by_user_id')->nullable()->comment('Usuário que criou (hierarquia partner)');
+
+            $table->string('username', 50)->nullable()->unique()->comment('Para partners = código do posto');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone', 20)->nullable();
+            $table->string('mobile', 20)->nullable();
+            $table->string('avatar')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('last_login_ip', 45)->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('tenant_id');
+            $table->index('partner_id');
+            $table->index('manufacturer_id');
+            $table->index('customer_id');
+            $table->index('user_type');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table): void {
