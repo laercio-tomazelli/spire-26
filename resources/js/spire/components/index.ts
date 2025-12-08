@@ -21,6 +21,10 @@ export { ColorPicker } from './ColorPicker';
 export { RangeSlider } from './RangeSlider';
 export { FileUpload } from './FileUpload';
 
+// Layout Components
+export { Sidebar } from './Sidebar';
+export { Navbar } from './Navbar';
+
 // Overlay Components  
 export { Drawer } from './Drawer';
 export { Popover } from './Popover';

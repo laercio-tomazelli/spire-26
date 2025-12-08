@@ -383,6 +383,24 @@ export interface CollapseInstance extends SpireUIInstance {
   isOpen(): boolean;
 }
 
+export interface SidebarInstance extends SpireUIInstance {
+  toggle(): this;
+  collapse(): this;
+  expand(): this;
+  openMobile(): this;
+  closeMobile(): this;
+  toggleMobile(): this;
+  isCollapsed(): boolean;
+  openSubmenu(itemId: string): this;
+  closeSubmenu(itemId: string): this;
+  closeAllSubmenus(): this;
+}
+
+export interface NavbarInstance extends SpireUIInstance {
+  showLogo(): this;
+  hideLogo(): this;
+}
+
 export interface SpireUIAPI {
   init(): void;
   get<T extends SpireUIInstance>(el: HTMLElement): T | undefined;

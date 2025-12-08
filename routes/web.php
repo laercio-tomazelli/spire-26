@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn (): Factory|View => view('welcome'));
 
+Route::get('/demo', fn (): Factory|View => view('demo'))->name('demo');
+
 Route::get('/dashboard', fn (): Factory|View => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function (): void {

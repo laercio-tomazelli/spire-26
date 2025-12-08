@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13421d688653b98d7c67636f73fc162d",
+    "content-hash": "a0d540f121abadbce276bc406c90862e",
     "packages": [
         {
             "name": "brick/math",
@@ -1051,82 +1051,6 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
-        },
-        {
-            "name": "laercio-tomazelli/spire-ui",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laercio-tomazelli/spire-ui-package.git",
-                "reference": "092199b4d2c7fafbed74370feeed028b7dd49864"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laercio-tomazelli/spire-ui-package/zipball/092199b4d2c7fafbed74370feeed028b7dd49864",
-                "reference": "092199b4d2c7fafbed74370feeed028b7dd49864",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0",
-                "illuminate/view": "^10.0|^11.0|^12.0",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "pestphp/pest": "^2.0|^3.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "LaercioTomazelli\\SpireUI\\SpireUIServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "LaercioTomazelli\\SpireUI\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "LaercioTomazelli\\SpireUI\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Laércio Tomazelli",
-                    "email": "laercio@tomazelli.dev"
-                }
-            ],
-            "description": "A lightweight, zero-dependency TypeScript UI library for Laravel applications. Modern alternative to Alpine.js with reactive components (~25KB gzip).",
-            "homepage": "https://github.com/laercio-tomazelli/spire-ui",
-            "keywords": [
-                "alpine-alternative",
-                "blade",
-                "components",
-                "laravel",
-                "tailwind",
-                "typescript",
-                "ui"
-            ],
-            "support": {
-                "source": "https://github.com/laercio-tomazelli/spire-ui-package/tree/main",
-                "issues": "https://github.com/laercio-tomazelli/spire-ui-package/issues"
-            },
-            "time": "2025-12-07T14:47:04+00:00"
         },
         {
             "name": "laravel/framework",
@@ -10239,9 +10163,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "laercio-tomazelli/spire-ui": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

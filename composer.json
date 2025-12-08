@@ -16,7 +16,6 @@
     ],
     "require": {
         "php": "^8.2",
-        "laercio-tomazelli/spire-ui": "dev-main",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
     },
