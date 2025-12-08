@@ -378,12 +378,17 @@
                     // Bulk Actions
                     async bulkDelete() {
                         if (!confirm(
-                            `Tem certeza que deseja excluir ${this.selectedCount} usuário(s)?`)) {
+                                `Tem certeza que deseja excluir ${this.selectedCount} usuário(s)?`)) {
                             return;
                         }
 
+                        // TODO: Implementar rota users.bulk-delete no backend
+                        console.log('Bulk delete IDs:', this.selected);
+                        alert('Funcionalidade de exclusão em massa será implementada em breve.');
+
+                        /* Exemplo de implementação quando a rota existir:
                         try {
-                            const response = await fetch('{{ route('users.bulk-delete') }}', {
+                            const response = await fetch('/users/bulk-delete', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -401,6 +406,7 @@
                         } catch (error) {
                             console.error('Bulk delete error:', error);
                         }
+                        */
                     }
                 }));
             });
