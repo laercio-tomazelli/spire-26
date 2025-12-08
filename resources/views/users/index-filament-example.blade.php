@@ -32,35 +32,20 @@
     @endif
 
     {{-- Alpine Container for Table --}}
-    <div
-        x-data="filamentTable()"
-        x-init="init()"
-    >
+    <div x-data="filamentTable()" x-init="init()">
         {{-- Filament-style Table --}}
         <x-ui.table>
             {{-- Table Header with Search, Filters, etc --}}
             <x-slot:header>
                 {{-- Status Tabs (como no Filament) --}}
                 <x-ui.table.tabs>
-                    <x-ui.table.tab
-                        :active="!request('status')"
-                        :count="$counts['all'] ?? $users->total()"
-                        x-on:click="setFilter('status', '')"
-                    >
+                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()" x-on:click="setFilter('status', '')">
                         Todos
                     </x-ui.table.tab>
-                    <x-ui.table.tab
-                        :active="request('status') === 'active'"
-                        :count="$counts['active'] ?? null"
-                        x-on:click="setFilter('status', 'active')"
-                    >
+                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null" x-on:click="setFilter('status', 'active')">
                         Ativos
                     </x-ui.table.tab>
-                    <x-ui.table.tab
-                        :active="request('status') === 'inactive'"
-                        :count="$counts['inactive'] ?? null"
-                        x-on:click="setFilter('status', 'inactive')"
-                    >
+                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null" x-on:click="setFilter('status', 'inactive')">
                         Inativos
                     </x-ui.table.tab>
                 </x-ui.table.tabs>
@@ -71,7 +56,8 @@
                     <x-slot:bulkActions>
                         <x-spire::button size="sm" variant="danger" x-on:click="bulkDelete()">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                             Excluir selecionados
                         </x-spire::button>
@@ -81,24 +67,16 @@
                     <x-slot:filters>
                         <x-ui.table.filters :activeCount="$activeFiltersCount ?? 0">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Usuário</label>
-                                <x-spire::select
-                                    name="user_type"
-                                    placeholder="Todos"
-                                    :options="$userTypes"
-                                    x-model="filters.user_type"
-                                    x-on:change="applyFilters()"
-                                />
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de
+                                    Usuário</label>
+                                <x-spire::select name="user_type" placeholder="Todos" :options="$userTypes"
+                                    x-model="filters.user_type" x-on:change="applyFilters()" />
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                                <x-spire::select
-                                    name="is_active"
-                                    placeholder="Todos"
-                                    :options="\App\Enums\Status::selectOptions()"
-                                    x-model="filters.is_active"
-                                    x-on:change="applyFilters()"
-                                />
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                <x-spire::select name="is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
+                                    x-model="filters.is_active" x-on:change="applyFilters()" />
                             </div>
 
                             <x-slot:footer>
@@ -112,7 +90,8 @@
                     {{-- Column Manager --}}
                     <x-slot:columnManager>
                         <x-ui.table.column-manager>
-                            <x-ui.table.column-toggle name="user" label="Usuário" :checked="true" :disabled="true" />
+                            <x-ui.table.column-toggle name="user" label="Usuário" :checked="true"
+                                :disabled="true" />
                             <x-ui.table.column-toggle name="type" label="Tipo" :checked="true" />
                             <x-ui.table.column-toggle name="link" label="Vínculo" :checked="true" />
                             <x-ui.table.column-toggle name="status" label="Status" :checked="true" />
@@ -191,19 +170,15 @@
 
                         {{-- Actions --}}
                         <x-ui.table.actions>
-                            <x-ui.table.action
-                                :href="route('users.edit', $user)"
-                                icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z"/><path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z"/></svg>'
-                            >
+                            <x-ui.table.action :href="route('users.edit', $user)"
+                                icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z"/><path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z"/></svg>'>
                                 Editar
                             </x-ui.table.action>
                         </x-ui.table.actions>
                     </x-ui.table.row>
                 @empty
-                    <x-ui.table.empty-state
-                        title="Nenhum usuário encontrado"
-                        description="Não há usuários cadastrados ou que correspondam aos filtros."
-                    >
+                    <x-ui.table.empty-state title="Nenhum usuário encontrado"
+                        description="Não há usuários cadastrados ou que correspondam aos filtros.">
                         <x-slot:action>
                             <x-spire::button href="{{ route('users.create') }}">
                                 Criar primeiro usuário
@@ -330,7 +305,8 @@
                     },
 
                     getPageKeys() {
-                        return Array.from(document.querySelectorAll('.fi-ta-record-checkbox')).map(el => el.value);
+                        return Array.from(document.querySelectorAll('.fi-ta-record-checkbox')).map(el => el
+                            .value);
                     },
 
                     selectAll() {
@@ -373,7 +349,8 @@
                             params.append('page', this.page);
                             params.append('per_page', this.perPage);
 
-                            const url = '{{ route('users.index') }}' + (params.toString() ? '?' + params.toString() : '');
+                            const url = '{{ route('users.filament') }}' + (params.toString() ? '?' +
+                                params.toString() : '');
 
                             // Update browser URL
                             window.history.replaceState({}, '', url);
@@ -400,7 +377,8 @@
 
                     // Bulk Actions
                     async bulkDelete() {
-                        if (!confirm(`Tem certeza que deseja excluir ${this.selectedCount} usuário(s)?`)) {
+                        if (!confirm(
+                            `Tem certeza que deseja excluir ${this.selectedCount} usuário(s)?`)) {
                             return;
                         }
 
@@ -411,7 +389,9 @@
                                     'Content-Type': 'application/json',
                                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                 },
-                                body: JSON.stringify({ ids: this.selected })
+                                body: JSON.stringify({
+                                    ids: this.selected
+                                })
                             });
 
                             if (response.ok) {

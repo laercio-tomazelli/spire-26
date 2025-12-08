@@ -5,7 +5,7 @@
 ])
 
 @php
-    $alignClasses = match($align) {
+    $alignClasses = match ($align) {
         'center' => 'text-center',
         'right' => 'text-right',
         default => 'text-left',
@@ -14,7 +14,7 @@
 
 <td class="fi-ta-cell px-3 py-2 {{ $alignClasses }}">
     <div class="fi-ta-text-summary">
-        @if($label)
+        @if ($label)
             <span class="fi-ta-text-summary-label block text-xs text-gray-500 dark:text-gray-400">
                 {{ $label }}
             </span>

@@ -4,7 +4,7 @@
 ])
 
 @php
-    $alignClasses = match($align) {
+    $alignClasses = match ($align) {
         'center' => 'text-center',
         'right' => 'text-right',
         default => 'text-left',
@@ -13,10 +13,10 @@
 
 <td
     {{ $attributes->merge([
-        'class' => "fi-ta-cell px-3 py-4 text-sm text-gray-700 dark:text-gray-300 {$alignClasses}" .
+        'class' =>
+            "fi-ta-cell px-3 py-4 text-sm text-gray-700 dark:text-gray-300 {$alignClasses}" .
             ($wrap ? '' : ' whitespace-nowrap'),
-    ]) }}
->
+    ]) }}>
     <div class="fi-ta-col">
         {{ $slot }}
     </div>

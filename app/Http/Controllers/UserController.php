@@ -42,6 +42,36 @@ class UserController extends Controller
     }
 
     /**
+     * Display a listing of the resource using Filament-style table.
+     */
+    public function indexFilament(Request $request): View|string
+    {
+        Gate::authorize('viewAny', User::class);
+
+        $users = $this->getFilteredUsers($request);
+
+        // Contagem por status para as tabs
+        $counts = [
+            'all' => User::count(),
+            'active' => User::where('is_active', true)->count(),
+            'inactive' => User::where('is_active', false)->count(),
+        ];
+
+        // Se for requisição AJAX, retorna apenas o partial da tabela
+        if ($request->ajax()) {
+            return view('users.partials.table-filament', [
+                'users' => $users,
+            ])->render();
+        }
+
+        return view('users.index-filament-example', [
+            'users' => $users,
+            'userTypes' => UserType::selectOptions(),
+            'counts' => $counts,
+        ]);
+    }
+
+    /**
      * Get filtered users query.
      */
     private function getFilteredUsers(Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator

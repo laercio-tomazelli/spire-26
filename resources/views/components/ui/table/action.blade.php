@@ -5,7 +5,7 @@
 ])
 
 @php
-    $colorClasses = match($color) {
+    $colorClasses = match ($color) {
         'danger' => 'text-danger-600 hover:text-danger-500 dark:text-danger-400 dark:hover:text-danger-300',
         'warning' => 'text-warning-600 hover:text-warning-500 dark:text-warning-400 dark:hover:text-warning-300',
         'success' => 'text-success-600 hover:text-success-500 dark:text-success-400 dark:hover:text-success-300',
@@ -14,26 +14,22 @@
     };
 @endphp
 
-@if($href)
-    <a
-        href="{{ $href }}"
+@if ($href)
+    <a href="{{ $href }}"
         {{ $attributes->merge([
             'class' => "fi-ta-action inline-flex items-center gap-x-1 text-sm font-medium {$colorClasses}",
-        ]) }}
-    >
-        @if($icon)
+        ]) }}>
+        @if ($icon)
             <span class="h-4 w-4 shrink-0">{!! $icon !!}</span>
         @endif
         {{ $slot }}
     </a>
 @else
-    <button
-        type="button"
+    <button type="button"
         {{ $attributes->merge([
             'class' => "fi-ta-action inline-flex items-center gap-x-1 text-sm font-medium {$colorClasses}",
-        ]) }}
-    >
-        @if($icon)
+        ]) }}>
+        @if ($icon)
             <span class="h-4 w-4 shrink-0">{!! $icon !!}</span>
         @endif
         {{ $slot }}
