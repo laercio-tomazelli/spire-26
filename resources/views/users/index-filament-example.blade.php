@@ -32,7 +32,20 @@
     @endif
 
     {{-- Alpine Container for Table --}}
-    <div x-data="filamentTable()" x-init="init()">
+    <div x-data="filamentTable()" 
+         x-init="init()"
+         @table-goto-page="gotoPage($event.detail.page)"
+         @table-previous-page="previousPage()"
+         @table-next-page="nextPage()"
+         @table-per-page="changePerPage($event.detail.value)"
+         @table-toggle-page-selection="togglePageSelection()"
+         @table-toggle-selection="toggleSelection($event.detail.key)"
+         @table-sort="sort($event.detail.field)"
+         @table-apply-filters="applyFilters()"
+         @table-filter-change="setFilter($event.detail.key, $event.detail.value)"
+         @toggle-column="toggleColumn($event.detail.name, $event.detail.visible)"
+         @reset-columns="resetColumns()"
+         @reset-filters="resetFilters()">
         {{-- Filament-style Table --}}
         <x-ui.table>
             {{-- Table Header with Search, Filters, etc --}}
@@ -69,14 +82,16 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de
                                     Usuário</label>
-                                <x-spire::select name="user_type" placeholder="Todos" :options="$userTypes"
-                                    x-model="filters.user_type" x-on:change="$dispatch('table-apply-filters')" />
+                                <x-spire::select name="filter_user_type" placeholder="Todos" :options="$userTypes"
+                                    :value="request('user_type', '')"
+                                    x-on:select-change="$dispatch('table-filter-change', { key: 'user_type', value: $event.detail.value })" />
                             </div>
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                                <x-spire::select name="is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
-                                    x-model="filters.is_active" x-on:change="$dispatch('table-apply-filters')" />
+                                <x-spire::select name="filter_is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
+                                    :value="request('is_active', '')"
+                                    x-on:select-change="$dispatch('table-filter-change', { key: 'is_active', value: $event.detail.value })" />
                             </div>
 
                             <x-slot:footer>
@@ -234,23 +249,6 @@
                     init() {
                         // Watch search changes
                         this.$watch('search', () => this.applyFilters());
-
-                        // Listen to table events (using event delegation)
-                        this.$el.addEventListener('table-goto-page', (e) => this.gotoPage(e.detail.page));
-                        this.$el.addEventListener('table-previous-page', () => this.previousPage());
-                        this.$el.addEventListener('table-next-page', () => this.nextPage());
-                        this.$el.addEventListener('table-per-page', (e) => this.changePerPage(e.detail
-                            .value));
-                        this.$el.addEventListener('table-toggle-page-selection', () => this
-                            .togglePageSelection());
-                        this.$el.addEventListener('table-toggle-selection', (e) => this.toggleSelection(e
-                            .detail.key));
-                        this.$el.addEventListener('table-sort', (e) => this.sort(e.detail.field));
-                        this.$el.addEventListener('table-apply-filters', () => this.applyFilters());
-                        this.$el.addEventListener('toggle-column', (e) => this.toggleColumn(e.detail.name, e
-                            .detail.visible));
-                        this.$el.addEventListener('reset-columns', () => this.resetColumns());
-                        this.$el.addEventListener('reset-filters', () => this.resetFilters());
                     },
 
                     // Sorting
