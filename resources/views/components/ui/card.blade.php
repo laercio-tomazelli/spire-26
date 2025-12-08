@@ -58,20 +58,22 @@
     $hoverClass = $hover ? 'transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5' : '';
 @endphp
 
-<div {{ $attributes->merge([
-    'class' => "bg-white dark:bg-gray-800 {$shadowClass} {$roundedClass} {$borderClass} {$hoverClass} overflow-hidden"
-]) }}>
+<div
+    {{ $attributes->merge([
+        'class' => "bg-white dark:bg-gray-800 {$shadowClass} {$roundedClass} {$borderClass} {$hoverClass}",
+    ]) }}>
     {{-- Header --}}
-    @if($hasHeader)
-        <div class="flex items-center justify-between gap-4 {{ $headerPaddingClass }} {{ $divided ? 'border-b border-gray-100 dark:border-gray-700' : '' }}">
+    @if ($hasHeader)
+        <div
+            class="flex items-center justify-between gap-4 {{ $headerPaddingClass }} {{ $divided ? 'border-b border-gray-100 dark:border-gray-700' : '' }}">
             {{-- Title Section --}}
             <div class="flex-1 min-w-0">
-                @if($title)
+                @if ($title)
                     <h3 class="text-base font-semibold text-gray-900 dark:text-white truncate">
                         {{ $title }}
                     </h3>
                 @endif
-                @if($subtitle)
+                @if ($subtitle)
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5 truncate">
                         {{ $subtitle }}
                     </p>
@@ -85,7 +87,7 @@
                         {{ $badges }}
                     </div>
                 @endisset
-                
+
                 @isset($actions)
                     <div class="flex items-center gap-1">
                         {{ $actions }}
@@ -96,7 +98,7 @@
     @endif
 
     {{-- Body --}}
-    @if($hasHeader)
+    @if ($hasHeader)
         <div class="{{ $bodyPaddingClass }}">
             {{ $slot }}
         </div>

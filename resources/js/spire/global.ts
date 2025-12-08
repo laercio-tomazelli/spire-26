@@ -1,9 +1,14 @@
 /**
  * Spire UI - Global API
- * 
+ *
  * This file creates the global SpireUI API and exposes it on window.
  * It provides the init() function and all utilities.
  */
+
+// Alpine.js - for declarative UI components
+import Alpine from 'alpinejs';
+(window as unknown as { Alpine: typeof Alpine }).Alpine = Alpine;
+Alpine.start();
 
 import { SpireUIAPI, SpireUIInstance } from './types';
 import { instances, setGlobalErrorHandler } from './core';
@@ -122,7 +127,7 @@ export const SpireUI: SpireUIAPI = {
         const ComponentClass = Components[type];
         const instance = new ComponentClass(el);
         instances.set(el, instance);
-        
+
         // Maintain backwards compatibility with $component API
         Object.defineProperty(el, `$${type}`, {
           get: () => instances.get(el),
@@ -161,12 +166,12 @@ export const SpireUI: SpireUIAPI = {
   collapse(id: string) {
     const el = document.querySelector<HTMLElement>(`[data-collapse="${id}"]`);
     if (!el) return null;
-    
+
     if (!instances.has(el)) {
       const instance = new Collapse(el);
       instances.set(el, instance);
     }
-    
+
     return instances.get(el) as import('./types').CollapseInstance;
   },
 
@@ -174,12 +179,12 @@ export const SpireUI: SpireUIAPI = {
   carousel(id: string) {
     const el = document.querySelector<HTMLElement>(`[data-carousel="${id}"]`);
     if (!el) return null;
-    
+
     if (!instances.has(el)) {
       const instance = new Carousel(el);
       instances.set(el, instance);
     }
-    
+
     return instances.get(el) as import('./types').CarouselInstance;
   },
 
@@ -204,7 +209,7 @@ export const SpireUI: SpireUIAPI = {
 // =====================
 // AUTO INITIALIZATION
 // =====================
-['DOMContentLoaded', 'livewire:navigated', 'turbo:render', 'astro:page-load'].forEach(ev => 
+['DOMContentLoaded', 'livewire:navigated', 'turbo:render', 'astro:page-load'].forEach(ev =>
   document.addEventListener(ev, () => setTimeout(SpireUI.init, 10))
 );
 
@@ -214,7 +219,7 @@ export const SpireUI: SpireUIAPI = {
 document.addEventListener('DOMContentLoaded', () => {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const savedTheme = localStorage.getItem('theme');
-  
+
   if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
     document.documentElement.classList.add('dark');
   } else {
