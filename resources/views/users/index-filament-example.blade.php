@@ -32,33 +32,20 @@
     @endif
 
     {{-- Alpine Container for Table --}}
-    <div x-data="filamentTable()" 
-         x-init="init()"
-         @table-goto-page="gotoPage($event.detail.page)"
-         @table-previous-page="previousPage()"
-         @table-next-page="nextPage()"
-         @table-per-page="changePerPage($event.detail.value)"
-         @table-toggle-page-selection="togglePageSelection()"
-         @table-toggle-selection="toggleSelection($event.detail.key)"
-         @table-sort="sort($event.detail.field)"
-         @table-apply-filters="applyFilters()"
-         @table-filter-change="setFilter($event.detail.key, $event.detail.value)"
-         @toggle-column="toggleColumn($event.detail.name, $event.detail.visible)"
-         @reset-columns="resetColumns()"
-         @reset-filters="resetFilters()">
+    <div x-data="filamentTable()" x-init="init()" x-on:destroy="destroy()">
         {{-- Filament-style Table --}}
         <x-ui.table>
             {{-- Table Header with Search, Filters, etc --}}
             <x-slot:header>
                 {{-- Status Tabs (como no Filament) --}}
                 <x-ui.table.tabs>
-                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()" x-on:click="setFilter('status', '')">
+                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: '' })">
                         Todos
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null" x-on:click="setFilter('status', 'active')">
+                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'active' })">
                         Ativos
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null" x-on:click="setFilter('status', 'inactive')">
+                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'inactive' })">
                         Inativos
                     </x-ui.table.tab>
                 </x-ui.table.tabs>
@@ -84,18 +71,18 @@
                                     Usuário</label>
                                 <x-spire::select name="filter_user_type" placeholder="Todos" :options="$userTypes"
                                     :value="request('user_type', '')"
-                                    x-on:select-change="$dispatch('table-filter-change', { key: 'user_type', value: $event.detail.value })" />
+                                    x-on:select-change="Spire.events.emit('table:filter-change', { key: 'user_type', value: $event.detail.value })" />
                             </div>
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                                 <x-spire::select name="filter_is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
                                     :value="request('is_active', '')"
-                                    x-on:select-change="$dispatch('table-filter-change', { key: 'is_active', value: $event.detail.value })" />
+                                    x-on:select-change="Spire.events.emit('table:filter-change', { key: 'is_active', value: $event.detail.value })" />
                             </div>
 
                             <x-slot:footer>
-                                <x-spire::button class="w-full" x-on:click="$dispatch('table-apply-filters')">
+                                <x-spire::button class="w-full" x-on:click="Spire.events.emit('table:apply-filters')">
                                     Aplicar filtros
                                 </x-spire::button>
                             </x-slot:footer>
@@ -235,6 +222,7 @@
                         status: true,
                         last_login: true
                     },
+                    _unsubscribers: [],
 
                     // Computed
                     get selectedCount() {
@@ -249,6 +237,30 @@
                     init() {
                         // Watch search changes
                         this.$watch('search', () => this.applyFilters());
+                        
+                        // Subscribe to EventBus events
+                        const events = window.Spire?.events;
+                        if (events) {
+                            this._unsubscribers = [
+                                events.on('table:goto-page', (page) => this.gotoPage(page)),
+                                events.on('table:previous-page', () => this.previousPage()),
+                                events.on('table:next-page', () => this.nextPage()),
+                                events.on('table:per-page', (value) => this.changePerPage(value)),
+                                events.on('table:toggle-page-selection', () => this.togglePageSelection()),
+                                events.on('table:toggle-selection', (key) => this.toggleSelection(key)),
+                                events.on('table:sort', (field) => this.sort(field)),
+                                events.on('table:apply-filters', () => this.applyFilters()),
+                                events.on('table:filter-change', ({key, value}) => this.setFilter(key, value)),
+                                events.on('table:toggle-column', ({name, visible}) => this.toggleColumn(name, visible)),
+                                events.on('table:reset-columns', () => this.resetColumns()),
+                                events.on('table:reset-filters', () => this.resetFilters()),
+                            ];
+                        }
+                    },
+                    
+                    // Cleanup
+                    destroy() {
+                        this._unsubscribers.forEach(unsub => unsub?.());
                     },
 
                     // Sorting

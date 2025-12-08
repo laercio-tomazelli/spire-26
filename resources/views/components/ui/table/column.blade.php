@@ -24,7 +24,7 @@
     data-sort-field="{{ $sortable ? $fieldName : '' }}">
     @if ($sortable)
         <button type="button" class="group inline-flex items-center gap-x-1 whitespace-nowrap"
-            x-on:click="$dispatch('table-sort', { field: '{{ $fieldName }}' })">
+            x-on:click="Spire.events.emit('table:sort', '{{ $fieldName }}')">
             {{ $label }}
 
             <span

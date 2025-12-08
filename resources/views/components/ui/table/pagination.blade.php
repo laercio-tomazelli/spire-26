@@ -35,7 +35,7 @@
                 <label for="per-page" class="text-sm text-gray-700 dark:text-gray-400">Per page</label>
                 <select id="per-page"
                     class="fi-select-input rounded-lg border-gray-300 py-1.5 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                    x-on:change="$dispatch('table-per-page', { value: $event.target.value })">
+                    x-on:change="Spire.events.emit('table:per-page', $event.target.value)">
                     @foreach ($perPageOptions as $option)
                         <option value="{{ $option }}" @selected($perPage == $option)>{{ $option }}</option>
                     @endforeach
@@ -50,7 +50,7 @@
                 <li>
                     <button type="button"
                         class="fi-pagination-item-btn relative inline-flex items-center rounded-lg p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        @disabled($currentPage <= 1) x-on:click="$dispatch('table-previous-page')">
+                        @disabled($currentPage <= 1) x-on:click="Spire.events.emit('table:previous-page')">
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
@@ -99,7 +99,7 @@
                                 {{ $page === $currentPage
                                     ? 'bg-primary-50 text-primary-600 dark:bg-primary-500/10 dark:text-primary-400'
                                     : 'text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800' }}"
-                            x-on:click="$dispatch('table-goto-page', { page: {{ $page }} })">
+                            x-on:click="Spire.events.emit('table:goto-page', {{ $page }})">
                             {{ $page }}
                         </button>
                     </li>
@@ -109,7 +109,7 @@
                 <li>
                     <button type="button"
                         class="fi-pagination-item-btn relative inline-flex items-center rounded-lg p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        @disabled($currentPage >= $lastPage) x-on:click="$dispatch('table-next-page')">
+                        @disabled($currentPage >= $lastPage) x-on:click="Spire.events.emit('table:next-page')">
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
