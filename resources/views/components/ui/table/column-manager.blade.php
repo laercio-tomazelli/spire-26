@@ -26,7 +26,7 @@
 
                 <button type="button"
                     class="text-sm font-medium text-danger-600 hover:text-danger-500 dark:text-danger-400"
-                    x-on:click="Spire.events.emit('table:reset-columns')">
+                    x-on:click="$dispatch('table-reset-columns')">
                     Reset
                 </button>
             </div>

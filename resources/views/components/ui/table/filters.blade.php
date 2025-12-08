@@ -37,7 +37,7 @@
                 @else
                     <button type="button"
                         class="text-sm font-medium text-danger-600 hover:text-danger-500 dark:text-danger-400"
-                        x-on:click="Spire.events.emit('table:reset-filters')">
+                        x-on:click="$dispatch('table-reset-filters')">
                         Reset
                     </button>
                 @endisset

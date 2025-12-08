@@ -21,7 +21,7 @@
         <td class="fi-ta-cell fi-ta-selection-cell w-4 px-3 py-4">
             <input type="checkbox" value="{{ $key }}"
                 class="fi-checkbox-input fi-ta-record-checkbox h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary-600"
-                x-on:click.stop="Spire.events.emit('table:toggle-selection', '{{ $key }}')" />
+                x-on:click.stop="$dispatch('table-toggle-selection', { key: '{{ $key }}' })" />
         </td>
     @endif
 
