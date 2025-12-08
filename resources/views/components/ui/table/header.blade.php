@@ -62,7 +62,7 @@
     <div x-show="selectedCount > 0" x-cloak class="fi-ta-selection-indicator bg-gray-50 px-4 py-2 dark:bg-white/5">
         <div class="flex items-center justify-between gap-x-4">
             <div class="flex items-center gap-x-2 text-sm text-gray-700 dark:text-gray-200">
-                <svg x-show="isLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <svg x-show="loading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                         stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor"

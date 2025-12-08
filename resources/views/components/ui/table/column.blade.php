@@ -17,18 +17,18 @@
     $fieldName = $sortField ?? Str::snake($label);
 @endphp
 
-<th
-    {{ $attributes->merge([
-        'class' => "fi-ta-header-cell px-3 py-3.5 text-sm font-semibold text-gray-950 dark:text-white {$alignClasses}",
-        'style' => $widthStyle,
-    ]) }}
+<th {{ $attributes->merge([
+    'class' => "fi-ta-header-cell px-3 py-3.5 text-sm font-semibold text-gray-950 dark:text-white {$alignClasses}",
+    'style' => $widthStyle,
+]) }}
     data-sort-field="{{ $sortable ? $fieldName : '' }}">
     @if ($sortable)
         <button type="button" class="group inline-flex items-center gap-x-1 whitespace-nowrap"
             x-on:click="$dispatch('table-sort', { field: '{{ $fieldName }}' })">
             {{ $label }}
 
-            <span class="fi-ta-sort-icons flex-none rounded text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
+            <span
+                class="fi-ta-sort-icons flex-none rounded text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
                 {{-- Sort indicator icons are managed via JS after AJAX --}}
                 <svg class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

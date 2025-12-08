@@ -8,11 +8,11 @@
     <table class="{{ $classes }}" data-striped="false" data-hoverable="true">
         {{-- Table Columns (thead) --}}
         <x-ui.table.columns :selectable="true">
-            <x-ui.table.column label="Usuário" sortable sortField="name" />
-            <x-ui.table.column label="Tipo" sortable sortField="user_type" />
-            <x-ui.table.column label="Vínculo" />
-            <x-ui.table.column label="Status" />
-            <x-ui.table.column label="Último acesso" sortable sortField="last_login_at" />
+            <x-ui.table.column label="Usuário" sortable sortField="name" data-column="user" />
+            <x-ui.table.column label="Tipo" sortable sortField="user_type" data-column="type" />
+            <x-ui.table.column label="Vínculo" data-column="link" />
+            <x-ui.table.column label="Status" data-column="status" />
+            <x-ui.table.column label="Último acesso" sortable sortField="last_login_at" data-column="last_login" />
             <th class="fi-ta-actions-header-cell"></th>
         </x-ui.table.columns>
 
@@ -21,7 +21,7 @@
             @forelse ($users as $user)
                 <x-ui.table.row :record="$user" :selectable="true" :clickable="true">
                     {{-- User Info --}}
-                    <x-ui.table.cell>
+                    <x-ui.table.cell data-column="user">
                         <div class="flex items-center gap-3">
                             <x-spire::avatar size="sm" :name="$user->name" />
                             <div>
@@ -32,7 +32,7 @@
                     </x-ui.table.cell>
 
                     {{-- User Type --}}
-                    <x-ui.table.cell>
+                    <x-ui.table.cell data-column="type">
                         <div class="flex flex-wrap items-center gap-1">
                             <x-spire::badge :variant="$user->user_type->badgeVariant()" :icon="$user->user_type->icon()">
                                 {{ $user->user_type->label() }}
@@ -44,7 +44,7 @@
                     </x-ui.table.cell>
 
                     {{-- Link/Vínculo --}}
-                    <x-ui.table.cell>
+                    <x-ui.table.cell data-column="link">
                         @if ($user->partner)
                             {{ $user->partner->trade_name }}
                         @elseif ($user->manufacturer)
@@ -57,7 +57,7 @@
                     </x-ui.table.cell>
 
                     {{-- Status --}}
-                    <x-ui.table.cell>
+                    <x-ui.table.cell data-column="status">
                         @php $status = \App\Enums\Status::fromBool($user->is_active) @endphp
                         <x-spire::badge :variant="$status->badgeVariant()" :icon="$status->icon()">
                             {{ $status->label() }}
@@ -65,7 +65,7 @@
                     </x-ui.table.cell>
 
                     {{-- Last Login --}}
-                    <x-ui.table.cell>
+                    <x-ui.table.cell data-column="last_login">
                         @if ($user->last_login_at)
                             {{ $user->last_login_at->diffForHumans() }}
                         @else

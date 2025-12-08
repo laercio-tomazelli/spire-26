@@ -103,11 +103,11 @@
 
             {{-- Table Columns (thead) --}}
             <x-ui.table.columns :selectable="true">
-                <x-ui.table.column label="Usuário" sortable sortField="name" />
-                <x-ui.table.column label="Tipo" sortable sortField="user_type" />
-                <x-ui.table.column label="Vínculo" />
-                <x-ui.table.column label="Status" />
-                <x-ui.table.column label="Último acesso" sortable sortField="last_login_at" />
+                <x-ui.table.column label="Usuário" sortable sortField="name" data-column="user" />
+                <x-ui.table.column label="Tipo" sortable sortField="user_type" data-column="type" />
+                <x-ui.table.column label="Vínculo" data-column="link" />
+                <x-ui.table.column label="Status" data-column="status" />
+                <x-ui.table.column label="Último acesso" sortable sortField="last_login_at" data-column="last_login" />
                 <th class="fi-ta-actions-header-cell"></th>
             </x-ui.table.columns>
 
@@ -116,7 +116,7 @@
                 @forelse ($users as $user)
                     <x-ui.table.row :record="$user" :selectable="true" :clickable="true">
                         {{-- User Info --}}
-                        <x-ui.table.cell>
+                        <x-ui.table.cell data-column="user">
                             <div class="flex items-center gap-3">
                                 <x-spire::avatar size="sm" :name="$user->name" />
                                 <div>
@@ -127,7 +127,7 @@
                         </x-ui.table.cell>
 
                         {{-- User Type --}}
-                        <x-ui.table.cell>
+                        <x-ui.table.cell data-column="type">
                             <div class="flex flex-wrap items-center gap-1">
                                 <x-spire::badge :variant="$user->user_type->badgeVariant()" :icon="$user->user_type->icon()">
                                     {{ $user->user_type->label() }}
@@ -139,7 +139,7 @@
                         </x-ui.table.cell>
 
                         {{-- Link/Vínculo --}}
-                        <x-ui.table.cell>
+                        <x-ui.table.cell data-column="link">
                             @if ($user->partner)
                                 {{ $user->partner->trade_name }}
                             @elseif ($user->manufacturer)
@@ -152,7 +152,7 @@
                         </x-ui.table.cell>
 
                         {{-- Status --}}
-                        <x-ui.table.cell>
+                        <x-ui.table.cell data-column="status">
                             @php $status = \App\Enums\Status::fromBool($user->is_active) @endphp
                             <x-spire::badge :variant="$status->badgeVariant()" :icon="$status->icon()">
                                 {{ $status->label() }}
@@ -160,7 +160,7 @@
                         </x-ui.table.cell>
 
                         {{-- Last Login --}}
-                        <x-ui.table.cell>
+                        <x-ui.table.cell data-column="last_login">
                             @if ($user->last_login_at)
                                 {{ $user->last_login_at->diffForHumans() }}
                             @else
@@ -239,11 +239,15 @@
                         this.$el.addEventListener('table-goto-page', (e) => this.gotoPage(e.detail.page));
                         this.$el.addEventListener('table-previous-page', () => this.previousPage());
                         this.$el.addEventListener('table-next-page', () => this.nextPage());
-                        this.$el.addEventListener('table-per-page', (e) => this.changePerPage(e.detail.value));
-                        this.$el.addEventListener('table-toggle-page-selection', () => this.togglePageSelection());
-                        this.$el.addEventListener('table-toggle-selection', (e) => this.toggleSelection(e.detail.key));
+                        this.$el.addEventListener('table-per-page', (e) => this.changePerPage(e.detail
+                            .value));
+                        this.$el.addEventListener('table-toggle-page-selection', () => this
+                            .togglePageSelection());
+                        this.$el.addEventListener('table-toggle-selection', (e) => this.toggleSelection(e
+                            .detail.key));
                         this.$el.addEventListener('table-sort', (e) => this.sort(e.detail.field));
-                        this.$el.addEventListener('toggle-column', (e) => this.toggleColumn(e.detail.name, e.detail.visible));
+                        this.$el.addEventListener('toggle-column', (e) => this.toggleColumn(e.detail.name, e
+                            .detail.visible));
                         this.$el.addEventListener('reset-columns', () => this.resetColumns());
                         this.$el.addEventListener('reset-filters', () => this.resetFilters());
                     },
@@ -291,13 +295,13 @@
                     toggleSelection(key) {
                         const index = this.selected.indexOf(key);
                         const isNowSelected = index === -1;
-                        
+
                         if (isNowSelected) {
                             this.selected.push(key);
                         } else {
                             this.selected.splice(index, 1);
                         }
-                        
+
                         // Update row visual state
                         this.updateRowSelectionState(key, isNowSelected);
                         this.updateSelectAllCheckbox();
@@ -306,7 +310,7 @@
                     updateRowSelectionState(key, isSelected) {
                         const row = this.$el.querySelector(`tr[data-record-key="${key}"]`);
                         const checkbox = this.$el.querySelector(`.fi-ta-record-checkbox[value="${key}"]`);
-                        
+
                         if (row) {
                             if (isSelected) {
                                 row.classList.add('bg-primary-50', 'dark:bg-primary-500/10');
@@ -314,7 +318,7 @@
                                 row.classList.remove('bg-primary-50', 'dark:bg-primary-500/10');
                             }
                         }
-                        
+
                         if (checkbox) {
                             checkbox.checked = isSelected;
                         }
@@ -334,7 +338,7 @@
                                 }
                             });
                         }
-                        
+
                         // Update all row checkboxes
                         pageKeys.forEach(key => this.updateRowSelectionState(key, newState));
                         this.updateSelectAllCheckbox();
@@ -377,36 +381,24 @@
                     // Column visibility
                     toggleColumn(name, visible) {
                         this.visibleColumns[name] = visible;
-                        // Toggle column visibility in the table
-                        const columnIndex = this.getColumnIndex(name);
-                        if (columnIndex >= 0) {
-                            this.$el.querySelectorAll(`tr > *:nth-child(${columnIndex + 1})`).forEach(cell => {
-                                cell.style.display = visible ? '' : 'none';
-                            });
-                        }
-                    },
-
-                    getColumnIndex(name) {
-                        const columns = ['user', 'type', 'link', 'status', 'last_login'];
-                        const index = columns.indexOf(name);
-                        // Add 1 for checkbox column
-                        return index >= 0 ? index + 2 : -1;
+                        // Toggle column visibility using data-column attribute
+                        this.$el.querySelectorAll(`[data-column="${name}"]`).forEach(cell => {
+                            cell.style.display = visible ? '' : 'none';
+                        });
                     },
 
                     resetColumns() {
                         Object.keys(this.visibleColumns).forEach(key => {
                             this.visibleColumns[key] = true;
-                            const columnIndex = this.getColumnIndex(key);
-                            if (columnIndex >= 0) {
-                                this.$el.querySelectorAll(`tr > *:nth-child(${columnIndex + 1})`).forEach(cell => {
-                                    cell.style.display = '';
-                                });
-                            }
+                            this.$el.querySelectorAll(`[data-column="${key}"]`).forEach(cell => {
+                                cell.style.display = '';
+                            });
                         });
                         // Reset checkboxes in column manager
-                        this.$el.querySelectorAll('.fi-ta-col-manager-item input[type="checkbox"]').forEach(cb => {
-                            if (!cb.disabled) cb.checked = true;
-                        });
+                        this.$el.querySelectorAll('.fi-ta-col-manager-item input[type="checkbox"]').forEach(
+                            cb => {
+                                if (!cb.disabled) cb.checked = true;
+                            });
                     },
 
                     // Filters
