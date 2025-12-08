@@ -244,8 +244,8 @@
                     @endcan
 
                     @can('delete', $user)
-                        <form action="{{ route('users.destroy', $user) }}" method="POST" x-data
-                            @submit.prevent="if (confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')) $el.submit()">
+                        <form action="{{ route('users.destroy', $user) }}" method="POST"
+                            onsubmit="return confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')">
                             @csrf
                             @method('DELETE')
                             <x-spire::button type="submit" variant="danger" class="w-full">

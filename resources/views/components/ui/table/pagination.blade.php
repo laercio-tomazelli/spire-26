@@ -110,8 +110,7 @@
                 <li>
                     <button type="button"
                         class="fi-pagination-item-btn relative inline-flex items-center rounded-lg p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        @disabled($currentPage >= $lastPage)
-                        onclick="window.dispatchEvent(new CustomEvent('table-next-page'))">
+                        @disabled($currentPage >= $lastPage) onclick="window.dispatchEvent(new CustomEvent('table-next-page'))">
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"

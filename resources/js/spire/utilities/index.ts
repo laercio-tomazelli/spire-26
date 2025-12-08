@@ -8,3 +8,5 @@ export { mask, Mask } from './Mask';
 export { perf, Perf } from './Perf';
 export { a11y, A11y } from './A11y';
 export { debounce, throttle } from './timing';
+export { dom } from './Dom';
+export * from './Dom';

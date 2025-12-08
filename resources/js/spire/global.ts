@@ -5,11 +5,6 @@
  * It provides the init() function and all utilities.
  */
 
-// Alpine.js - for declarative UI components
-import Alpine from 'alpinejs';
-(window as unknown as { Alpine: typeof Alpine }).Alpine = Alpine;
-Alpine.start();
-
 import { SpireUIAPI, SpireUIInstance } from './types';
 import { instances, setGlobalErrorHandler } from './core';
 
@@ -59,6 +54,8 @@ import { mask } from './utilities/Mask';
 import { perf } from './utilities/Perf';
 import { a11y } from './utilities/A11y';
 import { debounce, throttle } from './utilities/timing';
+import { dom } from './utilities/Dom';
+import { FilamentTable } from './components/FilamentTable';
 
 // Component registry for data-v initialization
 const Components: Record<string, new (el: HTMLElement) => SpireUIInstance> = {
@@ -203,6 +200,8 @@ export const SpireUI: SpireUIAPI = {
   mask,
   perf,
   a11y,
+  dom,
+  FilamentTable,
   onError: setGlobalErrorHandler
 };
 

@@ -358,6 +358,68 @@ export interface A11yManager {
   skipLink(target: string, label?: string): void;
 }
 
+export interface DomManager {
+  show(el: HTMLElement | null): void;
+  hide(el: HTMLElement | null): void;
+  toggle(el: HTMLElement | null): void;
+  showIf(el: HTMLElement | null, condition: boolean): void;
+  on<K extends keyof HTMLElementEventMap>(
+    el: HTMLElement | null,
+    event: K,
+    handler: (event: HTMLElementEventMap[K]) => void
+  ): void;
+  onClick(el: HTMLElement | null, handler: (event: MouseEvent) => void): void;
+  onChange(el: HTMLElement | null, handler: (event: Event) => void): void;
+  onInput(el: HTMLElement | null, handler: (event: Event) => void): void;
+  debounce<T extends (...args: unknown[]) => void>(fn: T, delay: number): T;
+  createDropdown(trigger: HTMLElement, options?: { menu?: HTMLElement; closeOnClickOutside?: boolean }): { toggle: () => void; open: () => void; close: () => void };
+}
+
+export interface FilamentTableConfig {
+  url: string;
+  container: HTMLElement;
+  contentSelector?: string;
+  initialState?: Partial<FilamentTableState>;
+  csrfToken?: string;
+  onUpdate?: (state: FilamentTableState) => void;
+}
+
+export interface FilamentTableState {
+  search: string;
+  page: number;
+  perPage: number;
+  sortField: string;
+  sortDirection: 'asc' | 'desc';
+  filters: Record<string, string>;
+  selected: string[];
+  visibleColumns: Record<string, boolean>;
+  loading: boolean;
+}
+
+export interface FilamentTableConstructor {
+  new(config: FilamentTableConfig): FilamentTableInstance;
+}
+
+export interface FilamentTableInstance {
+  gotoPage(page: number): void;
+  previousPage(): void;
+  nextPage(): void;
+  changePerPage(value: number): void;
+  sort(field: string): void;
+  toggleSelection(key: string): void;
+  togglePageSelection(): void;
+  selectAll(): void;
+  deselectAll(): void;
+  toggleColumn(name: string, visible: boolean): void;
+  resetColumns(): void;
+  setFilter(key: string, value: string): void;
+  resetFilters(): void;
+  applyFilters(): Promise<void>;
+  getState(): FilamentTableState;
+  getSelected(): string[];
+  destroy(): void;
+}
+
 export type ErrorHandler = (error: Error, context?: { component?: string; element?: HTMLElement }) => void;
 
 export interface CarouselInstance extends SpireUIInstance {
@@ -420,6 +482,8 @@ export interface SpireUIAPI {
   mask: MaskManager;
   perf: PerfManager;
   a11y: A11yManager;
+  dom: DomManager;
+  FilamentTable: FilamentTableConstructor;
   onError(handler: ErrorHandler): void;
 }
 

@@ -163,8 +163,92 @@ php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServicePr
 php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServiceProvider" --tag=spire-ui-views --force
 ```
 
+### Arquitetura Frontend - Sem Alpine.js/Livewire
+
+> ⚠️ **IMPORTANTE**: Este projeto **NÃO usa Alpine.js nem Livewire**. Toda interatividade frontend deve ser implementada com **TypeScript vanilla** usando os utilitários do spire-ui.
+
+#### Por que não usar Alpine.js/Livewire?
+
+1. **Problemas de timing**: Alpine precisa de contexto de inicialização que se perde em conteúdo AJAX
+2. **Workarounds constantes**: Soluções como `Alpine.initTree()` são frágeis e adicionam complexidade
+3. **Conflito com spire-ui**: A biblioteca spire-ui foi criada justamente para evitar essas dependências
+4. **Duplicação de funcionalidade**: Alpine duplica o que já existe nos utilitários TypeScript do spire-ui
+
+#### Utilitários Disponíveis
+
+```typescript
+// Acesso global via window.Spire
+Spire.dom.show(element); // Mostra elemento (remove classe 'hidden')
+Spire.dom.hide(element); // Esconde elemento (adiciona classe 'hidden')
+Spire.dom.toggle(element); // Alterna visibilidade
+Spire.dom.showIf(element, cond); // Mostra condicionalmente
+Spire.dom.on(el, "click", handler); // Adiciona event listener
+Spire.dom.onClick(el, handler); // Atalho para click
+Spire.dom.onChange(el, handler); // Atalho para change
+Spire.dom.debounce(fn, delay); // Debounce de função
+Spire.dom.createDropdown(trigger, opts); // Cria dropdown vanilla JS
+
+// EventBus para comunicação entre componentes
+Spire.events.emit("table:refresh", { filters });
+Spire.events.on("table:refresh", (data) => {
+    /* ... */
+});
+
+// HTTP para chamadas AJAX
+Spire.http.get("/api/users", { search: "term" });
+Spire.http.post("/api/users", userData);
+```
+
+#### Padrões de Implementação
+
+**Em vez de Alpine x-data/x-show:**
+
+```blade
+{{-- ❌ Errado (Alpine) --}}
+<div x-data="{ open: false }">
+    <button @click="open = !open">Toggle</button>
+    <div x-show="open">Content</div>
+</div>
+
+{{-- ✅ Correto (Vanilla JS) --}}
+<div>
+    <button onclick="Spire.dom.toggle(document.getElementById('content'))">Toggle</button>
+    <div id="content" class="hidden">Content</div>
+</div>
+```
+
+**Em vez de Alpine @click/$dispatch:**
+
+```blade
+{{-- ❌ Errado (Alpine) --}}
+<button @click="$dispatch('table-search', { term: $el.value })">
+
+{{-- ✅ Correto (Vanilla JS) --}}
+<button onclick="window.dispatchEvent(new CustomEvent('table-search', { detail: { term: this.value }}))">
+```
+
+**Para dropdowns:**
+
+```blade
+{{-- Usar data-v="dropdown" do spire-ui --}}
+<div data-v="dropdown">
+    <button data-dropdown-trigger>Menu</button>
+    <div data-dropdown-menu class="hidden">
+        <a href="#">Item 1</a>
+    </div>
+</div>
+```
+
+#### Componentes TypeScript do Projeto
+
+Além do spire-ui, o projeto tem componentes específicos em `resources/js/spire/components/`:
+
+-   **FilamentTable.ts** - Tabela estilo Filament com AJAX, filtros, ordenação, seleção
+
 ### O que NÃO fazer no Frontend
 
+-   ❌ **Não usar Alpine.js** - Não adicionar `alpinejs` ao projeto, não usar x-data, x-show, x-model, @click etc.
+-   ❌ **Não usar Livewire** - Não adicionar Livewire ao projeto
 -   ❌ Não usar JavaScript puro quando TypeScript é possível
 -   ❌ Não criar componentes diretamente no projeto (criar no spire-ui)
 -   ❌ Não usar estilos inline (`style="..."`)
@@ -358,12 +442,15 @@ it('creates a service order for a partner', function (): void {
 
 ### Frontend
 
+-   ❌ **Não usar Alpine.js** - Não adicionar `alpinejs` ao projeto, não usar x-data, x-show, x-model, @click etc.
+-   ❌ **Não usar Livewire** - Não adicionar Livewire ao projeto
 -   ❌ Não usar JavaScript puro quando TypeScript é possível
 -   ❌ Não criar componentes UI diretamente no projeto (criar no spire-ui-package)
 -   ❌ Não usar estilos inline (`style="..."`)
 -   ❌ Não criar classes CSS comuns (usar Tailwind)
 -   ❌ Não usar jQuery ou bibliotecas externas sem necessidade
 -   ❌ Não duplicar funcionalidade que já existe no spire-ui
+-   ❌ Não usar `$dispatch`, `$refs`, `$el` ou qualquer sintaxe Alpine
 
 ## Arquivos Importantes
 

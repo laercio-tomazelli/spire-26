@@ -27,8 +27,7 @@
         </x-spire::button>
     </x-slot:headerActions>
 
-    <form action="{{ route('users.update', $user) }}" method="POST" x-data="userForm()"
-        @select-change.window="handleUserTypeChange($event)">
+    <form action="{{ route('users.update', $user) }}" method="POST" id="user-form">
         @csrf
         @method('PUT')
 
@@ -77,12 +76,16 @@
                 </x-spire::card>
 
                 {{-- Vínculo (condicional) --}}
-                <x-spire::card x-show="showPartnerField || showManufacturerField || showTenantField" x-cloak>
+                @php
+                    $initialUserType = old('user_type', $user->user_type->value);
+                    $showVinculo = in_array($initialUserType, ['partner', 'manufacturer', 'spire_client']);
+                @endphp
+                <x-spire::card id="vinculo-card" class="{{ $showVinculo ? '' : 'hidden' }}">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Vínculo</h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {{-- Partner Select --}}
-                        <div x-show="showPartnerField">
+                        <div id="partner-field" class="{{ $initialUserType === 'partner' ? '' : 'hidden' }}">
                             <x-spire::select name="partner_id" label="Posto Autorizado" placeholder="Selecione o posto"
                                 :value="old('partner_id', $user->partner_id)" :options="$partners
                                     ->map(
@@ -108,7 +111,7 @@
                         </div>
 
                         {{-- Manufacturer Select --}}
-                        <div x-show="showManufacturerField">
+                        <div id="manufacturer-field" class="{{ $initialUserType === 'manufacturer' ? '' : 'hidden' }}">
                             <x-spire::select name="manufacturer_id" label="Fabricante"
                                 placeholder="Selecione o fabricante" :value="old('manufacturer_id', $user->manufacturer_id)" :options="$manufacturers
                                     ->map(fn($m) => ['value' => (string) $m->id, 'label' => $m->name])
@@ -119,7 +122,7 @@
                         </div>
 
                         {{-- Tenant Select --}}
-                        <div x-show="showTenantField">
+                        <div id="tenant-field" class="{{ $initialUserType === 'spire_client' ? '' : 'hidden' }}">
                             <x-spire::select name="tenant_id" label="Tenant" placeholder="Selecione o tenant"
                                 :value="old('tenant_id', $user->tenant_id)" :options="$tenants
                                     ->map(fn($t) => ['value' => (string) $t->id, 'label' => $t->name])
@@ -140,7 +143,7 @@
 
                     <div class="space-y-4">
                         <x-spire::select name="user_type" label="Tipo de Usuário" placeholder="Selecione o tipo"
-                            :value="old('user_type', $user->user_type->value)" :options="$userTypes" x-model="userType" />
+                            :value="old('user_type', $user->user_type->value)" :options="$userTypes" />
                         @error('user_type')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
@@ -207,29 +210,38 @@
 
     @push('scripts')
         <script>
-            function userForm() {
-                return {
-                    userType: '{{ old('user_type', $user->user_type->value) }}',
+            document.addEventListener('DOMContentLoaded', () => {
+                const vinculoCard = document.getElementById('vinculo-card');
+                const partnerField = document.getElementById('partner-field');
+                const manufacturerField = document.getElementById('manufacturer-field');
+                const tenantField = document.getElementById('tenant-field');
 
-                    handleUserTypeChange(event) {
-                        if (event.detail.name === 'user_type') {
-                            this.userType = event.detail.value;
-                        }
-                    },
+                const updateVinculoVisibility = (userType) => {
+                    // Hide all first
+                    partnerField.classList.add('hidden');
+                    manufacturerField.classList.add('hidden');
+                    tenantField.classList.add('hidden');
 
-                    get showPartnerField() {
-                        return this.userType === 'partner';
-                    },
+                    // Show based on type
+                    const showCard = ['partner', 'manufacturer', 'spire_client'].includes(userType);
+                    vinculoCard.classList.toggle('hidden', !showCard);
 
-                    get showManufacturerField() {
-                        return this.userType === 'manufacturer';
-                    },
-
-                    get showTenantField() {
-                        return this.userType === 'spire_client';
+                    if (userType === 'partner') {
+                        partnerField.classList.remove('hidden');
+                    } else if (userType === 'manufacturer') {
+                        manufacturerField.classList.remove('hidden');
+                    } else if (userType === 'spire_client') {
+                        tenantField.classList.remove('hidden');
                     }
-                }
-            }
+                };
+
+                // Listen for select changes
+                window.addEventListener('select-change', (e) => {
+                    if (e.detail?.name === 'user_type') {
+                        updateVinculoVisibility(e.detail.value);
+                    }
+                });
+            });
         </script>
     @endpush
 </x-layouts.module>
