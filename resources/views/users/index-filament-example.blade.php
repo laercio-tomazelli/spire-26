@@ -39,13 +39,16 @@
             <x-slot:header>
                 {{-- Status Tabs (como no Filament) --}}
                 <x-ui.table.tabs>
-                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: '' })">
+                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()"
+                        x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: '' })">
                         Todos
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'active' })">
+                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null"
+                        x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'active' })">
                         Ativos
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null" x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'inactive' })">
+                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null"
+                        x-on:click="Spire.events.emit('table:filter-change', { key: 'status', value: 'inactive' })">
                         Inativos
                     </x-ui.table.tab>
                 </x-ui.table.tabs>
@@ -237,7 +240,7 @@
                     init() {
                         // Watch search changes
                         this.$watch('search', () => this.applyFilters());
-                        
+
                         // Subscribe to EventBus events
                         const events = window.Spire?.events;
                         if (events) {
@@ -246,18 +249,25 @@
                                 events.on('table:previous-page', () => this.previousPage()),
                                 events.on('table:next-page', () => this.nextPage()),
                                 events.on('table:per-page', (value) => this.changePerPage(value)),
-                                events.on('table:toggle-page-selection', () => this.togglePageSelection()),
+                                events.on('table:toggle-page-selection', () => this
+                                .togglePageSelection()),
                                 events.on('table:toggle-selection', (key) => this.toggleSelection(key)),
                                 events.on('table:sort', (field) => this.sort(field)),
                                 events.on('table:apply-filters', () => this.applyFilters()),
-                                events.on('table:filter-change', ({key, value}) => this.setFilter(key, value)),
-                                events.on('table:toggle-column', ({name, visible}) => this.toggleColumn(name, visible)),
+                                events.on('table:filter-change', ({
+                                    key,
+                                    value
+                                }) => this.setFilter(key, value)),
+                                events.on('table:toggle-column', ({
+                                    name,
+                                    visible
+                                }) => this.toggleColumn(name, visible)),
                                 events.on('table:reset-columns', () => this.resetColumns()),
                                 events.on('table:reset-filters', () => this.resetFilters()),
                             ];
                         }
                     },
-                    
+
                     // Cleanup
                     destroy() {
                         this._unsubscribers.forEach(unsub => unsub?.());

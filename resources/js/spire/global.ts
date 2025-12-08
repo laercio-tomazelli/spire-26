@@ -255,7 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Expose globally
-(window as unknown as { $v: typeof SpireUI; SpireUI: typeof SpireUI }).$v = SpireUI;
+(window as unknown as { $v: typeof SpireUI; SpireUI: typeof SpireUI; Spire: typeof SpireUI }).$v = SpireUI;
 (window as unknown as { SpireUI: typeof SpireUI }).SpireUI = SpireUI;
+(window as unknown as { Spire: typeof SpireUI }).Spire = SpireUI;
 
 export default SpireUI;
