@@ -70,17 +70,17 @@
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de
                                     Usuário</label>
                                 <x-spire::select name="user_type" placeholder="Todos" :options="$userTypes"
-                                    x-model="filters.user_type" x-on:change="applyFilters()" />
+                                    x-model="filters.user_type" x-on:change="$dispatch('table-apply-filters')" />
                             </div>
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                                 <x-spire::select name="is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
-                                    x-model="filters.is_active" x-on:change="applyFilters()" />
+                                    x-model="filters.is_active" x-on:change="$dispatch('table-apply-filters')" />
                             </div>
 
                             <x-slot:footer>
-                                <x-spire::button class="w-full" x-on:click="applyFilters()">
+                                <x-spire::button class="w-full" x-on:click="$dispatch('table-apply-filters')">
                                     Aplicar filtros
                                 </x-spire::button>
                             </x-slot:footer>
@@ -235,7 +235,7 @@
                         // Watch search changes
                         this.$watch('search', () => this.applyFilters());
 
-                        // Listen to pagination events (using event delegation)
+                        // Listen to table events (using event delegation)
                         this.$el.addEventListener('table-goto-page', (e) => this.gotoPage(e.detail.page));
                         this.$el.addEventListener('table-previous-page', () => this.previousPage());
                         this.$el.addEventListener('table-next-page', () => this.nextPage());
@@ -246,6 +246,7 @@
                         this.$el.addEventListener('table-toggle-selection', (e) => this.toggleSelection(e
                             .detail.key));
                         this.$el.addEventListener('table-sort', (e) => this.sort(e.detail.field));
+                        this.$el.addEventListener('table-apply-filters', () => this.applyFilters());
                         this.$el.addEventListener('toggle-column', (e) => this.toggleColumn(e.detail.name, e
                             .detail.visible));
                         this.$el.addEventListener('reset-columns', () => this.resetColumns());
