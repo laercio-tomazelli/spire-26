@@ -460,7 +460,10 @@
                             if (response.ok) {
                                 const html = await response.text();
                                 // Update table content
-                                this.$el.querySelector('.fi-ta-content').innerHTML = html;
+                                const container = this.$el.querySelector('.fi-ta-content');
+                                container.innerHTML = html;
+                                // Re-initialize Alpine components in the new content
+                                Alpine.initTree(container);
                             }
                         } catch (error) {
                             console.error('Filter error:', error);

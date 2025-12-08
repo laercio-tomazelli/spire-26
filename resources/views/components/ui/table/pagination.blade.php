@@ -18,8 +18,7 @@
     'class' =>
         'fi-ta-pagination flex items-center justify-between gap-x-4 border-t border-gray-200 px-4 py-3 dark:border-white/10 sm:px-6',
 ]) }}
-    aria-label="Pagination"
-    x-data>
+    aria-label="Pagination" x-data>
     {{-- Info --}}
     @if ($showInfo && $paginator)
         <span class="fi-pagination-overview hidden text-sm text-gray-700 dark:text-gray-400 sm:block">

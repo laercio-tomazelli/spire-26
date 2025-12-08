@@ -16,8 +16,7 @@
         ($clickable || $href ? ' cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5' : '') .
         ' group',
 ]) }}
-    data-record-key="{{ $key }}"
-    x-data>
+    data-record-key="{{ $key }}" x-data>
     @if ($selectable)
         <td class="fi-ta-cell fi-ta-selection-cell w-4 px-3 py-4">
             <input type="checkbox" value="{{ $key }}"
