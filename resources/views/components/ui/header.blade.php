@@ -27,9 +27,9 @@
         <div class="flex items-center gap-3 min-w-0">
             {{-- Icon --}}
             @if($icon)
-                <span class="text-2xl flex-shrink-0">{{ $icon }}</span>
+                <span class="text-2xl shrink-0">{{ $icon }}</span>
             @elseif(isset($iconSlot))
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                     {{ $iconSlot }}
                 </div>
             @endif
@@ -56,7 +56,7 @@
 
         {{-- Right: Actions --}}
         @if($slot->isNotEmpty() || isset($actions))
-            <div class="flex items-center gap-3 flex-shrink-0">
+            <div class="flex items-center gap-3 shrink-0">
                 @isset($actions)
                     {{ $actions }}
                 @else

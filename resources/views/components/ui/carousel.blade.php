@@ -71,7 +71,7 @@
                 
                 {{-- Overlay --}}
                 @if($overlay)
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
                 @endif
                 
                 {{-- Caption --}}
@@ -143,7 +143,7 @@
                     <button
                         data-carousel-indicator
                         type="button"
-                        class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border-2 transition-all duration-300 hover:scale-105 focus:outline-none {{ $index === 0 ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100' }}"
+                        class="shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border-2 transition-all duration-300 hover:scale-105 focus:outline-none {{ $index === 0 ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100' }}"
                         aria-label="Go to slide {{ $index + 1 }}"
                     >
                         <img src="{{ $src }}" alt="{{ $alt }}" class="w-full h-full object-cover">

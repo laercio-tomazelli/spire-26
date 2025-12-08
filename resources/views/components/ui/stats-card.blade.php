@@ -52,7 +52,7 @@
 
 @if($variant === 'gradient')
     {{-- Gradient Variant --}}
-    <div {{ $attributes->merge(['class' => "relative overflow-hidden rounded-2xl bg-gradient-to-br {$gradientColors} p-6 text-white shadow-xl"]) }}>
+    <div {{ $attributes->merge(['class' => "relative overflow-hidden rounded-2xl bg-linear-to-br {$gradientColors} p-6 text-white shadow-xl"]) }}>
         {{-- Background Pattern --}}
         <div class="absolute inset-0 opacity-10">
             <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">

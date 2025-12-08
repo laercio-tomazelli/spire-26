@@ -71,7 +71,7 @@
             @if($actionLabel || $secondaryLabel)
                 <div class="mt-6 flex items-center justify-center gap-3">
                     @if($actionLabel)
-                        <a href="{{ $actionUrl ?? '#' }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
+                        <a href="{{ $actionUrl ?? '#' }}" class="inline-flex items-center px-4 py-2 bg-linear-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
                             {{ $actionLabel }}
                         </a>
                     @endif
@@ -106,7 +106,7 @@
             @if($actionLabel || $secondaryLabel)
                 <div class="mt-6 flex items-center justify-center gap-3">
                     @if($actionLabel)
-                        <a href="{{ $actionUrl ?? '#' }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
+                        <a href="{{ $actionUrl ?? '#' }}" class="inline-flex items-center px-4 py-2 bg-linear-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
                             {{ $actionLabel }}
                         </a>
                     @endif

@@ -16,7 +16,7 @@
         'success' => 'bg-green-600 text-white',
         'warning' => 'bg-yellow-500 text-white',
         'danger' => 'bg-red-600 text-white',
-        'announcement' => 'bg-gradient-to-r from-purple-600 to-pink-600 text-white',
+        'announcement' => 'bg-linear-to-r from-purple-600 to-pink-600 text-white',
     ];
 
     $icons = [
@@ -52,7 +52,7 @@
             <div class="flex items-center gap-3 {{ $center ? 'flex-1 sm:flex-none' : 'flex-1' }}">
                 {{-- Icon --}}
                 @if($icon)
-                    <span class="flex-shrink-0 opacity-90">
+                    <span class="shrink-0 opacity-90">
                         {!! $iconSvg !!}
                     </span>
                 @endif
@@ -65,7 +65,7 @@
 
             {{-- Action Button --}}
             @isset($action)
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                     {{ $action }}
                 </div>
             @endisset
@@ -74,7 +74,7 @@
             @if($dismissible)
                 <button 
                     type="button"
-                    class="flex-shrink-0 p-1.5 rounded-lg transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    class="shrink-0 p-1.5 rounded-lg transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
                     @if($persist)
                         @click="localStorage.setItem('banner-{{ $bannerId }}-dismissed', 'true'); show = false"
                     @else

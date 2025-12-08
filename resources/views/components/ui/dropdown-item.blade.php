@@ -35,7 +35,7 @@
     @endif
 >
     @if($icon)
-        <span class="flex-shrink-0 w-5 h-5">{!! $icon !!}</span>
+        <span class="shrink-0 w-5 h-5">{!! $icon !!}</span>
     @endif
     <span class="flex-1 text-left">{{ $slot }}</span>
     @if($active)

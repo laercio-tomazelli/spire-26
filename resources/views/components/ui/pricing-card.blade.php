@@ -49,12 +49,12 @@
 
 @if($variant === 'gradient')
     {{-- Gradient Variant --}}
-    <div {{ $attributes->merge(['class' => "relative overflow-hidden rounded-2xl bg-gradient-to-br {$gradientColors} p-[2px]"]) }}>
+    <div {{ $attributes->merge(['class' => "relative overflow-hidden rounded-2xl bg-linear-to-br {$gradientColors} p-[2px]"]) }}>
         <div class="relative h-full rounded-[14px] bg-white dark:bg-gray-900 p-6">
             {{-- Popular Badge --}}
             @if($popular)
                 <div class="absolute -top-px left-1/2 -translate-x-1/2">
-                    <div class="px-3 py-1 text-xs font-bold text-white bg-gradient-to-r {{ $gradientColors }} rounded-b-lg">
+                    <div class="px-3 py-1 text-xs font-bold text-white bg-linear-to-r {{ $gradientColors }} rounded-b-lg">
                         MAIS POPULAR
                     </div>
                 </div>
@@ -71,13 +71,13 @@
             {{-- Price --}}
             <div class="mt-6 text-center">
                 @if($discount)
-                    <span class="inline-block px-2 py-0.5 mb-2 text-xs font-bold text-white bg-gradient-to-r {{ $gradientColors }} rounded-full">
+                    <span class="inline-block px-2 py-0.5 mb-2 text-xs font-bold text-white bg-linear-to-r {{ $gradientColors }} rounded-full">
                         {{ $discount }}
                     </span>
                 @endif
                 <div class="flex items-baseline justify-center gap-1">
                     <span class="text-lg font-medium text-gray-500 dark:text-gray-400">{{ $currency }}</span>
-                    <span class="text-5xl font-extrabold bg-gradient-to-r {{ $gradientColors }} bg-clip-text text-transparent">{{ $price }}</span>
+                    <span class="text-5xl font-extrabold bg-linear-to-r {{ $gradientColors }} bg-clip-text text-transparent">{{ $price }}</span>
                     <span class="text-gray-500 dark:text-gray-400">{{ $period }}</span>
                 </div>
                 @if($originalPrice)
@@ -95,11 +95,11 @@
                     @endphp
                     <li class="flex items-start gap-3 {{ !$included ? 'opacity-50' : '' }}">
                         @if($included)
-                            <svg class="w-5 h-5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                         @else
-                            <svg class="w-5 h-5 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         @endif
@@ -112,7 +112,7 @@
 
             {{-- CTA --}}
             <div class="mt-8">
-                <a href="{{ $ctaUrl }}" class="block w-full py-3 px-4 text-center font-semibold text-white bg-gradient-to-r {{ $buttonColors }} rounded-xl shadow-lg hover:shadow-xl transition-all">
+                <a href="{{ $ctaUrl }}" class="block w-full py-3 px-4 text-center font-semibold text-white bg-linear-to-r {{ $buttonColors }} rounded-xl shadow-lg hover:shadow-xl transition-all">
                     {{ $ctaLabel }}
                 </a>
             </div>
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="mt-4 flex items-center gap-4">
-            <a href="{{ $ctaUrl }}" class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r {{ $buttonColors }} rounded-lg">
+            <a href="{{ $ctaUrl }}" class="px-4 py-2 text-sm font-medium text-white bg-linear-to-r {{ $buttonColors }} rounded-lg">
                 {{ $ctaLabel }}
             </a>
             <span class="text-sm text-gray-500 dark:text-gray-400">
@@ -155,7 +155,7 @@
         {{-- Popular Badge --}}
         @if($popular)
             <div class="absolute -top-4 left-1/2 -translate-x-1/2">
-                <span class="px-4 py-1 text-sm font-bold text-white bg-gradient-to-r {{ $gradientColors }} rounded-full shadow-lg">
+                <span class="px-4 py-1 text-sm font-bold text-white bg-linear-to-r {{ $gradientColors }} rounded-full shadow-lg">
                     MAIS POPULAR
                 </span>
             </div>
@@ -173,7 +173,7 @@
             {{-- Price --}}
             <div class="mt-6 text-center">
                 @if($discount)
-                    <span class="inline-block px-2 py-0.5 mb-2 text-xs font-bold text-white bg-gradient-to-r {{ $gradientColors }} rounded-full">
+                    <span class="inline-block px-2 py-0.5 mb-2 text-xs font-bold text-white bg-linear-to-r {{ $gradientColors }} rounded-full">
                         {{ $discount }}
                     </span>
                 @endif
@@ -197,11 +197,11 @@
                     @endphp
                     <li class="flex items-start gap-3 {{ !$included ? 'opacity-50' : '' }}">
                         @if($included)
-                            <svg class="w-5 h-5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                         @else
-                            <svg class="w-5 h-5 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         @endif
@@ -214,7 +214,7 @@
 
             {{-- CTA --}}
             <div class="mt-8">
-                <a href="{{ $ctaUrl }}" class="block w-full py-3 px-4 text-center font-semibold text-white bg-gradient-to-r {{ $buttonColors }} rounded-xl shadow-lg hover:shadow-xl transition-all">
+                <a href="{{ $ctaUrl }}" class="block w-full py-3 px-4 text-center font-semibold text-white bg-linear-to-r {{ $buttonColors }} rounded-xl shadow-lg hover:shadow-xl transition-all">
                     {{ $ctaLabel }}
                 </a>
             </div>

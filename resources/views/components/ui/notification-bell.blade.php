@@ -84,13 +84,13 @@
                     >
                         {{-- Icon/Avatar --}}
                         @if(isset($notification['avatar']))
-                            <img src="{{ $notification['avatar'] }}" alt="" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
+                            <img src="{{ $notification['avatar'] }}" alt="" class="w-10 h-10 rounded-full object-cover shrink-0">
                         @elseif(isset($notification['icon']))
-                            <div class="w-10 h-10 rounded-full bg-{{ $notification['iconColor'] ?? 'gray' }}-100 dark:bg-{{ $notification['iconColor'] ?? 'gray' }}-900/30 flex items-center justify-center flex-shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-{{ $notification['iconColor'] ?? 'gray' }}-100 dark:bg-{{ $notification['iconColor'] ?? 'gray' }}-900/30 flex items-center justify-center shrink-0">
                                 <x-ui.icon :name="$notification['icon']" class="text-{{ $notification['iconColor'] ?? 'gray' }}-500" />
                             </div>
                         @else
-                            <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0">
                                 <x-ui.icon name="bell" class="text-gray-500" />
                             </div>
                         @endif
@@ -114,7 +114,7 @@
 
                         {{-- Unread indicator --}}
                         @if(!($notification['read'] ?? false))
-                            <span class="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0 mt-2"></span>
+                            <span class="w-2 h-2 rounded-full bg-primary-500 shrink-0 mt-2"></span>
                         @endif
                     </a>
                 @empty

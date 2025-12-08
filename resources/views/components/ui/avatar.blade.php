@@ -92,7 +92,7 @@
     $bgColor = $bgColors[$bgColorIndex];
 @endphp
 
-<div {{ $attributes->merge(['class' => "relative inline-flex flex-shrink-0 {$sizeClass}"]) }}>
+<div {{ $attributes->merge(['class' => "relative inline-flex shrink-0 {$sizeClass}"]) }}>
     @if($src)
         {{-- Imagem --}}
         <img 

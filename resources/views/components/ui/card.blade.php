@@ -79,7 +79,7 @@
             </div>
 
             {{-- Badges & Actions --}}
-            <div class="flex items-center gap-3 flex-shrink-0">
+            <div class="flex items-center gap-3 shrink-0">
                 @isset($badges)
                     <div class="flex items-center gap-2">
                         {{ $badges }}

@@ -120,7 +120,7 @@
             @endphp
             <div class="relative flex items-start mb-8 last:mb-0">
                 {{-- Dot/Icon --}}
-                <div class="{{ $iconSizes }} rounded-full {{ $dotColor }} flex items-center justify-center text-white shadow-lg z-10 flex-shrink-0">
+                <div class="{{ $iconSizes }} rounded-full {{ $dotColor }} flex items-center justify-center text-white shadow-lg z-10 shrink-0">
                     @if(isset($item['icon']))
                         <x-ui.icon :name="$item['icon']" size="sm" />
                     @else

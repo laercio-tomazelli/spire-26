@@ -24,7 +24,7 @@
         'yellow' => 'bg-yellow-500',
         'purple' => 'bg-purple-600',
         'pink' => 'bg-pink-600',
-        'gradient' => 'bg-gradient-to-r from-blue-600 to-purple-600',
+        'gradient' => 'bg-linear-to-r from-blue-600 to-purple-600',
     ];
     
     $percent = min(100, max(0, ($value / $max) * 100));

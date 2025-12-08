@@ -1174,7 +1174,7 @@
                                 {{-- Sidebar Header with Logo --}}
                                 <div class="sidebar-header flex items-center justify-between h-12 px-2 border-b border-gray-200 dark:border-gray-700 shrink-0">
                                     <div class="flex items-center gap-2 overflow-hidden sidebar-logo-full transition-all duration-300">
-                                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shrink-0">
+                                        <div class="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shrink-0">
                                             S
                                         </div>
                                         <span class="sidebar-item-text font-semibold text-gray-800 dark:text-gray-200 whitespace-nowrap text-sm">
@@ -1277,7 +1277,7 @@
                                     {{-- Área 1: Logo (aparece quando sidebar collapsed) --}}
                                     <div class="flex items-center">
                                         <div data-navbar-logo class="flex items-center gap-2 transition-all duration-300 opacity-0 w-0 overflow-hidden">
-                                            <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shrink-0">
+                                            <div class="w-7 h-7 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shrink-0">
                                                 S
                                             </div>
                                             <span class="font-semibold text-gray-800 dark:text-gray-200 whitespace-nowrap text-sm">
@@ -3114,7 +3114,7 @@
                     message: 'Esta ação não pode ser desfeita. Deseja continuar?',
                     confirmText: 'Sim, excluir',
                     cancelText: 'Cancelar',
-                    confirmClass: 'bg-gradient-to-r from-red-500 to-red-600'
+                    confirmClass: 'bg-linear-to-r from-red-500 to-red-600'
                 });
                 
                 if (confirmed) {
@@ -3174,7 +3174,7 @@
                     message: 'Você tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.',
                     confirmText: 'Excluir',
                     cancelText: 'Cancelar',
-                    confirmClass: 'bg-gradient-to-r from-red-500 to-red-600'
+                    confirmClass: 'bg-linear-to-r from-red-500 to-red-600'
                 });
 
                 if (confirmed) {
