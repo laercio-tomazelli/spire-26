@@ -6,6 +6,7 @@ declare(strict_types=1);
 // Estes testes foram removidos pois a funcionalidade foi desativada intencionalmente
 
 test('registration route is disabled', function (): void {
+    /** @var \Tests\TestCase $this */
     $response = $this->get('/register');
 
     $response->assertStatus(404);
