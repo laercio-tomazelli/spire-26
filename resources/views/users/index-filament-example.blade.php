@@ -32,19 +32,15 @@
     @endif
 
     {{-- Alpine Container for Table --}}
-    <div x-data="filamentTable()" 
-         x-on:table-goto-page.window="gotoPage($event.detail.page)"
-         x-on:table-previous-page.window="previousPage()"
-         x-on:table-next-page.window="nextPage()"
-         x-on:table-per-page.window="changePerPage($event.detail.value)"
-         x-on:table-toggle-page-selection.window="togglePageSelection()"
-         x-on:table-toggle-selection.window="toggleSelection($event.detail.key)"
-         x-on:table-sort.window="sort($event.detail.field)"
-         x-on:table-apply-filters.window="applyFilters()"
-         x-on:table-filter-change.window="setFilter($event.detail.key, $event.detail.value)"
-         x-on:table-toggle-column.window="toggleColumn($event.detail.name, $event.detail.visible)"
-         x-on:table-reset-columns.window="resetColumns()"
-         x-on:table-reset-filters.window="resetFilters()">
+    <div x-data="filamentTable()" x-on:table-goto-page.window="gotoPage($event.detail.page)"
+        x-on:table-previous-page.window="previousPage()" x-on:table-next-page.window="nextPage()"
+        x-on:table-per-page.window="changePerPage($event.detail.value)"
+        x-on:table-toggle-page-selection.window="togglePageSelection()"
+        x-on:table-toggle-selection.window="toggleSelection($event.detail.key)"
+        x-on:table-sort.window="sort($event.detail.field)" x-on:table-apply-filters.window="applyFilters()"
+        x-on:table-filter-change.window="setFilter($event.detail.key, $event.detail.value)"
+        x-on:table-toggle-column.window="toggleColumn($event.detail.name, $event.detail.visible)"
+        x-on:table-reset-columns.window="resetColumns()" x-on:table-reset-filters.window="resetFilters()">
         {{-- Filament-style Table --}}
         <x-ui.table>
             {{-- Table Header with Search, Filters, etc --}}

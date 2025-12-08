@@ -2,7 +2,7 @@
     'selectable' => false,
 ])
 
-<thead class="bg-gray-50 dark:bg-white/5">
+<thead class="bg-gray-50 dark:bg-white/5" x-data>
     <tr class="border-b border-gray-200 dark:border-white/10">
         @if ($selectable)
             <th class="fi-ta-header-cell fi-ta-selection-cell w-4 px-3 py-3.5">
