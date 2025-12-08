@@ -213,6 +213,13 @@
                         is_active: '{{ request('is_active', '') }}',
                         status: '{{ request('status', '') }}'
                     },
+                    visibleColumns: {
+                        user: true,
+                        type: true,
+                        link: true,
+                        status: true,
+                        last_login: true
+                    },
 
                     // Computed
                     get selectedCount() {
@@ -227,6 +234,18 @@
                     init() {
                         // Watch search changes
                         this.$watch('search', () => this.applyFilters());
+
+                        // Listen to pagination events (using event delegation)
+                        this.$el.addEventListener('table-goto-page', (e) => this.gotoPage(e.detail.page));
+                        this.$el.addEventListener('table-previous-page', () => this.previousPage());
+                        this.$el.addEventListener('table-next-page', () => this.nextPage());
+                        this.$el.addEventListener('table-per-page', (e) => this.changePerPage(e.detail.value));
+                        this.$el.addEventListener('table-toggle-page-selection', () => this.togglePageSelection());
+                        this.$el.addEventListener('table-toggle-selection', (e) => this.toggleSelection(e.detail.key));
+                        this.$el.addEventListener('table-sort', (e) => this.sort(e.detail.field));
+                        this.$el.addEventListener('toggle-column', (e) => this.toggleColumn(e.detail.name, e.detail.visible));
+                        this.$el.addEventListener('reset-columns', () => this.resetColumns());
+                        this.$el.addEventListener('reset-filters', () => this.resetFilters());
                     },
 
                     // Sorting
@@ -271,16 +290,40 @@
 
                     toggleSelection(key) {
                         const index = this.selected.indexOf(key);
-                        if (index === -1) {
+                        const isNowSelected = index === -1;
+                        
+                        if (isNowSelected) {
                             this.selected.push(key);
                         } else {
                             this.selected.splice(index, 1);
+                        }
+                        
+                        // Update row visual state
+                        this.updateRowSelectionState(key, isNowSelected);
+                        this.updateSelectAllCheckbox();
+                    },
+
+                    updateRowSelectionState(key, isSelected) {
+                        const row = this.$el.querySelector(`tr[data-record-key="${key}"]`);
+                        const checkbox = this.$el.querySelector(`.fi-ta-record-checkbox[value="${key}"]`);
+                        
+                        if (row) {
+                            if (isSelected) {
+                                row.classList.add('bg-primary-50', 'dark:bg-primary-500/10');
+                            } else {
+                                row.classList.remove('bg-primary-50', 'dark:bg-primary-500/10');
+                            }
+                        }
+                        
+                        if (checkbox) {
+                            checkbox.checked = isSelected;
                         }
                     },
 
                     togglePageSelection() {
                         const pageKeys = this.getPageKeys();
                         const allSelected = pageKeys.every(key => this.selected.includes(key));
+                        const newState = !allSelected;
 
                         if (allSelected) {
                             this.selected = this.selected.filter(key => !pageKeys.includes(key));
@@ -290,6 +333,18 @@
                                     this.selected.push(key);
                                 }
                             });
+                        }
+                        
+                        // Update all row checkboxes
+                        pageKeys.forEach(key => this.updateRowSelectionState(key, newState));
+                        this.updateSelectAllCheckbox();
+                    },
+
+                    updateSelectAllCheckbox() {
+                        const checkbox = this.$el.querySelector('.fi-ta-select-all');
+                        if (checkbox) {
+                            checkbox.checked = this.isPageSelected();
+                            checkbox.indeterminate = this.isPagePartiallySelected();
                         }
                     },
 
@@ -316,9 +371,59 @@
 
                     deselectAll() {
                         this.selected = [];
+                        this.updateSelectAllCheckbox();
+                    },
+
+                    // Column visibility
+                    toggleColumn(name, visible) {
+                        this.visibleColumns[name] = visible;
+                        // Toggle column visibility in the table
+                        const columnIndex = this.getColumnIndex(name);
+                        if (columnIndex >= 0) {
+                            this.$el.querySelectorAll(`tr > *:nth-child(${columnIndex + 1})`).forEach(cell => {
+                                cell.style.display = visible ? '' : 'none';
+                            });
+                        }
+                    },
+
+                    getColumnIndex(name) {
+                        const columns = ['user', 'type', 'link', 'status', 'last_login'];
+                        const index = columns.indexOf(name);
+                        // Add 1 for checkbox column
+                        return index >= 0 ? index + 2 : -1;
+                    },
+
+                    resetColumns() {
+                        Object.keys(this.visibleColumns).forEach(key => {
+                            this.visibleColumns[key] = true;
+                            const columnIndex = this.getColumnIndex(key);
+                            if (columnIndex >= 0) {
+                                this.$el.querySelectorAll(`tr > *:nth-child(${columnIndex + 1})`).forEach(cell => {
+                                    cell.style.display = '';
+                                });
+                            }
+                        });
+                        // Reset checkboxes in column manager
+                        this.$el.querySelectorAll('.fi-ta-col-manager-item input[type="checkbox"]').forEach(cb => {
+                            if (!cb.disabled) cb.checked = true;
+                        });
                     },
 
                     // Filters
+                    resetFilters() {
+                        this.filters = {
+                            user_type: '',
+                            is_active: '',
+                            status: ''
+                        };
+                        this.page = 1;
+                        // Reset select elements
+                        this.$el.querySelectorAll('.fi-ta-filters select').forEach(select => {
+                            select.value = '';
+                        });
+                        this.applyFilters();
+                    },
+
                     setFilter(key, value) {
                         this.filters[key] = value;
                         this.page = 1;
