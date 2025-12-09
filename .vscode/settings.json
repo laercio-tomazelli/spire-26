@@ -11,7 +11,8 @@
         "**/.git/**",
         "**/node_modules/**",
         "**/storage/**",
-        "**/bootstrap/cache/**"
+        "**/bootstrap/cache/**",
+        "**/_ide_helper*.php"
     ],
     "intelephense.stubs": [
         "apache",
@@ -85,7 +86,8 @@
         "Zend OPcache",
         "zip",
         "zlib",
-        "redis"
+        "redis",
+        "random"
     ],
 
     // Formatação

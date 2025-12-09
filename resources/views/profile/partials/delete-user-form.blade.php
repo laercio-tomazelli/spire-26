@@ -10,7 +10,7 @@
     </header>
 
     <x-spire::button onclick="Spire.get(document.getElementById('confirm-user-deletion'))?.open()"
-        class="!bg-red-600 hover:!bg-red-500 !from-red-600 !to-red-600">
+        class="bg-red-600! hover:bg-red-500! from-red-600! to-red-600!">
         {{ __('Excluir Conta') }}
     </x-spire::button>
 
@@ -35,11 +35,11 @@
             <div class="mt-6 flex justify-end gap-3">
                 <x-spire::button type="button"
                     onclick="Spire.get(document.getElementById('confirm-user-deletion'))?.close()"
-                    class="!bg-gray-200 !text-gray-800 hover:!bg-gray-300 !from-gray-200 !to-gray-200 dark:!bg-gray-700 dark:!text-gray-200 dark:hover:!bg-gray-600 dark:!from-gray-700 dark:!to-gray-700">
+                    class="bg-gray-200! text-gray-800! hover:bg-gray-300! from-gray-200! to-gray-200! dark:bg-gray-700! dark:text-gray-200! dark:hover:bg-gray-600! dark:from-gray-700! dark:to-gray-700!">
                     {{ __('Cancelar') }}
                 </x-spire::button>
 
-                <x-spire::button type="submit" class="!bg-red-600 hover:!bg-red-500 !from-red-600 !to-red-600">
+                <x-spire::button type="submit" class="bg-red-600! hover:bg-red-500! from-red-600! to-red-600!">
                     {{ __('Excluir Conta') }}
                 </x-spire::button>
             </div>
