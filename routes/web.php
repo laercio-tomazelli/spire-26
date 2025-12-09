@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,6 +28,24 @@ Route::middleware('auth')->group(function (): void {
     // Users
     Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
     Route::resource('users', UserController::class);
+
+    // Tenants
+    Route::patch('/tenants/{tenant}/toggle-active', [TenantController::class, 'toggleActive'])->name('tenants.toggle-active');
+    Route::resource('tenants', TenantController::class);
+
+    // Manufacturers
+    Route::patch('/manufacturers/{manufacturer}/toggle-active', [ManufacturerController::class, 'toggleActive'])->name('manufacturers.toggle-active');
+    Route::resource('manufacturers', ManufacturerController::class);
+
+    // Roles
+    Route::resource('roles', RoleController::class);
+
+    // Permissions
+    Route::resource('permissions', PermissionController::class);
+
+    // Teams
+    Route::patch('/teams/{team}/toggle-active', [TeamController::class, 'toggleActive'])->name('teams.toggle-active');
+    Route::resource('teams', TeamController::class);
 });
 
 require __DIR__.'/auth.php';

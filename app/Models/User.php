@@ -63,6 +63,10 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $roles_count
  * @property-read Collection<int, ServiceOrder> $serviceOrdersAsTechnician
  * @property-read int|null $service_orders_as_technician_count
+ * @property-read Collection<int, Team> $teams
+ * @property-read int|null $teams_count
+ * @property-read Collection<int, Team> $leadingTeams
+ * @property-read int|null $leading_teams_count
  * @property-read Tenant|null $tenant
  *
  * @method static UserFactory factory($count = null, $state = [])
@@ -198,6 +202,30 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * Teams that this user belongs to.
+     *
+     * @return BelongsToMany<Team, $this>
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_users')
+            ->withPivot('is_leader')
+            ->withTimestamps();
+    }
+
+    /**
+     * Teams where this user is a leader.
+     *
+     * @return BelongsToMany<Team, $this>
+     */
+    public function leadingTeams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_users')
+            ->wherePivot('is_leader', true)
+            ->withTimestamps();
+    }
+
     public function partners(): BelongsToMany
     {
         return $this->belongsToMany(Partner::class, 'user_partners')
@@ -219,20 +247,38 @@ class User extends Authenticatable
 
     /**
      * Check if user has a specific permission.
+     *
+     * Permission hierarchy (checked in order):
+     * 1. Direct user permission (can be granted or explicitly revoked)
+     * 2. User's role permissions
+     * 3. Team permissions (from team roles + direct team permissions)
      */
     public function hasPermission(string $permissionSlug): bool
     {
-        // Check direct permission (can be granted or revoked)
+        // 1. Check direct user permission (can be granted or revoked)
         $directPermission = $this->permissions()->where('slug', $permissionSlug)->first();
 
-        if ($directPermission) {
-            return $directPermission->pivot->granted;
+        if ($directPermission !== null) {
+            return (bool) $directPermission->pivot->granted;
         }
 
-        // Check role permissions
-        return $this->roles()
+        // 2. Check user's role permissions
+        $hasRolePermission = $this->roles()
             ->whereHas('permissions', fn ($q) => $q->where('slug', $permissionSlug))
             ->exists();
+
+        if ($hasRolePermission) {
+            return true;
+        }
+
+        // 3. Check team permissions (from team roles + direct team permissions)
+        foreach ($this->teams as $team) {
+            if ($team->hasPermission($permissionSlug)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

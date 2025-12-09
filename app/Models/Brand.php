@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\BrandFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,10 +34,8 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $product_models_count
  * @property-read Collection<int, ServiceOrder> $serviceOrders
  * @property-read int|null $service_orders_count
- * @property-read Tenant|null $tenant
  *
  * @method static BrandFactory factory($count = null, $state = [])
- * @method static Builder<static>|Brand forTenant(int $tenantId)
  * @method static Builder<static>|Brand newModelQuery()
  * @method static Builder<static>|Brand newQuery()
  * @method static Builder<static>|Brand query()
@@ -54,11 +51,9 @@ use Illuminate\Support\Carbon;
  */
 class Brand extends Model
 {
-    use BelongsToTenant;
     use HasFactory;
 
     protected $fillable = [
-        'tenant_id',
         'manufacturer_id',
         'name',
         'slug',
@@ -78,14 +73,17 @@ class Brand extends Model
 
     // Relationships
 
-    public function tenant(): BelongsTo
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
     public function manufacturer(): BelongsTo
     {
         return $this->belongsTo(Manufacturer::class);
+    }
+
+    /**
+     * Get the tenant through the manufacturer.
+     */
+    public function getTenantAttribute(): ?Tenant
+    {
+        return $this->manufacturer->tenant;
     }
 
     public function productLines(): HasMany
