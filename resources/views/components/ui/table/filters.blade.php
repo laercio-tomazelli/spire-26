@@ -16,12 +16,10 @@
                 clip-rule="evenodd" />
         </svg>
 
-        @if ($activeCount > 0)
-            <span
-                class="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-500 px-1 text-[10px] font-medium text-white">
-                {{ $activeCount }}
-            </span>
-        @endif
+        <span data-filter-badge
+            class="fi-ta-filter-badge absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-500 px-1 text-[10px] font-medium text-white {{ $activeCount > 0 ? '' : 'hidden' }}">
+            {{ $activeCount ?: '' }}
+        </span>
     </button>
 
     <div
@@ -29,7 +27,7 @@
         <div class="fi-ta-filters p-4">
             <div class="fi-ta-filters-header mb-4 flex items-center justify-between">
                 <h2 class="text-base font-semibold text-gray-950 dark:text-white">
-                    Filters
+                    Filtros
                 </h2>
 
                 @isset($reset)
@@ -38,7 +36,7 @@
                     <button type="button"
                         class="text-sm font-medium text-danger-600 hover:text-danger-500 dark:text-danger-400"
                         onclick="window.dispatchEvent(new CustomEvent('table-reset-filters'))">
-                        Reset
+                        Limpar
                     </button>
                 @endisset
             </div>

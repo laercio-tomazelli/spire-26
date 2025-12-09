@@ -73,19 +73,19 @@
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                     </path>
                 </svg>
-                <span class="fi-ta-selection-count">0 records selected</span>
+                <span class="fi-ta-selection-count">0 registros selecionados</span>
             </div>
 
             <div class="flex items-center gap-x-3">
                 <button type="button"
                     class="fi-ta-select-all-btn hidden text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
                     onclick="window.dispatchEvent(new CustomEvent('table-select-all'))">
-                    Select all <span class="fi-ta-total-count">0</span>
+                    Selecionar todos <span class="fi-ta-total-count">0</span>
                 </button>
                 <button type="button"
                     class="text-sm font-medium text-danger-600 hover:text-danger-500 dark:text-danger-400 dark:hover:text-danger-300"
                     onclick="window.dispatchEvent(new CustomEvent('table-deselect-all'))">
-                    Deselect all
+                    Limpar seleção
                 </button>
             </div>
         </div>

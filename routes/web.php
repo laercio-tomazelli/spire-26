@@ -23,9 +23,6 @@ Route::middleware('auth')->group(function (): void {
     // Users
     Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
     Route::resource('users', UserController::class);
-
-    // Demo: Filament-style table example
-    Route::get('/users-filament', [UserController::class, 'indexFilament'])->name('users.filament');
 });
 
 require __DIR__.'/auth.php';

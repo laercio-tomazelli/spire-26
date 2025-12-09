@@ -28,34 +28,18 @@ class UserController extends Controller
 
         $users = $this->getFilteredUsers($request);
 
-        // Se for requisição AJAX, retorna apenas o partial da tabela
-        if ($request->ajax()) {
-            return view('users.partials.table', [
-                'users' => $users,
-            ])->render();
-        }
-
-        return view('users.index', [
-            'users' => $users,
-            'userTypes' => UserType::selectOptions(),
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource using Filament-style table.
-     */
-    public function indexFilament(Request $request): View|string
-    {
-        Gate::authorize('viewAny', User::class);
-
-        $users = $this->getFilteredUsers($request);
-
         // Contagem por status para as tabs
         $counts = [
             'all' => User::count(),
             'active' => User::where('is_active', true)->count(),
             'inactive' => User::where('is_active', false)->count(),
         ];
+
+        // Contagem de filtros ativos (excluindo status das tabs)
+        $activeFiltersCount = collect([
+            $request->filled('user_type'),
+            $request->filled('is_active'),
+        ])->filter()->count();
 
         // Se for requisição AJAX, retorna apenas o partial da tabela
         if ($request->ajax()) {
@@ -64,10 +48,11 @@ class UserController extends Controller
             ])->render();
         }
 
-        return view('users.index-filament-example', [
+        return view('users.index', [
             'users' => $users,
             'userTypes' => UserType::selectOptions(),
             'counts' => $counts,
+            'activeFiltersCount' => $activeFiltersCount,
         ]);
     }
 
@@ -77,16 +62,37 @@ class UserController extends Controller
     private function getFilteredUsers(Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $query = User::query()
-            ->with(['partner', 'manufacturer', 'tenant'])
-            ->orderBy('name');
+            ->with(['partner', 'manufacturer', 'tenant']);
+
+        // Ordenação
+        $sortField = $request->input('sort', 'name');
+        $sortDirection = $request->input('direction', 'asc');
+
+        // Validar campos permitidos para ordenação
+        $allowedSortFields = ['name', 'email', 'user_type', 'is_active', 'last_login_at', 'created_at'];
+        if (in_array($sortField, $allowedSortFields, true)) {
+            $query->orderBy($sortField, $sortDirection === 'desc' ? 'desc' : 'asc');
+        } else {
+            $query->orderBy('name');
+        }
 
         // Filtro por tipo de usuário
         if ($request->filled('user_type')) {
-            $query->where('user_type', $request->input('user_type'));
+            $userType = UserType::tryFrom($request->input('user_type'));
+            if ($userType) {
+                $query->where('user_type', $userType);
+            }
         }
 
-        // Filtro por status
-        if ($request->filled('is_active')) {
+        // Filtro por status (tabs usam "status", formulários usam "is_active")
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            if ($status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        } elseif ($request->filled('is_active')) {
             $query->where('is_active', $request->boolean('is_active'));
         }
 
@@ -113,7 +119,9 @@ class UserController extends Controller
             }
         }
 
-        return $query->paginate(15)->withQueryString();
+        $perPage = $request->integer('per_page', 10);
+
+        return $query->paginate($perPage)->withQueryString();
     }
 
     /**

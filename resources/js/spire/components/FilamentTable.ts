@@ -257,7 +257,7 @@ export class FilamentTable {
     const countEl = this.config.container.querySelector('.fi-ta-selection-count');
     if (countEl) {
       const count = this.state.selected.length;
-      countEl.textContent = `${count} ${count === 1 ? 'record' : 'records'} selected`;
+      countEl.textContent = `${count} ${count === 1 ? 'registro selecionado' : 'registros selecionados'}`;
     }
   }
 
@@ -302,6 +302,13 @@ export class FilamentTable {
   setFilter(key: string, value: string): void {
     this.state.filters[key] = value;
     this.state.page = 1;
+    this.updateFilterBadge();
+
+    // Update tabs visual state if status filter changed
+    if (key === 'status') {
+      this.updateTabsActiveState(value);
+    }
+
     // Debounce filter changes
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -323,7 +330,59 @@ export class FilamentTable {
       new CustomEvent('select-reset', { detail: { name: '*' } })
     );
 
+    this.updateFilterBadge();
     this.applyFilters();
+  }
+
+  private updateFilterBadge(): void {
+    const badge = this.config.container.querySelector('[data-filter-badge]') as HTMLElement;
+    if (!badge) return;
+
+    // Count active filters (non-empty values, excluding 'status' which is for tabs)
+    const activeCount = Object.entries(this.state.filters)
+      .filter(([key, value]) => value !== '' && key !== 'status')
+      .length;
+
+    if (activeCount > 0) {
+      badge.textContent = String(activeCount);
+      badge.classList.remove('hidden');
+    } else {
+      badge.textContent = '';
+      badge.classList.add('hidden');
+    }
+  }
+
+  private updateTabsActiveState(activeStatus: string): void {
+    const tabs = this.config.container.querySelectorAll('.fi-ta-tab');
+
+    tabs.forEach((tab) => {
+      const button = tab as HTMLButtonElement;
+      // Extract status value from onclick handler
+      const onclickAttr = button.getAttribute('onclick') || '';
+      const match = onclickAttr.match(/value:\s*'([^']*)'/);
+      const tabStatus = match ? match[1] : '';
+
+      const isActive = tabStatus === activeStatus;
+      const indicator = button.querySelector('span.absolute');
+
+      // Update text colors
+      if (isActive) {
+        button.classList.remove('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-300');
+        button.classList.add('text-blue-600', 'dark:text-blue-400');
+      } else {
+        button.classList.remove('text-blue-600', 'dark:text-blue-400');
+        button.classList.add('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-300');
+      }
+
+      // Update indicator bar
+      if (isActive && !indicator) {
+        const newIndicator = document.createElement('span');
+        newIndicator.className = 'absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 dark:bg-blue-400';
+        button.appendChild(newIndicator);
+      } else if (!isActive && indicator) {
+        indicator.remove();
+      }
+    });
   }
 
   setSearch(value: string): void {

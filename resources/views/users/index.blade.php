@@ -1,3 +1,8 @@
+{{--
+    Tabela estilo Filament com interatividade vanilla JS
+    Não usa Alpine.js - toda lógica está no FilamentTable.ts
+--}}
+
 <x-layouts.module title="Usuários">
     {{-- Breadcrumbs --}}
     <x-slot:breadcrumbs>
@@ -26,212 +31,182 @@
         </x-spire::alert>
     @endif
 
-    {{-- Filter Container --}}
-    <div id="users-filter-container" data-url="{{ route('users.index') }}" data-csrf="{{ csrf_token() }}">
-        {{-- Filters --}}
-        <x-spire::card class="mb-6">
-            <form id="users-filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Buscar</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    {{-- Table Container --}}
+    @php
+        $initialState = [
+            'search' => request('search', ''),
+            'page' => request('page', 1),
+            'perPage' => request('per_page', 10),
+            'sortField' => request('sort', ''),
+            'sortDirection' => request('direction', 'asc'),
+            'filters' => [
+                'user_type' => request('user_type', ''),
+                'is_active' => request('is_active', ''),
+                'status' => request('status', ''),
+            ],
+            'visibleColumns' => [
+                'user' => true,
+                'type' => true,
+                'link' => true,
+                'status' => true,
+                'last_login' => true,
+            ],
+        ];
+    @endphp
+    <div id="users-table-container" data-url="{{ route('users.index') }}" data-csrf="{{ csrf_token() }}"
+        data-initial-state='@json($initialState)'>
+
+        {{-- Filament-style Table --}}
+        <x-ui.table>
+            {{-- Table Header with Search, Filters, etc --}}
+            <x-slot:header>
+                {{-- Status Tabs (como no Filament) --}}
+                <x-ui.table.tabs>
+                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $users->total()"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: '' }}))">
+                        Todos
+                    </x-ui.table.tab>
+                    <x-ui.table.tab :active="request('status') === 'active'" :count="$counts['active'] ?? null" variant="success"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: 'active' }}))">
+                        Ativos
+                    </x-ui.table.tab>
+                    <x-ui.table.tab :active="request('status') === 'inactive'" :count="$counts['inactive'] ?? null" variant="danger"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: 'inactive' }}))">
+                        Inativos
+                    </x-ui.table.tab>
+                </x-ui.table.tabs>
+
+                {{-- Toolbar --}}
+                <x-ui.table.header :search="true" searchPlaceholder="Buscar usuários...">
+                    {{-- Bulk Actions (aparecem quando há seleção) --}}
+                    <x-slot:bulkActions>
+                        <x-spire::button size="sm" variant="danger"
+                            onclick="if (confirm('Tem certeza que deseja excluir os itens selecionados?')) window.dispatchEvent(new CustomEvent('table-bulk-delete'))">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                        </div>
-                        <input type="text" id="filter-search" name="search" value="{{ request('search', '') }}"
-                            placeholder="Nome, e-mail ou usuário..."
-                            class="w-full h-9 pl-10 pr-4 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                    </div>
-                </div>
+                            Excluir selecionados
+                        </x-spire::button>
+                    </x-slot:bulkActions>
 
-                <div>
-                    <x-spire::select name="user_type" label="Tipo de Usuário" placeholder="Todos os tipos"
-                        :value="request('user_type')" :options="$userTypes" />
-                </div>
+                    {{-- Filters Dropdown --}}
+                    <x-slot:filters>
+                        <x-ui.table.filters :activeCount="$activeFiltersCount ?? 0">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de
+                                    Usuário</label>
+                                <x-spire::select name="filter_user_type" placeholder="Todos" :options="$userTypes"
+                                    :value="request('user_type', '')" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                <x-spire::select name="filter_is_active" placeholder="Todos" :options="\App\Enums\Status::selectOptions()"
+                                    :value="request('is_active', '')" />
+                            </div>
 
-                <div>
-                    <x-spire::select name="is_active" label="Status" placeholder="Todos" :value="request('is_active')"
-                        :options="\App\Enums\Status::selectOptions()" />
-                </div>
+                            <x-slot:footer>
+                                <x-spire::button class="w-full"
+                                    onclick="window.dispatchEvent(new CustomEvent('table-apply-filters'))">
+                                    Aplicar filtros
+                                </x-spire::button>
+                            </x-slot:footer>
+                        </x-ui.table.filters>
+                    </x-slot:filters>
 
-                <div class="flex items-end gap-2">
-                    <button type="submit" id="filter-btn"
-                        class="relative inline-flex items-center justify-center h-9 px-4 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                        <svg id="filter-loading" class="w-4 h-4 mr-1.5 animate-spin hidden" fill="none"
-                            viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                            </path>
-                        </svg>
-                        <svg id="filter-icon" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                        </svg>
-                        Filtrar
-                        <span id="filter-count"
-                            class="absolute -top-2 -right-2 hidden items-center justify-center min-w-5 h-5 px-1.5 text-xs font-bold text-white bg-red-500 rounded-full"></span>
-                    </button>
-                    <button id="clear-filters-btn" type="button"
-                        class="hidden inline-flex items-center justify-center h-9 px-4 text-sm font-medium text-gray-700 dark:text-gray-200 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
-                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Limpar
-                    </button>
-                </div>
-            </form>
-        </x-spire::card>
+                    {{-- Column Manager --}}
+                    <x-slot:columnManager>
+                        <x-ui.table.column-manager>
+                            <x-ui.table.column-toggle name="user" label="Usuário" :checked="true"
+                                :disabled="true" />
+                            <x-ui.table.column-toggle name="type" label="Tipo" :checked="true" />
+                            <x-ui.table.column-toggle name="link" label="Vínculo" :checked="true" />
+                            <x-ui.table.column-toggle name="status" label="Status" :checked="true" />
+                            <x-ui.table.column-toggle name="last_login" label="Último acesso" :checked="true" />
+                        </x-ui.table.column-manager>
+                    </x-slot:columnManager>
+                </x-ui.table.header>
+            </x-slot:header>
 
-        {{-- Users Table --}}
-        <x-spire::card>
-            <div id="users-table">
-                @include('users.partials.table', ['users' => $users])
+            {{-- Table Content (updated via AJAX) --}}
+            <div class="fi-ta-content">
+                @include('users.partials.table-filament', ['users' => $users])
             </div>
-        </x-spire::card>
+        </x-ui.table>
     </div>
 
-    {{-- Vanilla JS Filter Logic --}}
+    {{-- Initialize FilamentTable Component --}}
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const container = document.getElementById('users-filter-container');
-                const form = document.getElementById('users-filter-form');
-                const searchInput = document.getElementById('filter-search');
-                const tableContainer = document.getElementById('users-table');
-                const filterBtn = document.getElementById('filter-btn');
-                const filterLoading = document.getElementById('filter-loading');
-                const filterIcon = document.getElementById('filter-icon');
-                const filterCount = document.getElementById('filter-count');
-                const clearBtn = document.getElementById('clear-filters-btn');
+                const container = document.getElementById('users-table-container');
+                if (!container) return;
 
-                if (!container || !form || !tableContainer) return;
+                const url = container.dataset.url;
+                const csrfToken = container.dataset.csrf;
+                const initialState = JSON.parse(container.dataset.initialState || '{}');
 
-                const baseUrl = container.dataset.url;
-                let loading = false;
-
-                // Debounce function
-                const debounce = (fn, delay) => {
-                    let timer;
-                    return (...args) => {
-                        clearTimeout(timer);
-                        timer = setTimeout(() => fn(...args), delay);
-                    };
-                };
-
-                // Get current filter values
-                const getFilters = () => {
-                    const formData = new FormData(form);
-                    const filters = {};
-                    formData.forEach((value, key) => {
-                        if (value) filters[key] = value;
-                    });
-                    return filters;
-                };
-
-                // Update filter count badge
-                const updateFilterCount = () => {
-                    const filters = getFilters();
-                    const count = Object.keys(filters).length;
-
-                    if (count > 0) {
-                        filterCount.textContent = count;
-                        filterCount.classList.remove('hidden');
-                        filterCount.classList.add('flex');
-                        clearBtn.classList.remove('hidden');
-                    } else {
-                        filterCount.classList.add('hidden');
-                        filterCount.classList.remove('flex');
-                        clearBtn.classList.add('hidden');
-                    }
-                };
-
-                // Apply filters via AJAX
-                const applyFilters = async () => {
-                    if (loading) return;
-                    loading = true;
-
-                    // Show loading state
-                    filterLoading.classList.remove('hidden');
-                    filterIcon.classList.add('hidden');
-                    filterBtn.classList.add('opacity-75');
-
-                    try {
-                        const filters = getFilters();
-                        const params = new URLSearchParams(filters);
-                        const url = baseUrl + (params.toString() ? '?' + params.toString() : '');
-
-                        // Update browser URL without reload
-                        window.history.replaceState({}, '', url);
-
-                        // Fetch HTML content
-                        const response = await fetch(url, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Accept': 'text/html'
-                            }
-                        });
-
-                        if (response.ok) {
-                            const html = await response.text();
-                            tableContainer.innerHTML = html;
-                        }
-
-                        updateFilterCount();
-                    } catch (error) {
-                        console.error('Filter error:', error);
-                        if (typeof Spire !== 'undefined' && Spire.toast) {
-                            Spire.toast.error('Erro ao filtrar usuários');
-                        }
-                    } finally {
-                        loading = false;
-                        filterLoading.classList.add('hidden');
-                        filterIcon.classList.remove('hidden');
-                        filterBtn.classList.remove('opacity-75');
-                    }
-                };
-
-                // Debounced search
-                const debouncedFilter = debounce(applyFilters, 300);
-
-                // Event listeners
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    applyFilters();
-                });
-
-                searchInput.addEventListener('input', debouncedFilter);
-
-                // Listen for select changes
+                // Listen for select changes from spire::select components
                 window.addEventListener('select-change', (e) => {
-                    if (e.detail?.name === 'user_type' || e.detail?.name === 'is_active') {
-                        applyFilters();
+                    const {
+                        name,
+                        value
+                    } = e.detail;
+                    const keyMap = {
+                        'filter_user_type': 'user_type',
+                        'filter_is_active': 'is_active'
+                    };
+                    const key = keyMap[name];
+                    if (key) {
+                        window.dispatchEvent(new CustomEvent('table-filter-change', {
+                            detail: {
+                                key,
+                                value
+                            }
+                        }));
                     }
                 });
 
-                // Clear filters
-                clearBtn.addEventListener('click', () => {
-                    // Reset form
-                    form.reset();
-
-                    // Reset select components
-                    window.dispatchEvent(new CustomEvent('select-reset', {
-                        detail: {
-                            name: '*'
+                // Create FilamentTable instance
+                if (typeof Spire !== 'undefined' && Spire.FilamentTable) {
+                    const table = new Spire.FilamentTable({
+                        url: url,
+                        container: container,
+                        contentSelector: '.fi-ta-content',
+                        csrfToken: csrfToken,
+                        initialState: initialState,
+                        onUpdate: (state) => {
+                            // Update URL without reload
+                            const params = new URLSearchParams();
+                            if (state.search) params.append('search', state.search);
+                            if (state.sortField) {
+                                params.append('sort', state.sortField);
+                                params.append('direction', state.sortDirection);
+                            }
+                            params.append('page', state.page);
+                            params.append('per_page', state.perPage);
+                            Object.entries(state.filters).forEach(([key, value]) => {
+                                if (value) params.append(key, value);
+                            });
+                            const newUrl = url + (params.toString() ? '?' + params.toString() : '');
+                            window.history.replaceState({}, '', newUrl);
                         }
-                    }));
+                    });
 
-                    // Apply empty filters
-                    applyFilters();
-                });
+                    // Handle bulk delete
+                    window.addEventListener('table-bulk-delete', () => {
+                        const selected = table.getSelected();
+                        if (selected.length === 0) {
+                            Spire.toast.warning('Nenhum item selecionado');
+                            return;
+                        }
 
-                // Initial count update
-                updateFilterCount();
+                        // TODO: Implement bulk delete endpoint
+                        console.log('Bulk delete IDs:', selected);
+                        Spire.toast.info('Funcionalidade de exclusão em massa será implementada em breve.');
+                    });
+                }
             });
         </script>
     @endpush

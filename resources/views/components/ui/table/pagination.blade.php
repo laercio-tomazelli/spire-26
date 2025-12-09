@@ -22,9 +22,9 @@
     {{-- Info --}}
     @if ($showInfo && $paginator)
         <span class="fi-pagination-overview hidden text-sm text-gray-700 dark:text-gray-400 sm:block">
-            Showing <span class="font-medium">{{ number_format($from) }}</span>
-            to <span class="font-medium">{{ number_format($to) }}</span>
-            of <span class="font-medium">{{ number_format($total) }}</span> results
+            Exibindo <span class="font-medium">{{ number_format($from) }}</span>
+            a <span class="font-medium">{{ number_format($to) }}</span>
+            de <span class="font-medium">{{ number_format($total) }}</span> resultados
         </span>
     @endif
 
@@ -32,7 +32,7 @@
         {{-- Per page selector --}}
         @if ($showPerPage)
             <div class="fi-pagination-records-per-page-select-ctn flex items-center gap-x-2">
-                <label for="per-page" class="text-sm text-gray-700 dark:text-gray-400">Per page</label>
+                <label for="per-page" class="text-sm text-gray-700 dark:text-gray-400">Por página</label>
                 <select id="per-page"
                     class="fi-select-input rounded-lg border-gray-300 py-1.5 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
                     onchange="window.dispatchEvent(new CustomEvent('table-per-page', { detail: { value: this.value } }))">
@@ -96,9 +96,9 @@
 
                     <li>
                         <button type="button"
-                            class="fi-pagination-item-btn relative inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2.5 text-sm font-medium transition-colors
+                            class="fi-pagination-item-btn relative inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2.5 text-sm font-medium transition-all duration-150
                                 {{ $page === $currentPage
-                                    ? 'bg-primary-50 text-primary-600 dark:bg-primary-500/10 dark:text-primary-400'
+                                    ? 'bg-blue-600 text-white shadow-sm dark:bg-blue-500'
                                     : 'text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800' }}"
                             onclick="window.dispatchEvent(new CustomEvent('table-goto-page', { detail: { page: {{ $page }} } }))">
                             {{ $page }}
