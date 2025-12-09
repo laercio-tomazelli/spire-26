@@ -80,29 +80,31 @@ export class FilamentTable {
   private setupEventListeners(): void {
     // Pagination events
     this.unsubscribers.push(
-      events.on('table:goto-page', (page: number) => this.gotoPage(page)),
+      events.on('table:goto-page', (page) => this.gotoPage(page as number)),
       events.on('table:previous-page', () => this.previousPage()),
       events.on('table:next-page', () => this.nextPage()),
-      events.on('table:per-page', (value: string | number) => this.changePerPage(Number(value))),
+      events.on('table:per-page', (value) => this.changePerPage(Number(value))),
 
       // Sorting
-      events.on('table:sort', (field: string) => this.sort(field)),
+      events.on('table:sort', (field) => this.sort(field as string)),
 
       // Selection
       events.on('table:toggle-page-selection', () => this.togglePageSelection()),
-      events.on('table:toggle-selection', (key: string) => this.toggleSelection(key)),
+      events.on('table:toggle-selection', (key) => this.toggleSelection(key as string)),
 
       // Filters
       events.on('table:apply-filters', () => this.applyFilters()),
-      events.on('table:filter-change', (data: { key: string; value: string }) =>
-        this.setFilter(data.key, data.value)
-      ),
+      events.on('table:filter-change', (data) => {
+        const { key, value } = data as { key: string; value: string };
+        this.setFilter(key, value);
+      }),
       events.on('table:reset-filters', () => this.resetFilters()),
 
       // Columns
-      events.on('table:toggle-column', (data: { name: string; visible: boolean }) =>
-        this.toggleColumn(data.name, data.visible)
-      ),
+      events.on('table:toggle-column', (data) => {
+        const { name, visible } = data as { name: string; visible: boolean };
+        this.toggleColumn(name, visible);
+      }),
       events.on('table:reset-columns', () => this.resetColumns())
     );
   }
