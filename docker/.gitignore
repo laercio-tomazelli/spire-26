@@ -1,0 +1,7 @@
+# Docker
+docker-compose.override.yml
+docker/nginx/certs/*.pem
+docker/nginx/certs/*.key
+
+# Environment
+.env.docker.local

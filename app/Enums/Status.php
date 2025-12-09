@@ -73,7 +73,7 @@ enum Status: string
      */
     public static function selectOptions(): array
     {
-        return array_map(fn (self $status) => [
+        return array_map(fn (self $status): array => [
             'value' => $status->value,
             'label' => $status->label(),
             'icon' => $status->icon(),

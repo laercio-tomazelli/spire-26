@@ -8,6 +8,22 @@
 import { SpireUIAPI, SpireUIInstance } from './types';
 import { instances, setGlobalErrorHandler } from './core';
 
+// Laravel Echo for WebSocket real-time events
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+
+// Setup Pusher and Echo globally
+(window as any).Pusher = Pusher;
+(window as any).Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
+    wssPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'http') === 'https',
+    enabledTransports: ['ws', 'wss'],
+});
+
 // Components
 import { Accordion } from './components/Accordion';
 import { Button } from './components/Button';
@@ -251,6 +267,29 @@ document.addEventListener('DOMContentLoaded', () => {
       document.documentElement.classList.toggle('dark', e.matches);
     }
   });
+
+  // Real-time events listener (teste)
+  const echoInstance = (window as any).Echo;
+  if (echoInstance) {
+    console.log('🔴 Echo conectado ao Reverb');
+
+    echoInstance.private('orders')
+      .listen('.order.cancelled', (data: any) => {
+        console.log('📢 Evento recebido:', data);
+        alert(
+          `🚨 Pedido ${data.order_number} foi CANCELADO!\n\n` +
+          `Motivo: ${data.reason}\n` +
+          `Por: ${data.cancelled_by}`
+        );
+      })
+      .error((error: any) => {
+        console.error('❌ Erro no canal:', error);
+      });
+
+    console.log('📡 Escutando canal: private-orders');
+  } else {
+    console.warn('⚠️ Echo não está disponível');
+  }
 });
 
 // Expose globally

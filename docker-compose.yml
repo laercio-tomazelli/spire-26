@@ -1,0 +1,142 @@
+# =============================================================================
+# SPIRE 26 - Docker Compose
+# Production-like environment with Oracle Linux 9
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # NGINX Web Server
+  # ---------------------------------------------------------------------------
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: spire-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html:cached
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - php
+    networks:
+      - spire-network
+
+  # ---------------------------------------------------------------------------
+  # PHP-FPM Application Server
+  # ---------------------------------------------------------------------------
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: spire-php
+    restart: unless-stopped
+    ports:
+      - "8080:8080"  # Laravel Reverb WebSocket
+    volumes:
+      - .:/var/www/html:cached
+      - ./docker/php/supervisord.conf:/etc/supervisord.d/laravel.ini:ro
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+      - APP_DEBUG=${APP_DEBUG:-true}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - spire-network
+
+  # ---------------------------------------------------------------------------
+  # MariaDB Database (same as OCI)
+  # ---------------------------------------------------------------------------
+  mariadb:
+    image: mariadb:11.4
+    container_name: spire-mariadb
+    restart: unless-stopped
+    ports:
+      - "3366:3306"  # Using 3366 to avoid conflict with local MariaDB
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MARIADB_DATABASE: ${DB_DATABASE:-spire}
+      MARIADB_USER: ${DB_USERNAME:-spire}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - spire-mariadb-data:/var/lib/mysql
+      - ./docker/mariadb/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-psecret"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    networks:
+      - spire-network
+
+  # ---------------------------------------------------------------------------
+  # Redis Cache & Queue
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: spire-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - spire-redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+    networks:
+      - spire-network
+
+  # ---------------------------------------------------------------------------
+  # Mailpit (Local email testing)
+  # ---------------------------------------------------------------------------
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: spire-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - spire-network
+
+  # ---------------------------------------------------------------------------
+  # Node.js for Vite (development)
+  # ---------------------------------------------------------------------------
+  node:
+    image: node:22-alpine
+    container_name: spire-node
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html:cached
+      - spire-node-modules:/var/www/html/node_modules
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    networks:
+      - spire-network
+    profiles:
+      - dev
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  spire-network:
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  spire-mariadb-data:
+    driver: local
+  spire-redis-data:
+    driver: local
+  spire-node-modules:
+    driver: local

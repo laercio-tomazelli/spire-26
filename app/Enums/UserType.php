@@ -148,7 +148,7 @@ enum UserType: string
      */
     public static function selectOptions(): array
     {
-        return array_map(fn (self $type) => [
+        return array_map(fn (self $type): array => [
             'value' => $type->value,
             'label' => $type->label(),
             'icon' => $type->icon(),
