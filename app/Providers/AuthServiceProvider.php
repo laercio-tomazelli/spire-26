@@ -7,11 +7,13 @@ namespace App\Providers;
 use App\Models\Exchange;
 use App\Models\Order;
 use App\Models\Partner;
+use App\Models\ProductModel;
 use App\Models\ServiceOrder;
 use App\Models\User;
 use App\Policies\ExchangePolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\PartnerPolicy;
+use App\Policies\ProductModelPolicy;
 use App\Policies\ServiceOrderPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -30,6 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Order::class => OrderPolicy::class,
         Exchange::class => ExchangePolicy::class,
         User::class => UserPolicy::class,
+        ProductModel::class => ProductModelPolicy::class,
     ];
 
     /**

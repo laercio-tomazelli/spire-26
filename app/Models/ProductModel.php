@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ProductModelFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
@@ -31,7 +31,7 @@ use Illuminate\Support\Carbon;
  * @property bool $is_active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property Carbon|null $deleted_at
  * @property-read Collection<int, BillOfMaterial> $billOfMaterials
  * @property-read int|null $bill_of_materials_count
  * @property-read Brand $brand
@@ -41,10 +41,8 @@ use Illuminate\Support\Carbon;
  * @property-read ProductLine|null $productLine
  * @property-read Collection<int, ServiceOrder> $serviceOrders
  * @property-read int|null $service_orders_count
- * @property-read Tenant|null $tenant
  *
  * @method static ProductModelFactory factory($count = null, $state = [])
- * @method static Builder<static>|ProductModel forTenant(int $tenantId)
  * @method static Builder<static>|ProductModel newModelQuery()
  * @method static Builder<static>|ProductModel newQuery()
  * @method static Builder<static>|ProductModel query()
@@ -69,60 +67,60 @@ use Illuminate\Support\Carbon;
  */
 class ProductModel extends Model
 {
-    use BelongsToTenant;
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
-        'tenant_id',
         'brand_id',
-        'product_line_id',
-        'category_id',
-        'name',
-        'slug',
-        'code',
-        'sku',
-        'description',
-        'specifications',
-        'image_url',
+        'product_category_id',
+        'model_code',
+        'model_name',
+        'manufacturer_model',
+        'ean',
+        'release_date',
+        'end_of_life_date',
         'warranty_months',
+        'promotional_warranty_months',
+        'observations',
         'is_active',
     ];
 
     protected function casts(): array
     {
         return [
-            'specifications' => 'array',
+            'release_date' => 'date',
+            'end_of_life_date' => 'date',
             'warranty_months' => 'integer',
+            'promotional_warranty_months' => 'integer',
             'is_active' => 'boolean',
         ];
     }
 
     // Relationships
 
-    public function tenant(): BelongsTo
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
     }
 
-    public function productLine(): BelongsTo
-    {
-        return $this->belongsTo(ProductLine::class);
-    }
-
     public function category(): BelongsTo
     {
-        return $this->belongsTo(ProductCategory::class, 'category_id');
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
+    }
+
+    /**
+     * Get the product line through the category.
+     */
+    public function productLine(): ?ProductLine
+    {
+        return $this->category?->productLine;
     }
 
     public function parts(): BelongsToMany
     {
         return $this->belongsToMany(Part::class, 'bill_of_materials')
-            ->withPivot(['quantity', 'is_required', 'notes'])
+            ->withoutGlobalScopes() // Evita scope de tenant na tabela pivot
+            ->withPivot(['quantity', 'line_position', 'is_provided'])
             ->withTimestamps();
     }
 
@@ -134,5 +132,15 @@ class ProductModel extends Model
     public function serviceOrders(): HasMany
     {
         return $this->hasMany(ServiceOrder::class);
+    }
+
+    // Accessors
+
+    /**
+     * Get display name (model_name or model_code).
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->model_name ?? $this->model_code;
     }
 }

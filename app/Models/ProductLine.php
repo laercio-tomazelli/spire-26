@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ProductLineFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
@@ -20,13 +19,12 @@ use Illuminate\Support\Carbon;
  * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Brand|null $brand
- * @property-read Collection<int, ProductModel> $productModels
- * @property-read int|null $product_models_count
- * @property-read Tenant|null $tenant
+ * @property-read Collection<int, Brand> $brands
+ * @property-read int|null $brands_count
+ * @property-read Collection<int, ProductCategory> $categories
+ * @property-read int|null $categories_count
  *
  * @method static ProductLineFactory factory($count = null, $state = [])
- * @method static Builder<static>|ProductLine forTenant(int $tenantId)
  * @method static Builder<static>|ProductLine newModelQuery()
  * @method static Builder<static>|ProductLine newQuery()
  * @method static Builder<static>|ProductLine query()
@@ -40,40 +38,22 @@ use Illuminate\Support\Carbon;
  */
 class ProductLine extends Model
 {
-    use BelongsToTenant;
     use HasFactory;
 
     protected $fillable = [
-        'tenant_id',
-        'brand_id',
         'name',
-        'slug',
-        'code',
         'description',
-        'is_active',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'is_active' => 'boolean',
-        ];
-    }
 
     // Relationships
 
-    public function tenant(): BelongsTo
+    public function brands(): BelongsToMany
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsToMany(Brand::class, 'brand_product_line');
     }
 
-    public function brand(): BelongsTo
+    public function categories(): HasMany
     {
-        return $this->belongsTo(Brand::class);
-    }
-
-    public function productModels(): HasMany
-    {
-        return $this->hasMany(ProductModel::class);
+        return $this->hasMany(ProductCategory::class);
     }
 }

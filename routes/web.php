@@ -3,7 +3,11 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\PartController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductLineController;
+use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeamController;
@@ -46,6 +50,20 @@ Route::middleware('auth')->group(function (): void {
     // Teams
     Route::patch('/teams/{team}/toggle-active', [TeamController::class, 'toggleActive'])->name('teams.toggle-active');
     Route::resource('teams', TeamController::class);
+
+    // Product Models
+    Route::patch('/product-models/{productModel}/toggle-active', [ProductModelController::class, 'toggleActive'])->name('product-models.toggle-active');
+    Route::resource('product-models', ProductModelController::class);
+
+    // Product Lines
+    Route::resource('product-lines', ProductLineController::class);
+
+    // Product Categories
+    Route::resource('product-categories', ProductCategoryController::class);
+
+    // Parts
+    Route::patch('/parts/{part}/toggle-active', [PartController::class, 'toggleActive'])->name('parts.toggle-active');
+    Route::resource('parts', PartController::class);
 });
 
 require __DIR__.'/auth.php';

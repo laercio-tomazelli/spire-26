@@ -103,35 +103,48 @@ class Part extends Model
 
     protected $fillable = [
         'tenant_id',
-        'brand_id',
-        'code',
-        'sku',
-        'name',
+        'part_code',
         'description',
+        'short_description',
         'unit',
-        'unit_cost',
-        'unit_price',
-        'weight',
         'ncm',
+        'cest',
         'origin',
-        'minimum_stock',
-        'maximum_stock',
-        'reorder_point',
-        'is_serialized',
+        'ean',
+        'ean_packaging',
+        'manufacturer_code',
+        'price',
+        'cost_price',
+        'net_weight',
+        'gross_weight',
+        'width',
+        'height',
+        'depth',
+        'min_stock',
+        'max_stock',
+        'location',
+        'is_display',
         'is_active',
+        'bling_id',
+        'synced_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'unit_cost' => 'decimal:4',
-            'unit_price' => 'decimal:4',
-            'weight' => 'decimal:3',
-            'minimum_stock' => 'integer',
-            'maximum_stock' => 'integer',
-            'reorder_point' => 'integer',
-            'is_serialized' => 'boolean',
+            'price' => 'decimal:2',
+            'cost_price' => 'decimal:2',
+            'net_weight' => 'decimal:3',
+            'gross_weight' => 'decimal:3',
+            'width' => 'decimal:2',
+            'height' => 'decimal:2',
+            'depth' => 'decimal:2',
+            'min_stock' => 'integer',
+            'max_stock' => 'integer',
+            'origin' => 'integer',
+            'is_display' => 'boolean',
             'is_active' => 'boolean',
+            'synced_at' => 'datetime',
         ];
     }
 
@@ -150,7 +163,7 @@ class Part extends Model
     public function productModels(): BelongsToMany
     {
         return $this->belongsToMany(ProductModel::class, 'bill_of_materials')
-            ->withPivot(['quantity', 'is_required', 'notes'])
+            ->withPivot(['quantity', 'line_position', 'is_provided'])
             ->withTimestamps();
     }
 
@@ -180,7 +193,7 @@ class Part extends Model
     protected function getTotalStockAttribute(): int
     {
         return (int) $this->inventoryItems()
-            ->where('is_available', true)
-            ->sum('quantity');
+            ->withoutGlobalScopes()
+            ->sum('available_quantity');
     }
 }
