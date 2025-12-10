@@ -35,7 +35,7 @@ class PermissionController extends Controller
 
         // Se for requisição AJAX, retorna apenas o partial da tabela
         if ($request->ajax()) {
-            return view('permissions.partials.table', [
+            return view('permissions.partials.table-filament', [
                 'permissions' => $permissions,
             ])->render();
         }

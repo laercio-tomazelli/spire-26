@@ -69,7 +69,7 @@ class TeamController extends Controller
         ];
 
         if ($request->ajax() || $request->wantsJson()) {
-            return view('teams.partials.table', compact('teams'));
+            return view('teams.partials.table-filament', compact('teams'));
         }
 
         return view('teams.index', compact('teams', 'counts'));

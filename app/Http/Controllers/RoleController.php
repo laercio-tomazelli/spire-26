@@ -35,7 +35,7 @@ class RoleController extends Controller
 
         // Se for requisição AJAX, retorna apenas o partial da tabela
         if ($request->ajax()) {
-            return view('roles.partials.table', [
+            return view('roles.partials.table-filament', [
                 'roles' => $roles,
             ])->render();
         }

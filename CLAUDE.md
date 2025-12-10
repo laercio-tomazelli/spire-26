@@ -14,6 +14,9 @@
 ### Entidades Principais
 
 -   **Tenant** - Cliente da Spire (multi-tenant)
+-   **Team** - Equipe/Time de usuários dentro de um tenant
+-   **Role** - Perfil de permissões (Admin, Gerente, Operador, etc.)
+-   **Permission** - Permissão individual do sistema
 -   **Manufacturer** - Fabricante (Samsung, LG, Electrolux, etc.)
 -   **Brand** - Marca do fabricante
 -   **ProductLine** - Linha de produtos (ex: Refrigeradores, Lavadoras)
@@ -28,6 +31,45 @@
 -   **Invoice** - Nota fiscal
 -   **MonthlyClosing** - Fechamento mensal de pagamentos
 -   **Shipment** - Envio/remessa de peças
+
+### Sistema de Permissões (ACL)
+
+O sistema usa uma estrutura hierárquica de permissões:
+
+```
+User
+├── Roles (perfis diretos do usuário)
+│   └── Permissions
+├── Teams (equipes que o usuário pertence)
+│   ├── Roles (perfis do time - herdados por todos os membros)
+│   │   └── Permissions
+│   └── Permissions (permissões diretas do time)
+└── Permissions (permissões diretas do usuário)
+```
+
+**Tabelas de ACL:**
+
+-   `roles` - Perfis de permissões
+-   `permissions` - Permissões individuais
+-   `role_permissions` - Permissões de cada perfil
+-   `user_roles` - Perfis atribuídos ao usuário
+-   `user_permissions` - Permissões diretas do usuário (granted/revoked)
+-   `teams` - Equipes/times
+-   `team_users` - Usuários de cada time (com flag `is_leader`)
+-   `team_roles` - Perfis atribuídos ao time
+-   `team_permissions` - Permissões diretas do time
+
+**Verificação de Permissões:**
+
+```php
+// No User model
+$user->hasPermission('service_orders.create');  // Verifica em roles, teams e permissões diretas
+$user->getAllPermissions();                      // Retorna todas as permissões do usuário
+
+// No Team model
+$team->hasPermission('orders.view');
+$team->getAllPermissions();
+```
 
 ### Tipos de Usuário
 

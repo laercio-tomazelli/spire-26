@@ -1,3 +1,8 @@
+{{--
+    Tabela estilo Filament com interatividade vanilla JS
+    Não usa Alpine.js - toda lógica está no FilamentTable.ts
+--}}
+
 <x-layouts.module title="Permissões">
     {{-- Breadcrumbs --}}
     <x-slot:breadcrumbs>
@@ -21,98 +26,162 @@
         @endcan
     </x-slot:headerActions>
 
-    {{-- Search and Filters --}}
-    <div class="mb-6 flex flex-col sm:flex-row gap-4">
-        {{-- Search --}}
-        <div class="relative flex-1">
-            <input type="text" id="search-input" placeholder="Buscar permissões..."
-                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
-                stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-        </div>
-
-        {{-- Group Filter --}}
-        <select id="group-filter"
-            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-            <option value="">Todos os grupos</option>
-            @foreach ($groups as $group)
-                <option value="{{ $group }}" {{ request('group') === $group ? 'selected' : '' }}>
-                    {{ ucfirst($group) }}
-                </option>
-            @endforeach
-        </select>
-
-        {{-- Column Visibility Toggle --}}
-        <x-spire::dropdown align="right" width="w-56">
-            <x-slot:triggerSlot>
-                <button type="button"
-                    class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-                    </svg>
-                    Colunas
-                </button>
-            </x-slot:triggerSlot>
-
-            <div class="p-2 space-y-1">
-                <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <input type="checkbox" class="column-toggle rounded border-gray-300 text-blue-600"
-                        data-column="permission" checked>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Permissão</span>
-                </label>
-                <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <input type="checkbox" class="column-toggle rounded border-gray-300 text-blue-600"
-                        data-column="group" checked>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Grupo</span>
-                </label>
-                <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <input type="checkbox" class="column-toggle rounded border-gray-300 text-blue-600"
-                        data-column="roles" checked>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Perfis</span>
-                </label>
-                <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <input type="checkbox" class="column-toggle rounded border-gray-300 text-blue-600"
-                        data-column="users" checked>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Usuários</span>
-                </label>
-            </div>
-        </x-spire::dropdown>
-    </div>
+    {{-- Flash Messages --}}
+    @if (session('success'))
+        <x-spire::alert type="success" class="mb-6">
+            {{ session('success') }}
+        </x-spire::alert>
+    @endif
 
     {{-- Table Container --}}
-    <div id="table-container">
-        @include('permissions.partials.table', ['permissions' => $permissions])
+    @php
+        $initialState = [
+            'search' => request('search', ''),
+            'page' => request('page', 1),
+            'perPage' => request('per_page', 10),
+            'sortField' => request('sort', ''),
+            'sortDirection' => request('direction', 'asc'),
+            'filters' => [
+                'group' => request('group', ''),
+            ],
+            'visibleColumns' => [
+                'permission' => true,
+                'group' => true,
+                'roles' => true,
+                'users' => true,
+            ],
+        ];
+    @endphp
+    <div id="permissions-table-container" data-url="{{ route('permissions.index') }}" data-csrf="{{ csrf_token() }}"
+        data-initial-state='@json($initialState)'>
+
+        {{-- Filament-style Table --}}
+        <x-ui.table>
+            {{-- Table Header with Search, Filters, etc --}}
+            <x-slot:header>
+                {{-- Toolbar --}}
+                <x-ui.table.header :search="true" searchPlaceholder="Buscar permissões...">
+                    {{-- Bulk Actions (aparecem quando há seleção) --}}
+                    <x-slot:bulkActions>
+                        <x-spire::button size="sm" variant="danger"
+                            onclick="if (confirm('Tem certeza que deseja excluir os itens selecionados?')) window.dispatchEvent(new CustomEvent('table-bulk-delete'))">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Excluir selecionados
+                        </x-spire::button>
+                    </x-slot:bulkActions>
+
+                    {{-- Filters Dropdown --}}
+                    <x-slot:filters>
+                        <x-ui.table.filters :activeCount="request('group') ? 1 : 0">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Grupo</label>
+                                <x-spire::select name="filter_group" placeholder="Todos os grupos" :options="collect($groups)
+                                    ->map(fn($g) => ['value' => $g, 'label' => ucfirst($g)])
+                                    ->values()
+                                    ->toArray()"
+                                    :value="request('group', '')" />
+                            </div>
+
+                            <x-slot:footer>
+                                <x-spire::button class="w-full"
+                                    onclick="window.dispatchEvent(new CustomEvent('table-apply-filters'))">
+                                    Aplicar filtros
+                                </x-spire::button>
+                            </x-slot:footer>
+                        </x-ui.table.filters>
+                    </x-slot:filters>
+
+                    {{-- Column Manager --}}
+                    <x-slot:columnManager>
+                        <x-ui.table.column-manager>
+                            <x-ui.table.column-toggle name="permission" label="Permissão" :checked="true"
+                                :disabled="true" />
+                            <x-ui.table.column-toggle name="group" label="Grupo" :checked="true" />
+                            <x-ui.table.column-toggle name="roles" label="Perfis" :checked="true" />
+                            <x-ui.table.column-toggle name="users" label="Usuários" :checked="true" />
+                        </x-ui.table.column-manager>
+                    </x-slot:columnManager>
+                </x-ui.table.header>
+            </x-slot:header>
+
+            {{-- Table Content (updated via AJAX) --}}
+            <div class="fi-ta-content">
+                @include('permissions.partials.table-filament', ['permissions' => $permissions])
+            </div>
+        </x-ui.table>
     </div>
 
+    {{-- Initialize FilamentTable Component --}}
     @push('scripts')
-        <script type="module">
-            import {
-                FilamentTable
-            } from '/resources/js/FilamentTable.ts';
-
+        <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const table = new FilamentTable({
-                    tableContainerId: 'table-container',
-                    searchInputId: 'search-input',
-                    baseUrl: '{{ route('permissions.index') }}',
+                const container = document.getElementById('permissions-table-container');
+                if (!container) return;
+
+                const url = container.dataset.url;
+                const csrfToken = container.dataset.csrf;
+                const initialState = JSON.parse(container.dataset.initialState || '{}');
+
+                // Listen for select changes from spire::select components
+                window.addEventListener('select-change', (e) => {
+                    const {
+                        name,
+                        value
+                    } = e.detail;
+                    const keyMap = {
+                        'filter_group': 'group'
+                    };
+                    const key = keyMap[name];
+                    if (key) {
+                        window.dispatchEvent(new CustomEvent('table-filter-change', {
+                            detail: {
+                                key,
+                                value
+                            }
+                        }));
+                    }
                 });
 
-                // Filtro por grupo
-                const groupFilter = document.getElementById('group-filter');
-                if (groupFilter) {
-                    groupFilter.addEventListener('change', function() {
-                        const url = new URL(window.location.href);
-                        if (this.value) {
-                            url.searchParams.set('group', this.value);
-                        } else {
-                            url.searchParams.delete('group');
+                // Create FilamentTable instance
+                if (typeof Spire !== 'undefined' && Spire.FilamentTable) {
+                    const table = new Spire.FilamentTable({
+                        url: url,
+                        container: container,
+                        contentSelector: '.fi-ta-content',
+                        csrfToken: csrfToken,
+                        initialState: initialState,
+                        onUpdate: (state) => {
+                            // Update URL without reload
+                            const params = new URLSearchParams();
+                            if (state.search) params.append('search', state.search);
+                            if (state.sortField) {
+                                params.append('sort', state.sortField);
+                                params.append('direction', state.sortDirection);
+                            }
+                            params.append('page', state.page);
+                            params.append('per_page', state.perPage);
+                            Object.entries(state.filters).forEach(([key, value]) => {
+                                if (value) params.append(key, value);
+                            });
+                            const newUrl = url + (params.toString() ? '?' + params.toString() : '');
+                            window.history.replaceState({}, '', newUrl);
                         }
-                        url.searchParams.delete('page');
-                        table.fetchData(url.toString());
+                    });
+
+                    // Handle bulk delete
+                    window.addEventListener('table-bulk-delete', () => {
+                        const selected = table.getSelected();
+                        if (selected.length === 0) {
+                            Spire.toast.warning('Nenhum item selecionado');
+                            return;
+                        }
+
+                        console.log('Bulk delete IDs:', selected);
+                        Spire.toast.info('Funcionalidade de exclusão em massa será implementada em breve.');
                     });
                 }
             });
