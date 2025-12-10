@@ -139,7 +139,7 @@ class ProductModel extends Model
     /**
      * Get display name (model_name or model_code).
      */
-    public function getDisplayNameAttribute(): string
+    protected function getDisplayNameAttribute(): string
     {
         return $this->model_name ?? $this->model_code;
     }

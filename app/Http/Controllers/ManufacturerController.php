@@ -105,11 +105,9 @@ class ManufacturerController extends Controller
 
         // Scope por tipo de usuário logado
         $user = $request->user();
-        if ($user instanceof User) {
-            // Manufacturer só vê o próprio
-            if ($user->isManufacturer()) {
-                $query->where('id', $user->manufacturer_id);
-            }
+        // Manufacturer só vê o próprio
+        if ($user instanceof User && $user->isManufacturer()) {
+            $query->where('id', $user->manufacturer_id);
         }
 
         $perPage = $request->integer('per_page', 10);

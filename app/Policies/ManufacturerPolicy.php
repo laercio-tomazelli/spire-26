@@ -71,7 +71,7 @@ final class ManufacturerPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Manufacturer $manufacturer): bool
+    public function delete(User $user): bool
     {
         // Only Spire can delete manufacturers
         return $user->isSpire();
@@ -80,7 +80,7 @@ final class ManufacturerPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Manufacturer $manufacturer): bool
+    public function restore(User $user): bool
     {
         return $user->isSpire();
     }
@@ -88,7 +88,7 @@ final class ManufacturerPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Manufacturer $manufacturer): bool
+    public function forceDelete(User $user): bool
     {
         return $user->isSpire();
     }

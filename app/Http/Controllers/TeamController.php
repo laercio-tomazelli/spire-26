@@ -69,10 +69,10 @@ class TeamController extends Controller
         ];
 
         if ($request->ajax() || $request->wantsJson()) {
-            return view('teams.partials.table-filament', compact('teams'));
+            return view('teams.partials.table-filament', ['teams' => $teams]);
         }
 
-        return view('teams.index', compact('teams', 'counts'));
+        return view('teams.index', ['teams' => $teams, 'counts' => $counts]);
     }
 
     /**
@@ -86,7 +86,7 @@ class TeamController extends Controller
         $permissions = Permission::orderBy('group')->orderBy('name')->get()->groupBy('group');
         $users = User::where('is_active', true)->orderBy('name')->get();
 
-        return view('teams.create', compact('roles', 'permissions', 'users'));
+        return view('teams.create', ['roles' => $roles, 'permissions' => $permissions, 'users' => $users]);
     }
 
     /**
@@ -130,8 +130,7 @@ class TeamController extends Controller
             $team->users()->sync($userData);
         }
 
-        return redirect()
-            ->route('teams.index')
+        return to_route('teams.index')
             ->with('success', 'Time criado com sucesso.');
     }
 
@@ -144,7 +143,7 @@ class TeamController extends Controller
 
         $team->load(['users', 'roles.permissions', 'permissions', 'tenant']);
 
-        return view('teams.show', compact('team'));
+        return view('teams.show', ['team' => $team]);
     }
 
     /**
@@ -159,7 +158,7 @@ class TeamController extends Controller
         $permissions = Permission::orderBy('group')->orderBy('name')->get()->groupBy('group');
         $users = User::where('is_active', true)->orderBy('name')->get();
 
-        return view('teams.edit', compact('team', 'roles', 'permissions', 'users'));
+        return view('teams.edit', ['team' => $team, 'roles' => $roles, 'permissions' => $permissions, 'users' => $users]);
     }
 
     /**
@@ -196,8 +195,7 @@ class TeamController extends Controller
         }
         $team->users()->sync($userData);
 
-        return redirect()
-            ->route('teams.index')
+        return to_route('teams.index')
             ->with('success', 'Time atualizado com sucesso.');
     }
 
@@ -210,8 +208,7 @@ class TeamController extends Controller
 
         $team->delete();
 
-        return redirect()
-            ->route('teams.index')
+        return to_route('teams.index')
             ->with('success', 'Time excluído com sucesso.');
     }
 
@@ -226,8 +223,7 @@ class TeamController extends Controller
 
         $status = $team->is_active ? 'ativado' : 'desativado';
 
-        return redirect()
-            ->back()
+        return back()
             ->with('success', "Time {$status} com sucesso.");
     }
 }

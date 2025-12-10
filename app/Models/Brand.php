@@ -81,7 +81,7 @@ class Brand extends Model
     /**
      * Get the tenant through the manufacturer.
      */
-    public function getTenantAttribute(): ?Tenant
+    protected function getTenantAttribute(): ?Tenant
     {
         return $this->manufacturer->tenant;
     }

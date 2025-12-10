@@ -129,8 +129,7 @@ class PartController extends Controller
 
         $part = Part::create($data);
 
-        return redirect()
-            ->route('parts.show', $part)
+        return to_route('parts.show', $part)
             ->with('success', 'Peça criada com sucesso.');
     }
 
@@ -143,7 +142,7 @@ class PartController extends Controller
 
         $part->load(['productModels.brand', 'productModels.category']);
 
-        return view('parts.show', compact('part'));
+        return view('parts.show', ['part' => $part]);
     }
 
     /**
@@ -153,7 +152,7 @@ class PartController extends Controller
     {
         Gate::authorize('update', $part);
 
-        return view('parts.edit', compact('part'));
+        return view('parts.edit', ['part' => $part]);
     }
 
     /**
@@ -169,8 +168,7 @@ class PartController extends Controller
 
         $part->update($data);
 
-        return redirect()
-            ->route('parts.show', $part)
+        return to_route('parts.show', $part)
             ->with('success', 'Peça atualizada com sucesso.');
     }
 
@@ -183,8 +181,7 @@ class PartController extends Controller
 
         $part->delete();
 
-        return redirect()
-            ->route('parts.index')
+        return to_route('parts.index')
             ->with('success', 'Peça excluída com sucesso.');
     }
 
@@ -199,8 +196,7 @@ class PartController extends Controller
 
         $status = $part->is_active ? 'ativada' : 'desativada';
 
-        return redirect()
-            ->back()
+        return back()
             ->with('success', "Peça {$status} com sucesso.");
     }
 }

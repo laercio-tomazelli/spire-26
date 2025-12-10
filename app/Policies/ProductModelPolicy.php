@@ -110,7 +110,7 @@ final class ProductModelPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ProductModel $productModel): bool
+    public function forceDelete(User $user): bool
     {
         // Only Spire can force delete
         return $user->isSpire();

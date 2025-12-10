@@ -44,7 +44,7 @@ final class TenantPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Tenant $tenant): bool
+    public function update(User $user): bool
     {
         // Only Spire can update tenants
         return $user->isSpire();
@@ -53,7 +53,7 @@ final class TenantPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Tenant $tenant): bool
+    public function delete(User $user): bool
     {
         // Only Spire can delete tenants
         return $user->isSpire();
@@ -62,7 +62,7 @@ final class TenantPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Tenant $tenant): bool
+    public function restore(User $user): bool
     {
         return $user->isSpire();
     }
@@ -70,7 +70,7 @@ final class TenantPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Tenant $tenant): bool
+    public function forceDelete(User $user): bool
     {
         return $user->isSpire();
     }
