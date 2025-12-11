@@ -169,29 +169,11 @@
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Status</h2>
 
                     <div class="space-y-4">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="checkbox" name="is_active" value="1"
-                                class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                {{ old('is_active', true) ? 'checked' : '' }}>
-                            <div>
-                                <span class="font-medium text-gray-900 dark:text-white">Ativa</span>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    Peças inativas não aparecem para seleção
-                                </p>
-                            </div>
-                        </label>
+                        <x-spire::checkbox name="is_active" label="Ativa" size="lg"
+                            hint="Peças inativas não aparecem para seleção" :checked="old('is_active', true)" />
 
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="checkbox" name="is_display" value="1"
-                                class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                {{ old('is_display') ? 'checked' : '' }}>
-                            <div>
-                                <span class="font-medium text-gray-900 dark:text-white">É Display</span>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    Marque se esta peça é para exposição
-                                </p>
-                            </div>
-                        </label>
+                        <x-spire::checkbox name="is_display" label="É Display" size="lg"
+                            hint="Marque se esta peça é para exposição" :checked="old('is_display', false)" />
                     </div>
                 </x-spire::card>
 

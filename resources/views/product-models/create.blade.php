@@ -95,14 +95,8 @@
                 <x-spire::card>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Observações</h2>
 
-                    <div>
-                        <textarea name="observations" rows="4"
-                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Observações adicionais sobre o modelo...">{{ old('observations') }}</textarea>
-                        @error('observations')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-spire::textarea name="observations" rows="4"
+                        placeholder="Observações adicionais sobre o modelo..." :value="old('observations')" :error="$errors->first('observations')" />
                 </x-spire::card>
             </div>
 
@@ -112,17 +106,8 @@
                 <x-spire::card>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Status</h2>
 
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" name="is_active" value="1"
-                            class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                            {{ old('is_active', true) ? 'checked' : '' }}>
-                        <div>
-                            <span class="font-medium text-gray-900 dark:text-white">Ativo</span>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                Modelos inativos não aparecem para seleção
-                            </p>
-                        </div>
-                    </label>
+                    <x-spire::checkbox name="is_active" label="Ativo" hint="Modelos inativos não aparecem para seleção"
+                        size="lg" :checked="old('is_active', true)" />
                 </x-spire::card>
 
                 {{-- Ações --}}

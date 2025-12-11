@@ -28,16 +28,8 @@
                     <x-spire::select name="is_active" label="Status" :options="[['value' => '1', 'label' => 'Ativo'], ['value' => '0', 'label' => 'Inativo']]" :value="old('is_active', '1')" />
                 </div>
 
-                <div>
-                    <label for="description"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição</label>
-                    <textarea name="description" id="description" rows="3"
-                        class="w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 text-sm"
-                        placeholder="Descreva o propósito deste time...">{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-spire::textarea name="description" label="Descrição" rows="3"
+                    placeholder="Descreva o propósito deste time..." :value="old('description')" :error="$errors->first('description')" />
             </div>
         </x-spire::card>
 

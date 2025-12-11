@@ -100,14 +100,10 @@
                             @enderror
 
                             {{-- Is Partner Admin --}}
-                            <label class="flex items-center gap-2 mt-4 cursor-pointer">
-                                <input type="checkbox" name="is_partner_admin" value="1"
-                                    class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                    {{ old('is_partner_admin', $user->is_partner_admin) ? 'checked' : '' }}>
-                                <span class="text-sm text-gray-700 dark:text-gray-300">
-                                    Administrador do Posto
-                                </span>
-                            </label>
+                            <div class="mt-4">
+                                <x-spire::checkbox name="is_partner_admin" label="Administrador do Posto"
+                                    :checked="old('is_partner_admin', $user->is_partner_admin)" />
+                            </div>
                         </div>
 
                         {{-- Manufacturer Select --}}
@@ -148,14 +144,7 @@
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
 
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="is_active" value="1"
-                                class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                {{ old('is_active', $user->is_active) ? 'checked' : '' }}>
-                            <span class="text-sm text-gray-700 dark:text-gray-300">
-                                Usuário ativo
-                            </span>
-                        </label>
+                        <x-spire::checkbox name="is_active" label="Usuário ativo" :checked="old('is_active', $user->is_active)" />
                     </div>
                 </x-spire::card>
 

@@ -37,17 +37,8 @@
                     <x-spire::input type="text" name="name" label="Nome" placeholder="Ex: Linha Branca"
                         :value="old('name', $productLine->name)" :error="$errors->first('name')" required autofocus />
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Descrição
-                        </label>
-                        <textarea name="description" rows="3"
-                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Descrição opcional da linha de produto...">{{ old('description', $productLine->description) }}</textarea>
-                        @error('description')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-spire::textarea name="description" label="Descrição" rows="3"
+                        placeholder="Descrição opcional da linha de produto..." :value="old('description', $productLine->description)" :error="$errors->first('description')" />
                 </div>
 
                 <div class="mt-6 flex gap-3">

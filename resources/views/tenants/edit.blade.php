@@ -86,16 +86,7 @@
                 <x-spire::card>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Status</h2>
 
-                    <div class="space-y-4">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="is_active" value="1"
-                                class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                {{ old('is_active', $tenant->is_active) ? 'checked' : '' }}>
-                            <span class="text-sm text-gray-700 dark:text-gray-300">
-                                Tenant ativo
-                            </span>
-                        </label>
-                    </div>
+                    <x-spire::checkbox name="is_active" label="Tenant ativo" :checked="old('is_active', $tenant->is_active)" />
                 </x-spire::card>
 
                 {{-- Actions --}}

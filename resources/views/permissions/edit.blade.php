@@ -40,23 +40,14 @@
                             <x-spire::input type="text" name="name" label="Nome"
                                 placeholder="Visualizar usuários" :value="old('name', $permission->name)" :error="$errors->first('name')" required />
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Grupo
-                                </label>
-                                <input type="text" name="group" list="groups-list"
-                                    placeholder="Ex: users, tenants, roles"
-                                    value="{{ old('group', $permission->group) }}"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-                                <datalist id="groups-list">
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group }}">
-                                    @endforeach
-                                </datalist>
-                                @error('group')
-                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+                            <x-spire::input type="text" name="group" label="Grupo"
+                                placeholder="Ex: users, tenants, roles" :value="old('group', $permission->group)" :error="$errors->first('group')"
+                                list="groups-list" />
+                            <datalist id="groups-list">
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group }}">
+                                @endforeach
+                            </datalist>
                         </div>
 
                         <x-spire::textarea name="description" label="Descrição"
