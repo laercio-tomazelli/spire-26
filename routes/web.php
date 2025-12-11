@@ -77,6 +77,8 @@ Route::middleware('auth')->group(function (): void {
 
     // Inventory Transactions
     Route::get('inventory-transactions', [InventoryTransactionController::class, 'index'])->name('inventory-transactions.index');
+    Route::get('inventory-transactions/create', [InventoryTransactionController::class, 'create'])->name('inventory-transactions.create');
+    Route::post('inventory-transactions', [InventoryTransactionController::class, 'store'])->name('inventory-transactions.store');
     Route::get('inventory-transactions/{inventoryTransaction}', [InventoryTransactionController::class, 'show'])->name('inventory-transactions.show');
 });
 

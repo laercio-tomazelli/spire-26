@@ -81,7 +81,7 @@
                     {{-- Items Count --}}
                     <x-ui.table.cell data-column="items" align="center">
                         <span class="font-medium text-gray-900 dark:text-white">
-                            {{ $warehouse->inventory_items_count ?? $warehouse->inventoryItems()->count() }}
+                            {{ $warehouse->inventory_items_count ?? 0 }}
                         </span>
                     </x-ui.table.cell>
 

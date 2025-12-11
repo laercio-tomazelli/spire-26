@@ -47,11 +47,6 @@
                 {{-- Descrição --}}
                 <x-spire::input name="description" label="Descrição" :value="old('description')" maxlength="255"
                     placeholder="Descrição opcional" :error="$errors->first('description')" />
-
-                {{-- Ativo --}}
-                <div class="md:col-span-2">
-                    <x-spire::toggle name="is_active" label="Depósito ativo" :checked="old('is_active', true)" />
-                </div>
             </div>
 
             {{-- Actions --}}

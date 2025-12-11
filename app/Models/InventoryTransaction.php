@@ -56,23 +56,24 @@ class InventoryTransaction extends Model
 
     protected $fillable = [
         'warehouse_id',
-        'inventory_item_id',
         'part_id',
-        'type',
-        'quantity',
-        'unit_cost',
-        'reference_type',
-        'reference_id',
-        'reason',
-        'notes',
+        'part_code',
         'user_id',
+        'transaction_type_id',
+        'document_type_id',
+        'document_number',
+        'quantity',
+        'unit_price',
+        'cost_price',
+        'observations',
     ];
 
     protected function casts(): array
     {
         return [
-            'quantity' => 'decimal:4',
-            'unit_cost' => 'decimal:4',
+            'quantity' => 'integer',
+            'unit_price' => 'decimal:2',
+            'cost_price' => 'decimal:2',
         ];
     }
 
@@ -81,11 +82,6 @@ class InventoryTransaction extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
-    }
-
-    public function inventoryItem(): BelongsTo
-    {
-        return $this->belongsTo(InventoryItem::class);
     }
 
     public function part(): BelongsTo
@@ -98,15 +94,29 @@ class InventoryTransaction extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the reference model (polymorphic).
-     */
-    public function reference(): ?Model
+    public function transactionType(): BelongsTo
     {
-        if (! $this->reference_type || ! $this->reference_id) {
-            return null;
-        }
+        return $this->belongsTo(TransactionType::class);
+    }
 
-        return $this->reference_type::find($this->reference_id);
+    public function documentType(): BelongsTo
+    {
+        return $this->belongsTo(DocumentType::class);
+    }
+
+    /**
+     * Check if this is an entry transaction.
+     */
+    public function isEntry(): bool
+    {
+        return $this->quantity > 0;
+    }
+
+    /**
+     * Check if this is an exit transaction.
+     */
+    public function isExit(): bool
+    {
+        return $this->quantity < 0;
     }
 }

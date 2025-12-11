@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInventoryTransactionRequest;
+use App\Models\DocumentType;
+use App\Models\InventoryItem;
 use App\Models\InventoryTransaction;
 use App\Models\Part;
+use App\Models\TransactionType;
 use App\Models\Warehouse;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -90,9 +97,9 @@ class InventoryTransactionController extends Controller
             });
         }
 
-        // Filtro por tipo (entrada/saída)
-        if ($request->filled('type')) {
-            switch ($request->input('type')) {
+        // Filtro por status (entrada/saída)
+        if ($request->filled('status')) {
+            switch ($request->input('status')) {
                 case 'in':
                     $query->where('quantity', '>', 0);
                     break;
@@ -133,10 +140,93 @@ class InventoryTransactionController extends Controller
     {
         Gate::authorize('view', $inventoryTransaction->warehouse);
 
-        $inventoryTransaction->load(['warehouse', 'part', 'user']);
+        $inventoryTransaction->load(['warehouse', 'part', 'user', 'transactionType', 'documentType']);
 
         return view('inventory-transactions.show', [
             'transaction' => $inventoryTransaction,
         ]);
+    }
+
+    /**
+     * Show the form for creating a new transaction.
+     */
+    public function create(): View
+    {
+        Gate::authorize('viewAny', Warehouse::class);
+
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name', 'code']);
+        $parts = Part::orderBy('description')->get(['id', 'description', 'part_code']);
+        $transactionTypes = TransactionType::orderBy('type')->get();
+        $documentTypes = DocumentType::orderBy('type')->get();
+
+        return view('inventory-transactions.create', [
+            'warehouses' => $warehouses,
+            'parts' => $parts,
+            'transactionTypes' => $transactionTypes,
+            'documentTypes' => $documentTypes,
+        ]);
+    }
+
+    /**
+     * Store a newly created transaction in storage.
+     */
+    public function store(StoreInventoryTransactionRequest $request): RedirectResponse
+    {
+        Gate::authorize('viewAny', Warehouse::class);
+
+        $validated = $request->validated();
+
+        // Get the part to fill part_code
+        $part = Part::findOrFail($validated['part_id']);
+
+        // Get the transaction type to determine if it's entry or exit
+        $transactionType = TransactionType::findOrFail($validated['transaction_type_id']);
+
+        // Determine quantity sign based on operation type
+        $quantity = (int) $validated['quantity'];
+        if ($transactionType->isExit()) {
+            $quantity = -abs($quantity);
+        } else {
+            $quantity = abs($quantity);
+        }
+
+        DB::transaction(function () use ($validated, $part, $quantity): void {
+            // Create the transaction
+            $transaction = InventoryTransaction::create([
+                'warehouse_id' => $validated['warehouse_id'],
+                'part_id' => $validated['part_id'],
+                'part_code' => $part->part_code,
+                'user_id' => Auth::id(),
+                'transaction_type_id' => $validated['transaction_type_id'],
+                'document_type_id' => $validated['document_type_id'],
+                'document_number' => $validated['document_number'] ?? null,
+                'quantity' => $quantity,
+                'unit_price' => $validated['unit_price'] ?? 0,
+                'cost_price' => $validated['cost_price'] ?? 0,
+                'observations' => $validated['observations'] ?? null,
+            ]);
+
+            // Update or create inventory item
+            $inventoryItem = InventoryItem::firstOrCreate(
+                [
+                    'warehouse_id' => $validated['warehouse_id'],
+                    'part_id' => $validated['part_id'],
+                ],
+                [
+                    'part_code' => $part->part_code,
+                    'available_quantity' => 0,
+                    'reserved_quantity' => 0,
+                    'pending_quantity' => 0,
+                    'defective_quantity' => 0,
+                ],
+            );
+
+            // Update available quantity
+            $inventoryItem->increment('available_quantity', $quantity);
+        });
+
+        return redirect()
+            ->route('inventory-transactions.index')
+            ->with('success', 'Movimentação registrada com sucesso!');
     }
 }

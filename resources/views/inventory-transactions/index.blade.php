@@ -17,6 +17,14 @@
         Histórico de movimentações de estoque
     </x-slot:header>
 
+    {{-- Header Actions --}}
+    <x-slot:headerActions>
+        <x-spire::button href="{{ route('inventory-transactions.create') }}">
+            <x-spire::icon name="plus" size="sm" class="mr-2" />
+            Nova Movimentação
+        </x-spire::button>
+    </x-slot:headerActions>
+
     {{-- Table Container --}}
     @php
         $initialState = [
@@ -26,7 +34,7 @@
             'sortField' => request('sort', 'created_at'),
             'sortDirection' => request('direction', 'desc'),
             'filters' => [
-                'type' => request('type', ''),
+                'status' => request('status', ''),
                 'warehouse_id' => request('warehouse_id', ''),
                 'date_from' => request('date_from', ''),
                 'date_to' => request('date_to', ''),
@@ -48,18 +56,18 @@
         <x-ui.table>
             {{-- Table Header with Search, Filters, etc --}}
             <x-slot:header>
-                {{-- Type Tabs --}}
+                {{-- Status Tabs --}}
                 <x-ui.table.tabs>
-                    <x-ui.table.tab :active="!request('type')" :count="$counts['all'] ?? $transactions->total()"
-                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'type', value: '' }}))">
+                    <x-ui.table.tab :active="!request('status')" :count="$counts['all'] ?? $transactions->total()"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: '' }}))">
                         Todas
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('type') === 'in'" :count="$counts['in'] ?? null" variant="success"
-                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'type', value: 'in' }}))">
+                    <x-ui.table.tab :active="request('status') === 'in'" :count="$counts['in'] ?? null" variant="success"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: 'in' }}))">
                         Entradas
                     </x-ui.table.tab>
-                    <x-ui.table.tab :active="request('type') === 'out'" :count="$counts['out'] ?? null" variant="danger"
-                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'type', value: 'out' }}))">
+                    <x-ui.table.tab :active="request('status') === 'out'" :count="$counts['out'] ?? null" variant="danger"
+                        onclick="window.dispatchEvent(new CustomEvent('table-filter-change', { detail: { key: 'status', value: 'out' }}))">
                         Saídas
                     </x-ui.table.tab>
                 </x-ui.table.tabs>
@@ -155,7 +163,9 @@
                 });
 
                 // Create FilamentTable instance
+                console.log('🔧 Initializing FilamentTable for transactions...');
                 if (typeof Spire !== 'undefined' && Spire.FilamentTable) {
+                    console.log('✅ Spire.FilamentTable found, creating instance...');
                     const table = new Spire.FilamentTable({
                         url: url,
                         container: container,
@@ -163,6 +173,7 @@
                         csrfToken: csrfToken,
                         initialState: initialState,
                         onUpdate: (state) => {
+                            console.log('📊 Table state updated:', state);
                             const params = new URLSearchParams();
                             if (state.search) params.append('search', state.search);
                             if (state.sortField) {
@@ -178,6 +189,9 @@
                             window.history.replaceState({}, '', newUrl);
                         }
                     });
+                    console.log('✅ FilamentTable created successfully');
+                } else {
+                    console.error('❌ Spire.FilamentTable not available. Spire:', typeof Spire, Spire);
                 }
             });
         </script>

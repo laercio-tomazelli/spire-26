@@ -19,11 +19,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
-                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <x-spire::icon name="check-circle" size="lg" class="text-green-600 dark:text-green-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Disponível</p>
@@ -36,11 +32,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
-                    <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <x-spire::icon name="clock" size="lg" class="text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Reservado</p>
@@ -53,11 +45,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900">
-                    <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <x-spire::icon name="clock" size="lg" class="text-orange-600 dark:text-orange-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pendente</p>
@@ -70,11 +58,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-red-100 dark:bg-red-900">
-                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+                    <x-spire::icon name="exclamation-triangle" size="lg" class="text-red-600 dark:text-red-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Defeituoso</p>

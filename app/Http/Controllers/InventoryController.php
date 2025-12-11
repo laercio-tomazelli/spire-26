@@ -67,8 +67,7 @@ class InventoryController extends Controller
     private function getFilteredItems(Request $request): LengthAwarePaginator
     {
         $query = InventoryItem::query()
-            ->with(['warehouse', 'part'])
-            ->withoutGlobalScopes();
+            ->with(['warehouse', 'part']);
 
         // Ordenação
         $sortField = $request->input('sort', 'part_code');

@@ -17,6 +17,7 @@ final class WarehousePolicy
         if ($user->isSpire()) {
             return true;
         }
+
         return $user->hasPermission('warehouses.view');
     }
 
@@ -45,6 +46,7 @@ final class WarehousePolicy
         if ($user->isSpire()) {
             return true;
         }
+
         return $user->hasPermission('warehouses.create');
     }
 

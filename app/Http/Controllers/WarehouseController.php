@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\InventoryItem;
 use App\Models\Partner;
 use App\Models\Warehouse;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -97,7 +98,25 @@ class WarehouseController extends Controller
 
         $perPage = $request->integer('per_page', 15);
 
-        return $query->paginate($perPage)->withQueryString();
+        $paginator = $query->paginate($perPage)->withQueryString();
+
+        // Add inventory items count without global scopes (InventoryItem has BelongsToTenant but no tenant_id column)
+        $warehouseIds = $paginator->pluck('id')->toArray();
+        if (! empty($warehouseIds)) {
+            $itemCounts = InventoryItem::withoutGlobalScopes()
+                ->selectRaw('warehouse_id, COUNT(*) as count')
+                ->whereIn('warehouse_id', $warehouseIds)
+                ->groupBy('warehouse_id')
+                ->pluck('count', 'warehouse_id');
+
+            $paginator->getCollection()->transform(function ($warehouse) use ($itemCounts) {
+                $warehouse->inventory_items_count = $itemCounts[$warehouse->id] ?? 0;
+
+                return $warehouse;
+            });
+        }
+
+        return $paginator;
     }
 
     /**
@@ -128,11 +147,9 @@ class WarehouseController extends Controller
             'location' => ['nullable', 'string', 'max:255'],
             'type' => ['required', 'in:main,partner,buffer,defective'],
             'partner_id' => ['nullable', 'exists:partners,id'],
-            'is_active' => ['boolean'],
         ]);
 
         $validated['tenant_id'] = Auth::user()->tenant_id;
-        $validated['is_active'] = $request->boolean('is_active', true);
 
         $warehouse = Warehouse::create($validated);
 
@@ -147,18 +164,25 @@ class WarehouseController extends Controller
     {
         Gate::authorize('view', $warehouse);
 
-        $warehouse->load(['partner', 'tenant', 'inventoryItems.part']);
+        $warehouse->load(['partner', 'tenant']);
+
+        // Load inventory items without global scopes (InventoryItem has BelongsToTenant but no tenant_id column)
+        $inventoryItems = InventoryItem::withoutGlobalScopes()
+            ->where('warehouse_id', $warehouse->id)
+            ->with('part')
+            ->get();
 
         // Estatísticas do depósito
         $stats = [
-            'total_items' => $warehouse->inventoryItems()->count(),
-            'total_quantity' => $warehouse->inventoryItems()->sum('available_quantity'),
-            'reserved_quantity' => $warehouse->inventoryItems()->sum('reserved_quantity'),
-            'defective_quantity' => $warehouse->inventoryItems()->sum('defective_quantity'),
+            'total_items' => $inventoryItems->count(),
+            'total_quantity' => $inventoryItems->sum('available_quantity'),
+            'reserved_quantity' => $inventoryItems->sum('reserved_quantity'),
+            'defective_quantity' => $inventoryItems->sum('defective_quantity'),
         ];
 
         return view('warehouses.show', [
             'warehouse' => $warehouse,
+            'inventoryItems' => $inventoryItems,
             'stats' => $stats,
         ]);
     }
@@ -192,10 +216,7 @@ class WarehouseController extends Controller
             'location' => ['nullable', 'string', 'max:255'],
             'type' => ['required', 'in:main,partner,buffer,defective'],
             'partner_id' => ['nullable', 'exists:partners,id'],
-            'is_active' => ['boolean'],
         ]);
-
-        $validated['is_active'] = $request->boolean('is_active', true);
 
         $warehouse->update($validated);
 

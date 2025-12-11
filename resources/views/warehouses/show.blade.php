@@ -33,10 +33,7 @@
     <x-slot:headerActions>
         @can('update', $warehouse)
             <x-spire::button variant="outline" href="{{ route('warehouses.edit', $warehouse) }}">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
+                <x-spire::icon name="edit" size="sm" class="mr-2" />
                 Editar
             </x-spire::button>
         @endcan
@@ -46,10 +43,7 @@
                 @csrf
                 @method('DELETE')
                 <x-spire::button variant="danger" type="submit">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
+                    <x-spire::icon name="trash" size="sm" class="mr-2" />
                     Excluir
                 </x-spire::button>
             </form>
@@ -74,11 +68,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
-                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
+                    <x-spire::icon name="cube" size="lg" class="text-blue-600 dark:text-blue-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Itens</p>
@@ -91,11 +81,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
-                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <x-spire::icon name="check-circle" size="lg" class="text-green-600 dark:text-green-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Qtd. Disponível</p>
@@ -108,11 +94,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
-                    <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <x-spire::icon name="clock" size="lg" class="text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Reservados</p>
@@ -125,11 +107,7 @@
         <x-spire::card>
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-red-100 dark:bg-red-900">
-                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+                    <x-spire::icon name="exclamation-triangle" size="lg" class="text-red-600 dark:text-red-400" />
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Defeituosos</p>
@@ -200,7 +178,7 @@
     </x-spire::card>
 
     {{-- Inventory Items --}}
-    @if ($warehouse->inventoryItems->count() > 0)
+    @if ($inventoryItems->count() > 0)
         <x-spire::card title="Itens em Estoque" class="mt-6">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-700 dark:text-gray-300">
@@ -214,7 +192,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach ($warehouse->inventoryItems->take(10) as $item)
+                        @foreach ($inventoryItems->take(10) as $item)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td class="px-4 py-3 font-mono">{{ $item->part_code }}</td>
                                 <td class="px-4 py-3">{{ $item->part?->description ?? '—' }}</td>
@@ -229,11 +207,11 @@
                     </tbody>
                 </table>
             </div>
-            @if ($warehouse->inventoryItems->count() > 10)
+            @if ($inventoryItems->count() > 10)
                 <div class="mt-4 text-center">
                     <a href="{{ route('inventory.index', ['warehouse_id' => $warehouse->id]) }}"
                         class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400">
-                        Ver todos os {{ $warehouse->inventoryItems->count() }} itens →
+                        Ver todos os {{ $inventoryItems->count() }} itens →
                     </a>
                 </div>
             @endif
