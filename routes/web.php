@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryTransactionController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PermissionController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +67,17 @@ Route::middleware('auth')->group(function (): void {
     // Parts
     Route::patch('/parts/{part}/toggle-active', [PartController::class, 'toggleActive'])->name('parts.toggle-active');
     Route::resource('parts', PartController::class);
+
+    // Warehouses (Estoque)
+    Route::resource('warehouses', WarehouseController::class);
+
+    // Inventory Items
+    Route::get('inventory', [InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('inventory/{inventoryItem}', [InventoryController::class, 'show'])->name('inventory.show');
+
+    // Inventory Transactions
+    Route::get('inventory-transactions', [InventoryTransactionController::class, 'index'])->name('inventory-transactions.index');
+    Route::get('inventory-transactions/{inventoryTransaction}', [InventoryTransactionController::class, 'show'])->name('inventory-transactions.show');
 });
 
 require __DIR__.'/auth.php';

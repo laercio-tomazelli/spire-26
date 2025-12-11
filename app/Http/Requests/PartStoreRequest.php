@@ -31,7 +31,7 @@ class PartStoreRequest extends FormRequest
                 'required',
                 'string',
                 'max:60',
-                Rule::unique('parts')->where(fn($query) => $query->where('tenant_id', Auth::user()->tenant_id)),
+                Rule::unique('parts')->where(fn ($query) => $query->where('tenant_id', Auth::user()->tenant_id)),
             ],
             'description' => ['required', 'string', 'max:255'],
             'short_description' => ['nullable', 'string', 'max:255'],
