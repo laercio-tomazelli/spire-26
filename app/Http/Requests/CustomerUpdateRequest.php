@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\Customer;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class CustomerUpdateRequest extends FormRequest
     public function rules(): array
     {
         $customer = $this->route('customer');
-        $customerId = $customer instanceof \App\Models\Customer ? $customer->id : $customer;
+        $customerId = $customer instanceof Customer ? $customer->id : $customer;
 
         return [
             'customer_type' => ['required', Rule::in(['PF', 'PJ'])],

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $street
  * @property string|null $complement
  * @property string|null $neighborhood
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class PostalCode extends Model
 {
@@ -33,7 +34,7 @@ class PostalCode extends Model
     /**
      * Formata o CEP com máscara (XXXXX-XXX)
      */
-    public function getFormattedCodeAttribute(): string
+    protected function getFormattedCodeAttribute(): string
     {
         $code = str_pad($this->code, 8, '0', STR_PAD_LEFT);
 

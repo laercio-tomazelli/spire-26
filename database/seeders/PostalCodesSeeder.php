@@ -43,7 +43,7 @@ class PostalCodesSeeder extends Seeder
         DB::connection($legacyConnection)
             ->table('ceps')
             ->orderBy('Codigo')
-            ->chunk($batchSize, function ($records) use (&$totalImported, $total) {
+            ->chunk($batchSize, function ($records) use (&$totalImported, $total): void {
                 $data = [];
 
                 foreach ($records as $record) {

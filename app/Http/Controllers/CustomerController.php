@@ -135,17 +135,16 @@ class CustomerController extends Controller
         $data['tenant_id'] = $request->user()->tenant_id;
 
         // Sanitiza o documento (remove formatação)
-        $data['document'] = preg_replace('/\D/', '', $data['document']);
+        $data['document'] = preg_replace('/\D/', '', (string) $data['document']);
 
         // Sanitiza o CEP
         if (! empty($data['postal_code'])) {
-            $data['postal_code'] = preg_replace('/\D/', '', $data['postal_code']);
+            $data['postal_code'] = preg_replace('/\D/', '', (string) $data['postal_code']);
         }
 
         $customer = Customer::create($data);
 
-        return redirect()
-            ->route('customers.show', $customer)
+        return to_route('customers.show', $customer)
             ->with('success', 'Cliente cadastrado com sucesso!');
     }
 
@@ -186,17 +185,16 @@ class CustomerController extends Controller
         $data = $request->validated();
 
         // Sanitiza o documento (remove formatação)
-        $data['document'] = preg_replace('/\D/', '', $data['document']);
+        $data['document'] = preg_replace('/\D/', '', (string) $data['document']);
 
         // Sanitiza o CEP
         if (! empty($data['postal_code'])) {
-            $data['postal_code'] = preg_replace('/\D/', '', $data['postal_code']);
+            $data['postal_code'] = preg_replace('/\D/', '', (string) $data['postal_code']);
         }
 
         $customer->update($data);
 
-        return redirect()
-            ->route('customers.show', $customer)
+        return to_route('customers.show', $customer)
             ->with('success', 'Cliente atualizado com sucesso!');
     }
 
@@ -209,15 +207,13 @@ class CustomerController extends Controller
 
         // Verifica se há ordens de serviço ou pedidos vinculados
         if ($customer->serviceOrders()->exists() || $customer->orders()->exists()) {
-            return redirect()
-                ->route('customers.index')
+            return to_route('customers.index')
                 ->with('error', 'Não é possível excluir um cliente com ordens de serviço ou pedidos vinculados.');
         }
 
         $customer->delete();
 
-        return redirect()
-            ->route('customers.index')
+        return to_route('customers.index')
             ->with('success', 'Cliente excluído com sucesso!');
     }
 

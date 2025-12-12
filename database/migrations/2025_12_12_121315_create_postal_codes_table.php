@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('postal_codes', function (Blueprint $table) {
+        Schema::create('postal_codes', function (Blueprint $table): void {
             $table->id();
             $table->string('code', 8)->index()->comment('CEP sem formatação');
             $table->string('code_range', 8)->nullable()->comment('Faixa do CEP');

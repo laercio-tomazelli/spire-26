@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\PostalCode;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -30,7 +31,7 @@ class PostalCodeService
         // Tenta encontrar no banco local
         $postalCode = $this->findInDatabase($code);
 
-        if ($postalCode) {
+        if ($postalCode instanceof PostalCode) {
             return $this->formatResponse($postalCode);
         }
 
@@ -106,7 +107,7 @@ class PostalCodeService
             }
 
             return $data;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::warning('ViaCep API error', [
                 'code' => $code,
                 'error' => $e->getMessage(),

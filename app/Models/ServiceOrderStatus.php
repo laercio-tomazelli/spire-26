@@ -66,7 +66,7 @@ class ServiceOrderStatus extends Model
     /**
      * Scope: only active statuses.
      */
-    public function scopeActive(Builder $query): Builder
+    protected function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }

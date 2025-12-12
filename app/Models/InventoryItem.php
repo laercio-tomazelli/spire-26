@@ -92,7 +92,7 @@ class InventoryItem extends Model
     /**
      * Get total quantity (available + reserved).
      */
-    public function getTotalQuantityAttribute(): int
+    protected function getTotalQuantityAttribute(): int
     {
         return $this->available_quantity + $this->reserved_quantity;
     }

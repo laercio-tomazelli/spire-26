@@ -65,7 +65,7 @@ class ServiceLocation extends Model
     /**
      * Scope: only active.
      */
-    public function scopeActive(Builder $query): Builder
+    protected function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }

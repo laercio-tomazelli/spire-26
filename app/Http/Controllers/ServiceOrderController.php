@@ -83,19 +83,16 @@ class ServiceOrderController extends Controller
             // Gera o próximo número da OS para o tenant
             $orderNumber = ServiceOrder::forTenant($tenantId)->max('order_number') + 1;
 
-            $serviceOrder = ServiceOrder::create([
+            return ServiceOrder::create([
                 ...$validated,
                 'tenant_id' => $tenantId,
                 'order_number' => $orderNumber,
                 'opened_at' => now(),
                 'opened_by' => $request->user()->id,
             ]);
-
-            return $serviceOrder;
         });
 
-        return redirect()
-            ->route('service-orders.index')
+        return to_route('service-orders.index')
             ->with('success', 'Ordem de Serviço criada com sucesso.');
     }
 
@@ -167,8 +164,7 @@ class ServiceOrderController extends Controller
             $serviceOrder->update($validated);
         });
 
-        return redirect()
-            ->route('service-orders.show', $serviceOrder)
+        return to_route('service-orders.show', $serviceOrder)
             ->with('success', 'Ordem de Serviço atualizada com sucesso.');
     }
 
@@ -181,15 +177,13 @@ class ServiceOrderController extends Controller
 
         // Verifica se a OS pode ser excluída (apenas OSs não finalizadas)
         if ($serviceOrder->isClosed()) {
-            return redirect()
-                ->route('service-orders.index')
+            return to_route('service-orders.index')
                 ->with('error', 'Não é possível excluir uma OS já finalizada.');
         }
 
         $serviceOrder->delete();
 
-        return redirect()
-            ->route('service-orders.index')
+        return to_route('service-orders.index')
             ->with('success', 'Ordem de Serviço excluída com sucesso.');
     }
 

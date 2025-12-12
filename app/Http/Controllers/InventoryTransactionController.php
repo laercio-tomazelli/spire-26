@@ -184,11 +184,7 @@ class InventoryTransactionController extends Controller
 
         // Determine quantity sign based on operation type
         $quantity = (int) $validated['quantity'];
-        if ($transactionType->isExit()) {
-            $quantity = -abs($quantity);
-        } else {
-            $quantity = abs($quantity);
-        }
+        $quantity = $transactionType->isExit() ? -abs($quantity) : abs($quantity);
 
         DB::transaction(function () use ($validated, $part, $quantity): void {
             // Create the transaction
@@ -225,8 +221,7 @@ class InventoryTransactionController extends Controller
             $inventoryItem->increment('available_quantity', $quantity);
         });
 
-        return redirect()
-            ->route('inventory-transactions.index')
+        return to_route('inventory-transactions.index')
             ->with('success', 'Movimentação registrada com sucesso!');
     }
 }

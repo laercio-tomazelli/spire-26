@@ -93,7 +93,7 @@ final class CustomerPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Customer $customer): bool
+    public function forceDelete(User $user): bool
     {
         return $user->isSpire();
     }
