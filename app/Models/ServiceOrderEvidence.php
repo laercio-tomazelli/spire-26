@@ -24,7 +24,7 @@ class ServiceOrderEvidence extends Model
 {
     use HasFactory;
 
-    protected $table = 'service_order_evidence';
+    protected $table = 'service_order_evidence_files';
 
     protected $fillable = [
         'service_order_id',

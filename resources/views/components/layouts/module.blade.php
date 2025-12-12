@@ -47,12 +47,15 @@
 
         {{-- Operações --}}
         <x-spire::sidebar-group label="Operações">
-            <x-spire::sidebar-item label="Ordens de Serviço" :submenu="true"
+            <x-spire::sidebar-item label="Ordens de Serviço" :submenu="true" :active="request()->routeIs('service-orders.*')"
                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>'>
-                <x-spire::sidebar-item href="#" label="Todas as OS" />
-                <x-spire::sidebar-item href="#" label="Abertas" badge="12" badgeColor="warning" />
-                <x-spire::sidebar-item href="#" label="Em Andamento" badge="5" badgeColor="info" />
-                <x-spire::sidebar-item href="#" label="Finalizadas" />
+                <x-spire::sidebar-item href="{{ route('service-orders.index') }}" label="Todas as OS"
+                    :active="request()->routeIs('service-orders.index')" />
+                <x-spire::sidebar-item href="{{ route('service-orders.index', ['status' => 'open']) }}" label="Abertas"
+                    :active="request()->is('service-orders*') && request()->get('status') === 'open'" />
+                <x-spire::sidebar-item href="{{ route('service-orders.index', ['status' => 'closed']) }}"
+                    label="Finalizadas" :active="request()->is('service-orders*') && request()->get('status') === 'closed'" />
+                <x-spire::sidebar-item href="{{ route('service-orders.create') }}" label="Nova OS" :active="request()->routeIs('service-orders.create')" />
             </x-spire::sidebar-item>
 
             <x-spire::sidebar-item label="Pedidos de Peças" :submenu="true"
@@ -66,18 +69,20 @@
                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>' />
 
             {{-- Cadastros (submenu colapsável) --}}
-            <x-spire::sidebar-item label="Cadastros" :submenu="true" :active="request()->routeIs('product-models.*') ||
+            <x-spire::sidebar-item label="Cadastros" :submenu="true" :active="request()->routeIs('customers.*') ||
+                request()->routeIs('product-models.*') ||
                 request()->routeIs('product-lines.*') ||
                 request()->routeIs('product-categories.*') ||
                 request()->routeIs('parts.*')"
                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>'>
-                <x-spire::sidebar-item href="#" label="Clientes" />
+                <x-spire::sidebar-item href="{{ route('customers.index') }}" label="Clientes" :active="request()->routeIs('customers.*')" />
                 <x-spire::sidebar-item label="Produtos" :submenu="true" :active="request()->routeIs('product-models.*') ||
                     request()->routeIs('product-lines.*') ||
                     request()->routeIs('product-categories.*')">
                     <x-spire::sidebar-item href="{{ route('product-models.index') }}" label="Modelos"
                         :active="request()->routeIs('product-models.*')" />
-                    <x-spire::sidebar-item href="{{ route('product-lines.index') }}" label="Linhas" :active="request()->routeIs('product-lines.*')" />
+                    <x-spire::sidebar-item href="{{ route('product-lines.index') }}" label="Linhas"
+                        :active="request()->routeIs('product-lines.*')" />
                     <x-spire::sidebar-item href="{{ route('product-categories.index') }}" label="Categorias"
                         :active="request()->routeIs('product-categories.*')" />
                 </x-spire::sidebar-item>

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
@@ -27,9 +25,8 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $service_orders_count
  * @property-read Collection<int, ServiceOrderSubStatus> $subStatuses
  * @property-read int|null $sub_statuses_count
- * @property-read Tenant|null $tenant
  *
- * @method static Builder<static>|ServiceOrderStatus forTenant(int $tenantId)
+ * @method static Builder<static>|ServiceOrderStatus active()
  * @method static Builder<static>|ServiceOrderStatus newModelQuery()
  * @method static Builder<static>|ServiceOrderStatus newQuery()
  * @method static Builder<static>|ServiceOrderStatus query()
@@ -47,38 +44,34 @@ use Illuminate\Support\Carbon;
  */
 class ServiceOrderStatus extends Model
 {
-    use BelongsToTenant;
     use HasFactory;
 
     protected $fillable = [
-        'tenant_id',
+        'code',
         'name',
-        'slug',
-        'description',
         'color',
         'icon',
-        'sort_order',
-        'is_initial',
-        'is_final',
+        'display_order',
         'is_active',
     ];
 
     protected function casts(): array
     {
         return [
-            'sort_order' => 'integer',
-            'is_initial' => 'boolean',
-            'is_final' => 'boolean',
+            'display_order' => 'integer',
             'is_active' => 'boolean',
         ];
     }
 
-    // Relationships
-
-    public function tenant(): BelongsTo
+    /**
+     * Scope: only active statuses.
+     */
+    public function scopeActive(Builder $query): Builder
     {
-        return $this->belongsTo(Tenant::class);
+        return $query->where('is_active', true);
     }
+
+    // Relationships
 
     public function subStatuses(): HasMany
     {

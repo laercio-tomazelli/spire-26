@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\PostalCodeController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryTransactionController;
 use App\Http\Controllers\ManufacturerController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\ProductLineController;
 use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
@@ -54,6 +57,12 @@ Route::middleware('auth')->group(function (): void {
     Route::patch('/teams/{team}/toggle-active', [TeamController::class, 'toggleActive'])->name('teams.toggle-active');
     Route::resource('teams', TeamController::class);
 
+    // Customers
+    Route::resource('customers', CustomerController::class);
+
+    // Service Orders (OS)
+    Route::resource('service-orders', ServiceOrderController::class);
+
     // Product Models
     Route::patch('/product-models/{productModel}/toggle-active', [ProductModelController::class, 'toggleActive'])->name('product-models.toggle-active');
     Route::resource('product-models', ProductModelController::class);
@@ -80,6 +89,9 @@ Route::middleware('auth')->group(function (): void {
     Route::get('inventory-transactions/create', [InventoryTransactionController::class, 'create'])->name('inventory-transactions.create');
     Route::post('inventory-transactions', [InventoryTransactionController::class, 'store'])->name('inventory-transactions.store');
     Route::get('inventory-transactions/{inventoryTransaction}', [InventoryTransactionController::class, 'show'])->name('inventory-transactions.show');
+
+    // API - Postal Code / CEP lookup
+    Route::get('api/postal-codes/{code}', [PostalCodeController::class, 'show'])->name('api.postal-codes.show');
 });
 
 require __DIR__.'/auth.php';

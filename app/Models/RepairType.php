@@ -11,48 +11,49 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * Tipo de Serviço (Reparo, Instalação, etc.).
+ * Tipo de Reparo.
  *
  * @property int $id
  * @property string $code
- * @property string $name Reparo, Instalação, etc.
+ * @property string $name
  * @property string|null $color
- * @property int $display_order
  * @property bool $is_active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, ServiceOrder> $serviceOrders
  * @property-read int|null $service_orders_count
  *
- * @method static Builder<static>|ServiceType active()
- * @method static Builder<static>|ServiceType newModelQuery()
- * @method static Builder<static>|ServiceType newQuery()
- * @method static Builder<static>|ServiceType query()
- * @method static Builder<static>|ServiceType whereCode($value)
- * @method static Builder<static>|ServiceType whereColor($value)
- * @method static Builder<static>|ServiceType whereCreatedAt($value)
- * @method static Builder<static>|ServiceType whereDisplayOrder($value)
- * @method static Builder<static>|ServiceType whereId($value)
- * @method static Builder<static>|ServiceType whereIsActive($value)
- * @method static Builder<static>|ServiceType whereName($value)
- * @method static Builder<static>|ServiceType whereUpdatedAt($value)
+ * @method static Builder<static>|RepairType active()
+ * @method static Builder<static>|RepairType newModelQuery()
+ * @method static Builder<static>|RepairType newQuery()
+ * @method static Builder<static>|RepairType query()
+ * @method static Builder<static>|RepairType whereCode($value)
+ * @method static Builder<static>|RepairType whereColor($value)
+ * @method static Builder<static>|RepairType whereCreatedAt($value)
+ * @method static Builder<static>|RepairType whereId($value)
+ * @method static Builder<static>|RepairType whereIsActive($value)
+ * @method static Builder<static>|RepairType whereName($value)
+ * @method static Builder<static>|RepairType whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
-class ServiceType extends Model
+class RepairType extends Model
 {
     protected $fillable = [
         'code',
         'name',
         'color',
-        'display_order',
         'is_active',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
-            'display_order' => 'integer',
             'is_active' => 'boolean',
         ];
     }
@@ -65,8 +66,11 @@ class ServiceType extends Model
         return $query->where('is_active', true);
     }
 
-    // Relationships
-
+    /**
+     * ServiceOrders with this repair type.
+     *
+     * @return HasMany<ServiceOrder, $this>
+     */
     public function serviceOrders(): HasMany
     {
         return $this->hasMany(ServiceOrder::class);

@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * Tipo de Serviço (Reparo, Instalação, etc.).
+ * Local do Serviço (Balcão, Domicílio, Depósito).
  *
  * @property int $id
  * @property string $code
- * @property string $name Reparo, Instalação, etc.
+ * @property string $name Balcão, Domicílio, Depósito
  * @property string|null $color
  * @property int $display_order
  * @property bool $is_active
@@ -24,22 +24,22 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, ServiceOrder> $serviceOrders
  * @property-read int|null $service_orders_count
  *
- * @method static Builder<static>|ServiceType active()
- * @method static Builder<static>|ServiceType newModelQuery()
- * @method static Builder<static>|ServiceType newQuery()
- * @method static Builder<static>|ServiceType query()
- * @method static Builder<static>|ServiceType whereCode($value)
- * @method static Builder<static>|ServiceType whereColor($value)
- * @method static Builder<static>|ServiceType whereCreatedAt($value)
- * @method static Builder<static>|ServiceType whereDisplayOrder($value)
- * @method static Builder<static>|ServiceType whereId($value)
- * @method static Builder<static>|ServiceType whereIsActive($value)
- * @method static Builder<static>|ServiceType whereName($value)
- * @method static Builder<static>|ServiceType whereUpdatedAt($value)
+ * @method static Builder<static>|ServiceLocation active()
+ * @method static Builder<static>|ServiceLocation newModelQuery()
+ * @method static Builder<static>|ServiceLocation newQuery()
+ * @method static Builder<static>|ServiceLocation query()
+ * @method static Builder<static>|ServiceLocation whereCode($value)
+ * @method static Builder<static>|ServiceLocation whereColor($value)
+ * @method static Builder<static>|ServiceLocation whereCreatedAt($value)
+ * @method static Builder<static>|ServiceLocation whereDisplayOrder($value)
+ * @method static Builder<static>|ServiceLocation whereId($value)
+ * @method static Builder<static>|ServiceLocation whereIsActive($value)
+ * @method static Builder<static>|ServiceLocation whereName($value)
+ * @method static Builder<static>|ServiceLocation whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
-class ServiceType extends Model
+class ServiceLocation extends Model
 {
     protected $fillable = [
         'code',
@@ -49,6 +49,11 @@ class ServiceType extends Model
         'is_active',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
@@ -65,8 +70,11 @@ class ServiceType extends Model
         return $query->where('is_active', true);
     }
 
-    // Relationships
-
+    /**
+     * ServiceOrders with this location.
+     *
+     * @return HasMany<ServiceOrder, $this>
+     */
     public function serviceOrders(): HasMany
     {
         return $this->hasMany(ServiceOrder::class);

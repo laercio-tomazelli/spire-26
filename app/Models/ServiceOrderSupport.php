@@ -23,6 +23,8 @@ class ServiceOrderSupport extends Model
 {
     use HasFactory;
 
+    protected $table = 'service_order_technical_support';
+
     protected $fillable = [
         'service_order_id',
         'user_id',

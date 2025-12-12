@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 
 /**
@@ -269,6 +270,17 @@ class ServiceOrder extends Model
     use BelongsToTenant;
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::creating(function (ServiceOrder $serviceOrder): void {
+            if (empty($serviceOrder->order_number)) {
+                $maxOrderNumber = static::where('tenant_id', $serviceOrder->tenant_id)
+                    ->max('order_number') ?? 0;
+                $serviceOrder->order_number = $maxOrderNumber + 1;
+            }
+        });
+    }
+
     protected $fillable = [
         'tenant_id',
         'brand_id',
@@ -298,11 +310,8 @@ class ServiceOrder extends Model
         'started_at',
         'completed_at',
         'closed_at',
-        'canceled_at',
-        'cancellation_reason',
         'scheduled_date',
         'scheduled_period',
-        'technician_id',
         'assigned_by',
         'assigned_at',
         'rating',
@@ -335,7 +344,6 @@ class ServiceOrder extends Model
             'started_at' => 'datetime',
             'completed_at' => 'datetime',
             'closed_at' => 'datetime',
-            'canceled_at' => 'datetime',
             'scheduled_date' => 'date',
             'assigned_at' => 'datetime',
             'rated_at' => 'datetime',
@@ -427,11 +435,6 @@ class ServiceOrder extends Model
         return $this->belongsTo(Solution::class);
     }
 
-    public function technician(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'technician_id');
-    }
-
     public function assignedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_by');
@@ -474,9 +477,16 @@ class ServiceOrder extends Model
         return $this->hasMany(ServiceOrderInvite::class);
     }
 
-    public function schedules(): HasMany
+    public function schedules(): HasManyThrough
     {
-        return $this->hasMany(ServiceOrderSchedule::class);
+        return $this->hasManyThrough(
+            ServiceOrderSchedule::class,
+            ServiceOrderInvite::class,
+            'service_order_id',      // Foreign key on service_order_invites table
+            'service_order_invite_id', // Foreign key on service_order_schedules table
+            'id',                    // Local key on service_orders table
+            'id',                     // Local key on service_order_invites table
+        );
     }
 
     public function evidence(): HasMany
@@ -492,21 +502,21 @@ class ServiceOrder extends Model
     // Scopes
 
     #[Scope]
-    protected function open($query)
+    protected function open(Builder $query): Builder
     {
-        return $query->whereNull('closed_at')->whereNull('canceled_at');
+        return $query->whereNull('closed_at')->whereNull('rejected_at');
     }
 
     #[Scope]
-    protected function closed($query)
+    protected function closed(Builder $query): Builder
     {
         return $query->whereNotNull('closed_at');
     }
 
     #[Scope]
-    protected function canceled($query)
+    protected function canceled(Builder $query): Builder
     {
-        return $query->whereNotNull('canceled_at');
+        return $query->whereNotNull('rejected_at');
     }
 
     #[Scope]
@@ -525,7 +535,7 @@ class ServiceOrder extends Model
 
     public function isOpen(): bool
     {
-        return is_null($this->closed_at) && is_null($this->canceled_at);
+        return is_null($this->closed_at) && is_null($this->rejected_at);
     }
 
     public function isClosed(): bool
@@ -535,7 +545,7 @@ class ServiceOrder extends Model
 
     public function isCanceled(): bool
     {
-        return ! is_null($this->canceled_at);
+        return ! is_null($this->rejected_at);
     }
 
     public function isUnderWarranty(): bool
