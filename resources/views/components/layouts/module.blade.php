@@ -64,50 +64,53 @@
 
             <x-spire::sidebar-item href="#" label="Trocas"
                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>' />
-        </x-spire::sidebar-group>
 
-        {{-- Cadastros --}}
-        <x-spire::sidebar-group label="Cadastros">
-            <x-spire::sidebar-item href="#" label="Clientes"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>' />
-            <x-spire::sidebar-item label="Produtos" :submenu="true" :active="request()->routeIs('product-models.*') ||
+            {{-- Cadastros (submenu colapsável) --}}
+            <x-spire::sidebar-item label="Cadastros" :submenu="true" :active="request()->routeIs('product-models.*') ||
                 request()->routeIs('product-lines.*') ||
-                request()->routeIs('product-categories.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>'>
-                <x-spire::sidebar-item href="{{ route('product-models.index') }}" label="Modelos" :active="request()->routeIs('product-models.*')" />
-                <x-spire::sidebar-item href="{{ route('product-lines.index') }}" label="Linhas" :active="request()->routeIs('product-lines.*')" />
-                <x-spire::sidebar-item href="{{ route('product-categories.index') }}" label="Categorias"
-                    :active="request()->routeIs('product-categories.*')" />
+                request()->routeIs('product-categories.*') ||
+                request()->routeIs('parts.*')"
+                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>'>
+                <x-spire::sidebar-item href="#" label="Clientes" />
+                <x-spire::sidebar-item label="Produtos" :submenu="true" :active="request()->routeIs('product-models.*') ||
+                    request()->routeIs('product-lines.*') ||
+                    request()->routeIs('product-categories.*')">
+                    <x-spire::sidebar-item href="{{ route('product-models.index') }}" label="Modelos"
+                        :active="request()->routeIs('product-models.*')" />
+                    <x-spire::sidebar-item href="{{ route('product-lines.index') }}" label="Linhas" :active="request()->routeIs('product-lines.*')" />
+                    <x-spire::sidebar-item href="{{ route('product-categories.index') }}" label="Categorias"
+                        :active="request()->routeIs('product-categories.*')" />
+                </x-spire::sidebar-item>
+                <x-spire::sidebar-item href="{{ route('parts.index') }}" label="Peças" :active="request()->routeIs('parts.*')" />
             </x-spire::sidebar-item>
-            <x-spire::sidebar-item href="{{ route('parts.index') }}" label="Peças" :active="request()->routeIs('parts.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>' />
-        </x-spire::sidebar-group>
 
-        {{-- Estoque --}}
-        <x-spire::sidebar-group label="Estoque">
-            <x-spire::sidebar-item href="{{ route('warehouses.index') }}" label="Depósitos" :active="request()->routeIs('warehouses.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('inventory.index') }}" label="Itens" :active="request()->routeIs('inventory.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('inventory-transactions.index') }}" label="Movimentações"
-                :active="request()->routeIs('inventory-transactions.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>' />
-        </x-spire::sidebar-group>
+            {{-- Estoque (submenu colapsável) --}}
+            <x-spire::sidebar-item label="Estoque" :submenu="true" :active="request()->routeIs('warehouses.*') ||
+                request()->routeIs('inventory.*') ||
+                request()->routeIs('inventory-transactions.*')"
+                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>'>
+                <x-spire::sidebar-item href="{{ route('warehouses.index') }}" label="Depósitos" :active="request()->routeIs('warehouses.*')" />
+                <x-spire::sidebar-item href="{{ route('inventory.index') }}" label="Itens" :active="request()->routeIs('inventory.*')" />
+                <x-spire::sidebar-item href="{{ route('inventory-transactions.index') }}" label="Movimentações"
+                    :active="request()->routeIs('inventory-transactions.*')" />
+            </x-spire::sidebar-item>
 
-        {{-- Administração --}}
-        <x-spire::sidebar-group label="Administração">
-            <x-spire::sidebar-item href="{{ route('tenants.index') }}" label="Tenants" :active="request()->routeIs('tenants.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('manufacturers.index') }}" label="Fabricantes" :active="request()->routeIs('manufacturers.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('users.index') }}" label="Usuários" :active="request()->routeIs('users.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('teams.index') }}" label="Times" :active="request()->routeIs('teams.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('roles.index') }}" label="Perfis" :active="request()->routeIs('roles.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>' />
-            <x-spire::sidebar-item href="{{ route('permissions.index') }}" label="Permissões" :active="request()->routeIs('permissions.*')"
-                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>' />
+            {{-- Administração (submenu colapsável) --}}
+            <x-spire::sidebar-item label="Administração" :submenu="true" :active="request()->routeIs('tenants.*') ||
+                request()->routeIs('manufacturers.*') ||
+                request()->routeIs('users.*') ||
+                request()->routeIs('teams.*') ||
+                request()->routeIs('roles.*') ||
+                request()->routeIs('permissions.*')"
+                icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>'>
+                <x-spire::sidebar-item href="{{ route('tenants.index') }}" label="Tenants" :active="request()->routeIs('tenants.*')" />
+                <x-spire::sidebar-item href="{{ route('manufacturers.index') }}" label="Fabricantes"
+                    :active="request()->routeIs('manufacturers.*')" />
+                <x-spire::sidebar-item href="{{ route('users.index') }}" label="Usuários" :active="request()->routeIs('users.*')" />
+                <x-spire::sidebar-item href="{{ route('teams.index') }}" label="Times" :active="request()->routeIs('teams.*')" />
+                <x-spire::sidebar-item href="{{ route('roles.index') }}" label="Perfis" :active="request()->routeIs('roles.*')" />
+                <x-spire::sidebar-item href="{{ route('permissions.index') }}" label="Permissões" :active="request()->routeIs('permissions.*')" />
+            </x-spire::sidebar-item>
         </x-spire::sidebar-group>
 
         {{-- Footer --}}
@@ -166,8 +169,7 @@
                         class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                         <x-spire::avatar size="sm" :name="Auth::user()?->name ?? 'User'" />
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </span>
                 </x-slot:triggerSlot>
