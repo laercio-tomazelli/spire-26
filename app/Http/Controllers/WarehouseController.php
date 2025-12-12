@@ -110,7 +110,7 @@ class WarehouseController extends Controller
                 ->pluck('count', 'warehouse_id');
 
             $paginator->getCollection()->transform(function ($warehouse) use ($itemCounts) {
-                $warehouse->inventory_items_count = $itemCounts[$warehouse->id] ?? 0;
+                $warehouse->setAttribute('inventory_items_count', $itemCounts[$warehouse->id] ?? 0);
 
                 return $warehouse;
             });

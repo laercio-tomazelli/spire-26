@@ -40,7 +40,7 @@ final class ProductModelPolicy
 
         // Manufacturer can view their own product models
         if ($user->isManufacturer()) {
-            return $productModel->brand?->manufacturer_id === $user->manufacturer_id;
+            return $productModel->brand->manufacturer_id === $user->manufacturer_id;
         }
 
         // Partners can view active product models
@@ -73,7 +73,7 @@ final class ProductModelPolicy
 
         // Manufacturer can update their own product models
         if ($user->isManufacturer()) {
-            return $productModel->brand?->manufacturer_id === $user->manufacturer_id
+            return $productModel->brand->manufacturer_id === $user->manufacturer_id
                 && $user->hasPermission('product_models.update');
         }
 
@@ -92,7 +92,7 @@ final class ProductModelPolicy
 
         // Manufacturer can delete their own product models (if no service orders)
         if ($user->isManufacturer()) {
-            return $productModel->brand?->manufacturer_id === $user->manufacturer_id
+            return $productModel->brand->manufacturer_id === $user->manufacturer_id
                 && $user->hasPermission('product_models.delete');
         }
 
