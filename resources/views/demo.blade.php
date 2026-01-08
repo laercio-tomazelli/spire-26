@@ -63,44 +63,44 @@
                         <h2 class="text-xl font-bold mb-6">📝 Inputs Básicos</h2>
                         <div class="space-y-6">
                             {{-- With Label and Icon --}}
-                            <x-ui.input 
-                                label="Name" 
+                            <x-ui.input
+                                label="Name"
                                 placeholder="Your name"
                                 hint="Your full name"
                                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>'
                             />
-                            
+
                             {{-- Right Icon --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Right icon</label>
-                                <x-ui.input 
+                                <x-ui.input
                                     placeholder="CA, Street 1"
                                     icon-right='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>'
                                 />
                             </div>
-                            
+
                             {{-- Clearable --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Clearable</label>
-                                <x-ui.input 
+                                <x-ui.input
                                     placeholder="Clearable field"
                                     :clearable="true"
                                     value="Type something..."
                                 />
                             </div>
-                            
+
                             {{-- Prefix & Suffix --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Prefix & Suffix</label>
-                                <x-ui.input 
+                                <x-ui.input
                                     prefix="www"
                                     suffix=".com"
                                     placeholder=""
                                 />
                             </div>
-                            
+
                             {{-- Inline Label --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Hey, inline..."
                                 :inline="true"
                                 placeholder=""
@@ -113,28 +113,28 @@
                         <h2 class="text-xl font-bold mb-6">🔒 Estados</h2>
                         <div class="space-y-6">
                             {{-- Disabled --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Disabled"
                                 placeholder="It is disabled"
                                 :disabled="true"
                             />
-                            
+
                             {{-- Read Only --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Read only"
                                 value="Read only"
                                 :readonly="true"
                             />
-                            
+
                             {{-- Error --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="With error"
                                 placeholder="Invalid input"
                                 error="This field is required"
                             />
-                            
+
                             {{-- Required --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Required field"
                                 placeholder="This is required"
                                 :required="true"
@@ -150,7 +150,7 @@
                         </p>
                         <div class="space-y-6">
                             {{-- Toggle Left --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Toggle"
                                 :password="true"
                                 password-toggle="left"
@@ -158,26 +158,26 @@
                                 value="secret123"
                                 hint="It toggles visibility"
                             />
-                            
+
                             {{-- Toggle Right --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Right toggle"
                                 :password="true"
                                 password-toggle="right"
                                 value="secret123"
                             />
-                            
+
                             {{-- Custom Icon --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Custom icons"
                                 :password="true"
                                 password-toggle="left"
                                 value="secret123"
                                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>'
                             />
-                            
+
                             {{-- Without Toggle (inline label) --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Without toggle"
                                 :inline="true"
                                 type="password"
@@ -191,7 +191,7 @@
                         <h2 class="text-xl font-bold mb-6">💰 Money</h2>
                         <div class="space-y-6">
                             {{-- Default USD --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Default money"
                                 :money="true"
                                 currency="USD"
@@ -199,9 +199,9 @@
                                 prefix="USD"
                                 value="123456.78"
                             />
-                            
+
                             {{-- Custom BRL --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Custom money"
                                 :money="true"
                                 currency="BRL"
@@ -217,15 +217,15 @@
                         <h2 class="text-xl font-bold mb-6">❓ Popover / Help</h2>
                         <div class="space-y-6">
                             {{-- Question Icon --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Name"
                                 help="This is a helpful tooltip that appears on hover"
                                 help-icon="question"
                                 placeholder=""
                             />
-                            
+
                             {{-- Info Icon --}}
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Name"
                                 help="Additional information about this field"
                                 help-icon="info"
@@ -254,7 +254,7 @@
                                     </x-slot:prepend>
                                 </x-ui.input>
                             </div>
-                            
+
                             {{-- Append a button --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Append a button</label>
@@ -273,17 +273,17 @@
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                         <h2 class="text-xl font-bold mb-6">📐 Sizes</h2>
                         <div class="space-y-6">
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Small"
                                 size="sm"
                                 placeholder="Small input"
                             />
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Medium (default)"
                                 size="md"
                                 placeholder="Medium input"
                             />
-                            <x-ui.input 
+                            <x-ui.input
                                 label="Large"
                                 size="lg"
                                 placeholder="Large input"
@@ -342,7 +342,7 @@
                     <div class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium mb-2">País</label>
-                            <x-ui.select 
+                            <x-ui.select
                                 id="country-select"
                                 name="country"
                                 placeholder="Selecione um país"
@@ -357,7 +357,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-2">Status</label>
-                            <x-ui.select 
+                            <x-ui.select
                                 id="status-select"
                                 name="status"
                                 value="active"
@@ -383,7 +383,7 @@
                         </p>
                         <div class="space-y-4">
                             <label class="block text-sm font-medium">Tecnologias que você usa:</label>
-                            <x-ui.multiselect 
+                            <x-ui.multiselect
                                 id="tech-multiselect"
                                 name="technologies"
                                 placeholder="Selecione as tecnologias..."
@@ -412,7 +412,7 @@
                         </p>
                         <div class="space-y-4">
                             <label class="block text-sm font-medium">Cores favoritas (máx 3):</label>
-                            <x-ui.multiselect 
+                            <x-ui.multiselect
                                 id="colors-multiselect"
                                 name="colors"
                                 placeholder="Escolha até 3 cores..."
@@ -435,7 +435,7 @@
                         <h2 class="text-xl font-bold mb-6">Controle Programático</h2>
                         <div class="space-y-4">
                             <label class="block text-sm font-medium">Frutas:</label>
-                            <x-ui.multiselect 
+                            <x-ui.multiselect
                                 id="fruits-multiselect"
                                 name="fruits"
                                 placeholder="Selecione frutas..."
@@ -513,16 +513,16 @@
                             <x-ui.progress id="progress-1" :value="25" color="blue">
                                 <x-slot:label>Download</x-slot:label>
                             </x-ui.progress>
-                            
+
                             <x-ui.progress id="progress-2" :value="60" color="green">
                                 <x-slot:label>Upload</x-slot:label>
                             </x-ui.progress>
-                            
+
                             <x-ui.progress id="progress-3" :value="85" color="gradient">
                                 <x-slot:label>Processando</x-slot:label>
                             </x-ui.progress>
                         </div>
-                        
+
                         <div class="mt-6 flex flex-wrap gap-2">
                             <x-ui.button id="progress-increment" class="from-green-500 to-green-600">+10%</x-ui.button>
                             <x-ui.button id="progress-decrement" class="from-red-500 to-red-600">-10%</x-ui.button>
@@ -530,7 +530,7 @@
                             <x-ui.button id="progress-reset" class="from-gray-500 to-gray-600">Reset</x-ui.button>
                         </div>
                     </div>
-                    
+
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                         <h2 class="text-xl font-bold mb-6">Skeleton Loaders</h2>
                         <div class="space-y-6">
@@ -555,9 +555,9 @@
             <x-ui.tab-panel name="stepper">
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                     <h2 class="text-xl font-bold mb-8">Formulário Multi-Etapas</h2>
-                    
-                    <x-ui.stepper 
-                        id="checkout-stepper" 
+
+                    <x-ui.stepper
+                        id="checkout-stepper"
                         :steps="[
                             ['title' => 'Dados Pessoais', 'description' => 'Nome e email'],
                             ['title' => 'Endereço', 'description' => 'Onde entregar'],
@@ -574,7 +574,7 @@
                                 <x-ui.input id="step-email" type="email" placeholder="seu@email.com" />
                             </div>
                         </x-ui.step-panel>
-                        
+
                         <x-ui.step-panel :step="2">
                             <div class="max-w-md space-y-4">
                                 <h3 class="text-lg font-semibold mb-4">Endereço de Entrega</h3>
@@ -583,11 +583,11 @@
                                 <x-ui.input id="step-city" placeholder="Cidade" />
                             </div>
                         </x-ui.step-panel>
-                        
+
                         <x-ui.step-panel :step="3">
                             <div class="max-w-md space-y-4">
                                 <h3 class="text-lg font-semibold mb-4">Forma de Pagamento</h3>
-                                <x-ui.select 
+                                <x-ui.select
                                     id="step-payment"
                                     placeholder="Selecione..."
                                     :options="[
@@ -598,7 +598,7 @@
                                 />
                             </div>
                         </x-ui.step-panel>
-                        
+
                         <x-ui.step-panel :step="4">
                             <div class="max-w-md">
                                 <h3 class="text-lg font-semibold mb-4">Confirme seu Pedido</h3>
@@ -623,9 +623,9 @@
                         <form data-v="form" id="demo-form" class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Nome*</label>
-                                <input 
-                                    type="text" 
-                                    name="name" 
+                                <input
+                                    type="text"
+                                    name="name"
                                     data-validate="required|min:3"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="Mínimo 3 caracteres"
@@ -633,9 +633,9 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Email*</label>
-                                <input 
-                                    type="email" 
-                                    name="email" 
+                                <input
+                                    type="email"
+                                    name="email"
                                     data-validate="required|email"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="seu@email.com"
@@ -643,9 +643,9 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">CPF</label>
-                                <input 
-                                    type="text" 
-                                    name="cpf" 
+                                <input
+                                    type="text"
+                                    name="cpf"
                                     id="cpf-input"
                                     data-validate="cpf"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
@@ -654,9 +654,9 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Idade</label>
-                                <input 
-                                    type="number" 
-                                    name="age" 
+                                <input
+                                    type="number"
+                                    name="age"
                                     data-validate="numeric|minValue:18|maxValue:120"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="Entre 18 e 120"
@@ -672,8 +672,8 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                             Drag & drop com preview de imagens.
                         </p>
-                        <div 
-                            data-v="upload" 
+                        <div
+                            data-v="upload"
                             id="demo-upload"
                             data-accept="image/*"
                             data-max-size="5242880"
@@ -700,8 +700,8 @@
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-sm font-medium mb-2">Volume: <span id="volume-value">50</span>%</label>
-                                <div 
-                                    data-v="range" 
+                                <div
+                                    data-v="range"
                                     id="volume-slider"
                                     data-min="0"
                                     data-max="100"
@@ -711,8 +711,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-2">Preço: R$ <span id="price-value">500</span></label>
-                                <div 
-                                    data-v="range" 
+                                <div
+                                    data-v="range"
                                     id="price-slider"
                                     data-min="100"
                                     data-max="1000"
@@ -733,8 +733,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Telefone</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     id="mask-phone"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="(00) 00000-0000"
@@ -742,8 +742,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">CNPJ</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     id="mask-cnpj"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="00.000.000/0000-00"
@@ -751,8 +751,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">CEP</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     id="mask-cep"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="00000-000"
@@ -760,8 +760,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Valor (R$)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     id="mask-money"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="R$ 0,00"
@@ -784,8 +784,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Data de Nascimento</label>
-                                <div 
-                                    data-v="datepicker" 
+                                <div
+                                    data-v="datepicker"
                                     id="birth-date"
                                     data-format="dd/mm/yyyy"
                                     data-placeholder="DD/MM/AAAA"
@@ -793,8 +793,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Data do Evento</label>
-                                <div 
-                                    data-v="datepicker" 
+                                <div
+                                    data-v="datepicker"
                                     id="event-date"
                                     data-format="dd/mm/yyyy"
                                     data-min-date="01/01/2025"
@@ -812,14 +812,14 @@
                             Seletor de período com presets e dois calendários.
                         </p>
                         <div class="space-y-4">
-                            <x-ui.date-range-picker 
+                            <x-ui.date-range-picker
                                 label="Período de Reserva"
                                 start-placeholder="Check-in"
                                 end-placeholder="Check-out"
                                 hint="Selecione as datas de entrada e saída"
                             />
-                            
-                            <x-ui.date-range-picker 
+
+                            <x-ui.date-range-picker
                                 label="Período do Relatório"
                                 start-value="01/12/2025"
                                 end-value="31/12/2025"
@@ -836,16 +836,16 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Cor Principal</label>
-                                <div 
-                                    data-v="colorpicker" 
+                                <div
+                                    data-v="colorpicker"
                                     id="main-color"
                                     data-value="#3b82f6"
                                 ></div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Cor de Fundo</label>
-                                <div 
-                                    data-v="colorpicker" 
+                                <div
+                                    data-v="colorpicker"
                                     id="bg-color"
                                     data-value="#f3f4f6"
                                     data-presets='["#ffffff", "#f3f4f6", "#e5e7eb", "#1f2937", "#111827"]'
@@ -862,7 +862,7 @@
                             Busca e seleção com autocomplete.
                         </p>
                         <div class="space-y-4">
-                            <x-ui.combobox 
+                            <x-ui.combobox
                                 label="Selecione um país"
                                 placeholder="Buscar país..."
                                 :options="[
@@ -876,8 +876,8 @@
                                 ]"
                                 hint="Digite para filtrar"
                             />
-                            
-                            <x-ui.combobox 
+
+                            <x-ui.combobox
                                 label="Múltipla seleção"
                                 placeholder="Selecione tecnologias..."
                                 :multiple="true"
@@ -900,20 +900,20 @@
                             Input para múltiplas tags.
                         </p>
                         <div class="space-y-4">
-                            <x-ui.tag-input 
+                            <x-ui.tag-input
                                 label="Tags"
                                 placeholder="Digite e pressione Enter"
                                 :value="['Laravel', 'Vue.js', 'Tailwind']"
                                 hint="Pressione Enter ou vírgula para adicionar"
                             />
-                            
-                            <x-ui.tag-input 
+
+                            <x-ui.tag-input
                                 label="Com sugestões"
                                 :suggestions="['React', 'Vue', 'Angular', 'Svelte', 'Next.js', 'Nuxt', 'Remix']"
                                 placeholder="Digite para ver sugestões..."
                             />
-                            
-                            <x-ui.tag-input 
+
+                            <x-ui.tag-input
                                 label="Máximo 5 tags (estilo pill)"
                                 variant="pill"
                                 :max="5"
@@ -935,44 +935,44 @@
                                     <p class="text-sm font-medium">Vendas</p>
                                     <p class="text-2xl font-bold">R$ 12.450</p>
                                 </div>
-                                <x-ui.mini-chart 
+                                <x-ui.mini-chart
                                     :data="[10, 25, 15, 30, 22, 40, 35, 50, 45, 60]"
                                     color="blue"
                                     :show-dots="true"
                                 />
                             </div>
-                            
+
                             {{-- Area --}}
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-sm font-medium">Visitas</p>
                                     <p class="text-2xl font-bold">8.234</p>
                                 </div>
-                                <x-ui.mini-chart 
+                                <x-ui.mini-chart
                                     type="area"
                                     :data="[20, 35, 25, 45, 30, 55, 40, 60, 50, 70]"
                                     color="green"
                                 />
                             </div>
-                            
+
                             {{-- Bar --}}
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-sm font-medium">Conversões</p>
                                     <p class="text-2xl font-bold">4.5%</p>
                                 </div>
-                                <x-ui.mini-chart 
+                                <x-ui.mini-chart
                                     type="bar"
                                     :data="[30, 45, 25, 60, 40, 55, 70]"
                                     color="purple"
                                     :height="50"
                                 />
                             </div>
-                            
+
                             {{-- Sparkline with labels --}}
                             <div>
                                 <p class="text-sm font-medium mb-2">Últimos 7 dias</p>
-                                <x-ui.mini-chart 
+                                <x-ui.mini-chart
                                     :data="[100, 120, 90, 150, 130, 170, 160]"
                                     :labels="['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']"
                                     color="orange"
@@ -1018,8 +1018,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Debounce (300ms)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     id="debounce-input"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     placeholder="Digite algo..."
@@ -1071,8 +1071,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Valor</label>
-                                <input 
-                                    type="number" 
+                                <input
+                                    type="number"
                                     id="currency-input"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-900"
                                     value="1234.56"
@@ -1134,7 +1134,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     {{-- Full Width Demo --}}
                     <div class="relative border border-gray-200 dark:border-gray-700 rounded-xl h-[600px] bg-gray-50 dark:bg-gray-900">
                             {{-- Estilos para sidebar-collapsed --}}
@@ -1148,22 +1148,22 @@
                                 #demo-sidebar.sidebar-collapsed .sidebar-header { justify-content: center; }
                                 #demo-sidebar.sidebar-collapsed .sidebar-toggle-btn { margin: 0; }
                                 #demo-sidebar.sidebar-collapsed .sidebar-item { justify-content: center; }
-                                
+
                                 /* Tooltips inline - escondidos sempre (usamos JS) */
                                 .sidebar-tooltip { display: none; }
-                                
+
                                 /* Navbar ajustes quando sidebar collapsed */
                                 #demo-sidebar.sidebar-collapsed ~ #demo-navbar { left: 4rem !important; }
-                                #demo-sidebar.sidebar-collapsed ~ #demo-navbar [data-navbar-logo] { 
-                                    opacity: 1 !important; 
-                                    width: auto !important; 
-                                    overflow: visible !important; 
+                                #demo-sidebar.sidebar-collapsed ~ #demo-navbar [data-navbar-logo] {
+                                    opacity: 1 !important;
+                                    width: auto !important;
+                                    overflow: visible !important;
                                 }
                                 #demo-sidebar.sidebar-collapsed ~ #demo-content { left: 4rem !important; }
                             </style>
-                            
+
                             {{-- Sidebar --}}
-                            <aside 
+                            <aside
                                 id="demo-sidebar"
                                 data-v="sidebar"
                                 data-persist="demo"
@@ -1181,7 +1181,7 @@
                                             SPIRE
                                         </span>
                                     </div>
-                                    <button 
+                                    <button
                                         type="button"
                                         data-sidebar-toggle
                                         class="sidebar-toggle-btn w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -1232,23 +1232,25 @@
                                     </ul>
                                 </nav>
                             </aside>
-                            
+
                             {{-- Tooltip container (fora da sidebar para não ser afetado por overflow) --}}
                             <div id="sidebar-tooltip-container" class="hidden fixed z-[9999] px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-sm whitespace-nowrap pointer-events-none"></div>
-                            
+
                             <script>
                                 (function() {
                                     const sidebar = document.getElementById('demo-sidebar');
                                     const tooltip = document.getElementById('sidebar-tooltip-container');
+                                    if (!sidebar || !tooltip) return;
+
                                     const items = sidebar.querySelectorAll('[data-sidebar-item]');
-                                    
+
                                     items.forEach(item => {
-                                        const text = item.querySelector('.sidebar-tooltip')?.textContent || 
+                                        const text = item.querySelector('.sidebar-tooltip')?.textContent ||
                                                      item.querySelector('.sidebar-item-text')?.textContent || '';
-                                        
+
                                         item.addEventListener('mouseenter', (e) => {
                                             if (!sidebar.classList.contains('sidebar-collapsed')) return;
-                                            
+
                                             const rect = item.getBoundingClientRect();
                                             tooltip.textContent = text;
                                             tooltip.classList.remove('hidden');
@@ -1256,7 +1258,7 @@
                                             tooltip.style.top = (rect.top + rect.height / 2) + 'px';
                                             tooltip.style.transform = 'translateY(-50%)';
                                         });
-                                        
+
                                         item.addEventListener('mouseleave', () => {
                                             tooltip.classList.add('hidden');
                                         });
@@ -1265,7 +1267,7 @@
                             </script>
 
                             {{-- Navbar --}}
-                            <header 
+                            <header
                                 id="demo-navbar"
                                 data-v="navbar"
                                 data-sidebar="demo-sidebar"
@@ -1424,10 +1426,10 @@
                         </p>
                         <div class="space-y-4">
                             <div class="flex gap-2">
-                                <input 
-                                    id="copy-input" 
-                                    type="text" 
-                                    value="npm install spire-ui" 
+                                <input
+                                    id="copy-input"
+                                    type="text"
+                                    value="npm install spire-ui"
                                     class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-sm font-mono"
                                     readonly
                                 >
@@ -1445,7 +1447,7 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                             Menu de contexto (clique direito) personalizável.
                         </p>
-                        <x-ui.context-menu 
+                        <x-ui.context-menu
                             id="demo-context"
                             :items="[
                                 ['id' => 'edit', 'label' => 'Editar', 'icon' => '✏️', 'shortcut' => 'Ctrl+E'],
@@ -1476,7 +1478,7 @@
                             {{-- Chevron (default) --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Chevron (padrão)</label>
-                                <x-ui.breadcrumbs 
+                                <x-ui.breadcrumbs
                                     :items="[
                                         ['label' => 'Home', 'url' => '#'],
                                         ['label' => 'Produtos', 'url' => '#'],
@@ -1489,7 +1491,7 @@
                             {{-- Slash --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Slash</label>
-                                <x-ui.breadcrumbs 
+                                <x-ui.breadcrumbs
                                     separator="slash"
                                     :items="[
                                         ['label' => 'Dashboard', 'url' => '#'],
@@ -1502,7 +1504,7 @@
                             {{-- Arrow with Home Icon --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Arrow + Ícone Home</label>
-                                <x-ui.breadcrumbs 
+                                <x-ui.breadcrumbs
                                     separator="arrow"
                                     :showHome="true"
                                     homeUrl="#"
@@ -1517,7 +1519,7 @@
                             {{-- Dot with Icons --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Dot + Ícones customizados</label>
-                                <x-ui.breadcrumbs 
+                                <x-ui.breadcrumbs
                                     separator="dot"
                                     :items="[
                                         ['label' => 'Início', 'url' => '#', 'icon' => '🏠'],
@@ -1531,7 +1533,7 @@
                             {{-- Truncated --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Truncado (caminhos longos)</label>
-                                <x-ui.breadcrumbs 
+                                <x-ui.breadcrumbs
                                     :truncate="true"
                                     :items="[
                                         ['label' => 'Raiz', 'url' => '#'],
@@ -1670,7 +1672,7 @@
                             {{-- Default --}}
                             <x-ui.collapse id="collapse-1" title="Informações Gerais" :open="true">
                                 <p class="text-gray-600 dark:text-gray-400">
-                                    Este é o conteúdo do primeiro collapse. Pode conter qualquer HTML, 
+                                    Este é o conteúdo do primeiro collapse. Pode conter qualquer HTML,
                                     incluindo formulários, tabelas, imagens, etc.
                                 </p>
                             </x-ui.collapse>
@@ -1755,18 +1757,18 @@
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Com Imagem</label>
                                 <div class="flex items-center gap-3">
-                                    <x-ui.avatar 
-                                        src="https://i.pravatar.cc/150?img=1" 
+                                    <x-ui.avatar
+                                        src="https://i.pravatar.cc/150?img=1"
                                         alt="User 1"
                                         size="lg"
                                     />
-                                    <x-ui.avatar 
-                                        src="https://i.pravatar.cc/150?img=2" 
+                                    <x-ui.avatar
+                                        src="https://i.pravatar.cc/150?img=2"
                                         alt="User 2"
                                         size="lg"
                                     />
-                                    <x-ui.avatar 
-                                        src="https://i.pravatar.cc/150?img=3" 
+                                    <x-ui.avatar
+                                        src="https://i.pravatar.cc/150?img=3"
                                         alt="User 3"
                                         size="lg"
                                     />
@@ -2297,7 +2299,7 @@
                             {{-- Carousel básico --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Básico com navegação</label>
-                                <x-ui.carousel 
+                                <x-ui.carousel
                                     id="demo-carousel-1"
                                     :images="[
                                         ['src' => 'https://picsum.photos/800/450?random=1', 'alt' => 'Imagem 1'],
@@ -2311,7 +2313,7 @@
                             {{-- Carousel com autoplay --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Autoplay (5s)</label>
-                                <x-ui.carousel 
+                                <x-ui.carousel
                                     id="demo-carousel-2"
                                     :autoplay="true"
                                     :interval="5000"
@@ -2326,7 +2328,7 @@
                             {{-- Carousel com captions --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Com legendas</label>
-                                <x-ui.carousel 
+                                <x-ui.carousel
                                     id="demo-carousel-3"
                                     :overlay="true"
                                     :captions="true"
@@ -2341,7 +2343,7 @@
                             {{-- Carousel com thumbnails --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Com miniaturas</label>
-                                <x-ui.carousel 
+                                <x-ui.carousel
                                     id="demo-carousel-4"
                                     :showIndicators="false"
                                     :thumbnails="true"
@@ -2373,8 +2375,8 @@
                                 </x-ui.button>
                             </div>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                API: <code class="text-pink-500">SpireUI.carousel('id').next()</code>, 
-                                <code class="text-pink-500">.prev()</code>, 
+                                API: <code class="text-pink-500">SpireUI.carousel('id').next()</code>,
+                                <code class="text-pink-500">.prev()</code>,
                                 <code class="text-pink-500">.goto(index)</code>,
                                 <code class="text-pink-500">.play()</code>,
                                 <code class="text-pink-500">.pause()</code>
@@ -2392,7 +2394,7 @@
                             {{-- Timeline padrão --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Padrão</label>
-                                <x-ui.timeline 
+                                <x-ui.timeline
                                     :items="[
                                         ['title' => 'Pedido criado', 'description' => 'Pedido #12345 foi criado', 'date' => '10:30', 'icon' => 'cart', 'color' => 'info'],
                                         ['title' => 'Pagamento confirmado', 'description' => 'Pagamento via PIX aprovado', 'date' => '10:35', 'icon' => 'check', 'color' => 'success'],
@@ -2404,7 +2406,7 @@
                             {{-- Timeline compacto --}}
                             <div>
                                 <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Compacto</label>
-                                <x-ui.timeline 
+                                <x-ui.timeline
                                     variant="compact"
                                     :items="[
                                         ['title' => 'Login realizado', 'date' => '2 min atrás', 'color' => 'success'],
@@ -2425,7 +2427,7 @@
                         </p>
                         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {{-- Default --}}
-                            <x-ui.stats-card 
+                            <x-ui.stats-card
                                 title="Receita Total"
                                 value="R$ 45.231"
                                 change="+12.5%"
@@ -2433,9 +2435,9 @@
                                 icon="chart"
                                 iconColor="success"
                             />
-                            
+
                             {{-- Com tendência negativa --}}
-                            <x-ui.stats-card 
+                            <x-ui.stats-card
                                 title="Pedidos"
                                 value="1.234"
                                 change="-3.2%"
@@ -2443,9 +2445,9 @@
                                 icon="cart"
                                 iconColor="danger"
                             />
-                            
+
                             {{-- Gradient --}}
-                            <x-ui.stats-card 
+                            <x-ui.stats-card
                                 variant="gradient"
                                 color="purple"
                                 title="Usuários Ativos"
@@ -2453,9 +2455,9 @@
                                 change="+23%"
                                 icon="users"
                             />
-                            
+
                             {{-- Com sparkline --}}
-                            <x-ui.stats-card 
+                            <x-ui.stats-card
                                 title="Conversão"
                                 value="4.28%"
                                 change="+0.8%"
@@ -2488,7 +2490,7 @@
 
                             {{-- Com notificações --}}
                             <div class="text-center">
-                                <x-ui.notification-bell 
+                                <x-ui.notification-bell
                                     :count="5"
                                     :notifications="[
                                         ['title' => 'Novo pedido recebido', 'description' => 'Pedido #12345 de R$ 150,00', 'time' => '2 min atrás', 'icon' => 'cart', 'iconColor' => 'green'],
@@ -2525,7 +2527,7 @@
                         </p>
                         <div class="space-y-6">
                             {{-- Default --}}
-                            <x-ui.empty-state 
+                            <x-ui.empty-state
                                 icon="inbox"
                                 title="Nenhuma mensagem"
                                 description="Você não tem mensagens na caixa de entrada."
@@ -2534,7 +2536,7 @@
                             />
 
                             {{-- Card variant --}}
-                            <x-ui.empty-state 
+                            <x-ui.empty-state
                                 variant="card"
                                 icon="cart"
                                 title="Carrinho vazio"
@@ -2552,7 +2554,7 @@
                         </p>
                         <div class="grid sm:grid-cols-3 gap-6">
                             {{-- Basic --}}
-                            <x-ui.pricing-card 
+                            <x-ui.pricing-card
                                 name="Starter"
                                 description="Para começar"
                                 price="0"
@@ -2568,7 +2570,7 @@
                             />
 
                             {{-- Pro (Popular) --}}
-                            <x-ui.pricing-card 
+                            <x-ui.pricing-card
                                 variant="gradient"
                                 color="primary"
                                 name="Pro"
@@ -2589,7 +2591,7 @@
                             />
 
                             {{-- Enterprise --}}
-                            <x-ui.pricing-card 
+                            <x-ui.pricing-card
                                 name="Enterprise"
                                 description="Para grandes times"
                                 price="199"
@@ -2803,7 +2805,7 @@
                                 <x-slot:title>Informação</x-slot:title>
                                 Este é um popover com conteúdo rico. Pode conter qualquer HTML!
                             </x-ui.popover>
-                            
+
                             <x-ui.popover position="right">
                                 <x-slot:triggerSlot>
                                     <x-ui.button class="from-purple-500 to-pink-500">Menu</x-ui.button>
@@ -2845,7 +2847,7 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                             Tabs com suporte a desabilitar, ocultar e adicionar/remover dinamicamente.
                         </p>
-                        
+
                         {{-- Demo Tabs --}}
                         <x-ui.tabs id="dynamic-tabs" class="mb-6">
                             <x-slot:tabs>
@@ -2880,7 +2882,7 @@
                                 <x-ui.button id="tabs-add" class="from-purple-500 to-pink-500">+ Adicionar</x-ui.button>
                                 <x-ui.button id="tabs-remove" class="from-red-500 to-red-600">- Remover</x-ui.button>
                             </div>
-                            
+
                             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide pt-2">Destaques (Validação)</p>
                             <div class="flex flex-wrap gap-2">
                                 <x-ui.button id="tabs-error" class="from-red-500 to-red-600">🔴 Erro Tab 1</x-ui.button>
@@ -2899,7 +2901,7 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
                             5 variantes visuais disponíveis: underline, pills, boxed, minimal e segmented.
                         </p>
-                        
+
                         <div class="grid gap-8 lg:grid-cols-2">
                             {{-- Underline (default) --}}
                             <div>
@@ -2987,11 +2989,11 @@
                         <h2 class="text-xl font-bold mb-6">📚 Accordion / FAQ</h2>
                         <x-ui.accordion id="faq-accordion" :multiple="false">
                             <x-ui.accordion-item name="item1" title="O que é Spire UI?" :open="true">
-                                Spire UI é uma biblioteca JavaScript/TypeScript leve (~19KB gzip) que oferece 25 componentes 
+                                Spire UI é uma biblioteca JavaScript/TypeScript leve (~19KB gzip) que oferece 25 componentes
                                 interativos e 9 utilities para projetos Laravel, substituindo Alpine.js com melhor performance e tipagem.
                             </x-ui.accordion-item>
                             <x-ui.accordion-item name="item2" title="Quantos componentes estão incluídos?">
-                                São 25 componentes: Button, Input, Modal, Dropdown, Table, Tabs, Accordion, Tooltip, 
+                                São 25 componentes: Button, Input, Modal, Dropdown, Table, Tabs, Accordion, Tooltip,
                                 Select, MultiSelect, Drawer, Popover, Progress, Skeleton, Clipboard, Stepper, FormValidator,
                                 DatePicker, ColorPicker, RangeSlider, FileUpload, CommandPalette, VirtualScroll, LazyLoad e InfiniteScroll.
                                 Além de 9 utilities: debounce, throttle, events, http, currency, mask, perf, a11y e onError.
@@ -3092,7 +3094,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ========== BUTTONS ==========
-            document.getElementById('save').addEventListener('click', function() {
+            document.getElementById('save')?.addEventListener('click', function() {
                 this.$button.loading(true);
                 setTimeout(() => {
                     this.$button.success();
@@ -3100,7 +3102,7 @@
                 }, 2000);
             });
 
-            document.getElementById('send').addEventListener('click', function() {
+            document.getElementById('send')?.addEventListener('click', function() {
                 this.$button.loading(true);
                 setTimeout(() => {
                     this.$button.success('Enviado!');
@@ -3108,7 +3110,7 @@
                 }, 1500);
             });
 
-            document.getElementById('delete').addEventListener('click', async function() {
+            document.getElementById('delete')?.addEventListener('click', async function() {
                 const confirmed = await SpireUI.confirm({
                     title: 'Excluir registro?',
                     message: 'Esta ação não pode ser desfeita. Deseja continuar?',
@@ -3116,7 +3118,7 @@
                     cancelText: 'Cancelar',
                     confirmClass: 'bg-linear-to-r from-red-500 to-red-600'
                 });
-                
+
                 if (confirmed) {
                     this.$button.loading(true);
                     setTimeout(() => {
@@ -3127,48 +3129,48 @@
             });
 
             // Escutar eventos customizados
-            document.getElementById('save').addEventListener('button:loading', (e) => {
+            document.getElementById('save')?.addEventListener('button:loading', (e) => {
                 console.log('Evento: button:loading', e.detail);
             });
-            document.getElementById('save').addEventListener('button:success', (e) => {
+            document.getElementById('save')?.addEventListener('button:success', (e) => {
                 console.log('Evento: button:success', e.detail);
             });
 
             // ========== TOASTS ==========
-            document.getElementById('toast-success').addEventListener('click', () => {
+            document.getElementById('toast-success')?.addEventListener('click', () => {
                 SpireUI.toast.success('Operação realizada com sucesso! 🎉');
             });
-            document.getElementById('toast-error').addEventListener('click', () => {
+            document.getElementById('toast-error')?.addEventListener('click', () => {
                 SpireUI.toast.error('Ops! Algo deu errado 😕');
             });
-            document.getElementById('toast-info').addEventListener('click', () => {
+            document.getElementById('toast-info')?.addEventListener('click', () => {
                 SpireUI.toast.info('Você sabia? Este é um toast informativo 💡');
             });
-            document.getElementById('toast-warning').addEventListener('click', () => {
+            document.getElementById('toast-warning')?.addEventListener('click', () => {
                 SpireUI.toast.warning('Atenção! Verifique os dados ⚠️');
             });
-            document.getElementById('toast-queue').addEventListener('click', () => {
+            document.getElementById('toast-queue')?.addEventListener('click', () => {
                 SpireUI.toast.info('Toast 1 - Primeiro da fila');
                 SpireUI.toast.success('Toast 2 - Segundo da fila');
                 SpireUI.toast.warning('Toast 3 - Terceiro da fila');
                 SpireUI.toast.error('Toast 4 - Quarto (aguardando)');
                 SpireUI.toast.info('Toast 5 - Quinto (aguardando)');
             });
-            document.getElementById('toast-clear').addEventListener('click', () => {
+            document.getElementById('toast-clear')?.addEventListener('click', () => {
                 SpireUI.toast.clear();
             });
 
             // ========== MODAL ==========
-            document.getElementById('open-modal').addEventListener('click', () => {
-                document.getElementById('demo-modal').$modal.open();
+            document.getElementById('open-modal')?.addEventListener('click', () => {
+                document.getElementById('demo-modal')?.$modal?.open();
             });
-            document.getElementById('confirm-action').addEventListener('click', () => {
-                document.getElementById('demo-modal').$modal.close();
+            document.getElementById('confirm-action')?.addEventListener('click', () => {
+                document.getElementById('demo-modal')?.$modal?.close();
                 SpireUI.toast.success('Ação confirmada!');
             });
 
             // ========== CONFIRM ==========
-            document.getElementById('open-confirm').addEventListener('click', async () => {
+            document.getElementById('open-confirm')?.addEventListener('click', async () => {
                 const confirmed = await SpireUI.confirm({
                     title: 'Confirmar Exclusão',
                     message: 'Você tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.',
@@ -3185,20 +3187,20 @@
             });
 
             // ========== SELECT ==========
-            document.getElementById('get-select-values').addEventListener('click', () => {
-                const country = document.getElementById('country-select').$select.value();
-                const status = document.getElementById('status-select').$select.value();
+            document.getElementById('get-select-values')?.addEventListener('click', () => {
+                const country = document.getElementById('country-select')?.$select?.value();
+                const status = document.getElementById('status-select')?.$select?.value();
                 SpireUI.toast.info(`País: ${country || 'não selecionado'}, Status: ${status}`);
             });
 
             // Escutar evento de mudança do select
-            document.getElementById('country-select').addEventListener('select:change', (e) => {
+            document.getElementById('country-select')?.addEventListener('select:change', (e) => {
                 console.log('País selecionado:', e.detail.value);
             });
 
             // ========== MULTISELECT ==========
-            document.getElementById('get-multiselect-values').addEventListener('click', () => {
-                const techs = document.getElementById('tech-multiselect').$multiselect.value();
+            document.getElementById('get-multiselect-values')?.addEventListener('click', () => {
+                const techs = document.getElementById('tech-multiselect')?.$multiselect?.value() || [];
                 if (techs.length === 0) {
                     SpireUI.toast.warning('Nenhuma tecnologia selecionada!');
                 } else {
@@ -3207,25 +3209,26 @@
             });
 
             // Controle programático
-            document.getElementById('add-fruit').addEventListener('click', () => {
-                document.getElementById('fruits-multiselect').$multiselect.add('apple');
+            document.getElementById('add-fruit')?.addEventListener('click', () => {
+                document.getElementById('fruits-multiselect')?.$multiselect?.add('apple');
                 SpireUI.toast.success('Maçã adicionada!');
             });
 
-            document.getElementById('remove-fruit').addEventListener('click', () => {
-                document.getElementById('fruits-multiselect').$multiselect.remove('banana');
+            document.getElementById('remove-fruit')?.addEventListener('click', () => {
+                document.getElementById('fruits-multiselect')?.$multiselect?.remove('banana');
                 SpireUI.toast.info('Banana removida!');
             });
 
-            document.getElementById('clear-fruits').addEventListener('click', () => {
-                document.getElementById('fruits-multiselect').$multiselect.clear();
+            document.getElementById('clear-fruits')?.addEventListener('click', () => {
+                document.getElementById('fruits-multiselect')?.$multiselect?.clear();
                 SpireUI.toast.info('Lista limpa!');
             });
 
             // Eventos do MultiSelect
             ['tech-multiselect', 'colors-multiselect', 'fruits-multiselect'].forEach(id => {
                 const el = document.getElementById(id);
-                
+                if (!el) return;
+
                 el.addEventListener('multiselect:change', (e) => {
                     console.log(`[${id}] multiselect:change`, e.detail.values);
                 });
@@ -3244,7 +3247,7 @@
             });
 
             // ========== TABS ==========
-            document.getElementById('demo-tabs').addEventListener('tabs:changed', (e) => {
+            document.getElementById('demo-tabs')?.addEventListener('tabs:changed', (e) => {
                 console.log('Tab alterada:', e.detail.tab);
             });
 
@@ -3274,7 +3277,7 @@
             });
 
             // ========== ACCORDION ==========
-            document.getElementById('faq-accordion').addEventListener('accordion:toggled', (e) => {
+            document.getElementById('faq-accordion')?.addEventListener('accordion:toggled', (e) => {
                 console.log('Accordion toggled:', e.detail);
             });
 
@@ -3309,28 +3312,28 @@
             // ========== PROGRESS ==========
             // Progress control buttons
             const progress1 = document.getElementById('progress-1');
-            
+
             document.getElementById('progress-increment')?.addEventListener('click', () => {
                 if (progress1?.$progress) {
                     progress1.$progress.increment(10);
                     SpireUI.toast.info(`Progresso: ${progress1.$progress.value()}%`);
                 }
             });
-            
+
             document.getElementById('progress-decrement')?.addEventListener('click', () => {
                 if (progress1?.$progress) {
                     progress1.$progress.decrement(10);
                     SpireUI.toast.info(`Progresso: ${progress1.$progress.value()}%`);
                 }
             });
-            
+
             document.getElementById('progress-complete')?.addEventListener('click', () => {
                 if (progress1?.$progress) {
                     progress1.$progress.complete();
                     SpireUI.toast.success('Progresso completo! 🎉');
                 }
             });
-            
+
             document.getElementById('progress-reset')?.addEventListener('click', () => {
                 if (progress1?.$progress) {
                     progress1.$progress.reset();
@@ -3343,14 +3346,14 @@
             document.getElementById('animate-progress')?.addEventListener('click', () => {
                 const progressEl = document.getElementById('dynamic-progress');
                 if (!progressEl) return;
-                
+
                 progressValue = 0;
                 progressEl.$progress.value(0);
-                
+
                 const interval = setInterval(() => {
                     progressValue += 10;
                     progressEl.$progress.value(progressValue);
-                    
+
                     if (progressValue >= 100) {
                         clearInterval(interval);
                         SpireUI.toast.success('Upload concluído! 🎉');
@@ -3427,7 +3430,7 @@
             const maskCep = document.getElementById('mask-cep');
             const maskMoney = document.getElementById('mask-money');
             const maskCpf = document.getElementById('cpf-input');
-            
+
             if (maskPhone) SpireUI.mask.apply(maskPhone, 'phone');
             if (maskCnpj) SpireUI.mask.apply(maskCnpj, 'cnpj');
             if (maskCep) SpireUI.mask.apply(maskCep, 'cep');
@@ -3500,7 +3503,7 @@
             const debouncedSearch = SpireUI.debounce((value) => {
                 document.getElementById('debounce-result').textContent = value || '-';
             }, 300);
-            
+
             document.getElementById('debounce-input')?.addEventListener('input', (e) => {
                 debouncedSearch(e.target.value);
             });
@@ -3511,7 +3514,7 @@
                 throttleCount++;
                 document.getElementById('throttle-count').textContent = throttleCount;
             }, 1000);
-            
+
             document.getElementById('throttle-btn')?.addEventListener('click', throttledClick);
 
             // Event Bus demo
@@ -3524,7 +3527,7 @@
                     log.scrollTop = log.scrollHeight;
                 }
             });
-            
+
             document.getElementById('emit-event')?.addEventListener('click', () => {
                 SpireUI.events.emit('demo:event', { message: 'Evento emitido!' });
             });
@@ -3533,7 +3536,7 @@
             document.getElementById('http-get')?.addEventListener('click', async () => {
                 const result = document.getElementById('http-result');
                 result.innerHTML = '<p class="text-blue-500">Carregando...</p>';
-                
+
                 try {
                     // Using a public API for demo
                     const data = await SpireUI.http.get('https://jsonplaceholder.typicode.com/posts/1');
@@ -3553,16 +3556,16 @@
             // Performance demo
             document.getElementById('perf-test')?.addEventListener('click', () => {
                 SpireUI.perf.mark('test-start');
-                
+
                 // Simulate some work
                 let sum = 0;
                 for (let i = 0; i < 1000000; i++) {
                     sum += Math.sqrt(i);
                 }
-                
+
                 SpireUI.perf.mark('test-end');
                 const duration = SpireUI.perf.measure('test-duration', 'test-start', 'test-end');
-                
+
                 document.getElementById('perf-result').innerHTML = `
                     <p class="text-green-500">✓ Cálculo concluído</p>
                     <p>Tempo: <strong>${duration.toFixed(2)}ms</strong></p>
@@ -3584,31 +3587,31 @@
             // ========== DYNAMIC TABS DEMO ==========
             let tabCounter = 5;
             const dynamicTabs = document.getElementById('dynamic-tabs');
-            
+
             // Disable Tab 2
             document.getElementById('tabs-disable-2')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.disable('tab2');
                 SpireUI.toast.warning('Tab 2 desabilitada');
             });
-            
+
             // Enable Tab 2
             document.getElementById('tabs-enable-2')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.enable('tab2');
                 SpireUI.toast.success('Tab 2 habilitada');
             });
-            
+
             // Hide Tab 3
             document.getElementById('tabs-hide-3')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.hide('tab3');
                 SpireUI.toast.info('Tab 3 ocultada');
             });
-            
+
             // Show Tab 3
             document.getElementById('tabs-show-3')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.unhide('tab3');
                 SpireUI.toast.success('Tab 3 visível');
             });
-            
+
             // Add new tab
             document.getElementById('tabs-add')?.addEventListener('click', () => {
                 const tabName = `tab${tabCounter}`;
@@ -3620,7 +3623,7 @@
                 SpireUI.toast.success(`Tab ${tabCounter} adicionada`);
                 tabCounter++;
             });
-            
+
             // Remove last tab
             document.getElementById('tabs-remove')?.addEventListener('click', () => {
                 const tabs = dynamicTabs?.$tabs?.list();
@@ -3639,25 +3642,25 @@
                 dynamicTabs?.$tabs?.highlight('tab1', { type: 'error', badge: 3 });
                 SpireUI.toast.error('Tab 1 marcada com erro (3 campos inválidos)');
             });
-            
+
             // Highlight com warning
             document.getElementById('tabs-warning')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.highlight('tab2', { type: 'warning', badge: 1 });
                 SpireUI.toast.warning('Tab 2 marcada com aviso');
             });
-            
+
             // Highlight com sucesso
             document.getElementById('tabs-success')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.highlight('tab3', { type: 'success' });
                 SpireUI.toast.success('Tab 3 marcada como válida');
             });
-            
+
             // Highlight pulsante (chamar atenção)
             document.getElementById('tabs-pulse')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.highlight('tab1', { type: 'error', pulse: true, badge: '!' });
                 SpireUI.toast.error('Tab 1 pulsando - atenção necessária!');
             });
-            
+
             // Highlight com badge numérico
             document.getElementById('tabs-badge')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.highlight('tab1', { type: 'error', badge: 5 });
@@ -3665,7 +3668,7 @@
                 dynamicTabs?.$tabs?.highlight('tab3', { type: 'info', badge: 1 });
                 SpireUI.toast.info('Múltiplas tabs com badges de erro');
             });
-            
+
             // Limpar todos os highlights
             document.getElementById('tabs-clear')?.addEventListener('click', () => {
                 dynamicTabs?.$tabs?.clearAllHighlights();

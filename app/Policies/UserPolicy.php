@@ -62,7 +62,7 @@ final class UserPolicy
     {
         // Spire can create users
         if ($user->isSpire()) {
-            return $user->hasPermission('users.create');
+            return true;
         }
 
         // Partner admin can create users for their partner
@@ -74,9 +74,9 @@ final class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        // Spire can update all (except super admins)
+        // Spire can update all users
         if ($user->isSpire()) {
-            return $user->hasPermission('users.update');
+            return true;
         }
 
         // Users can update themselves (profile)
@@ -105,7 +105,7 @@ final class UserPolicy
 
         // Spire can delete users
         if ($user->isSpire()) {
-            return $user->hasPermission('users.delete');
+            return true;
         }
 
         // Partner admin can delete non-admin users from their partner

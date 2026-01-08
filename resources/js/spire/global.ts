@@ -274,8 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Real-time events listener (teste)
+  // Só conecta ao canal privado se o usuário estiver autenticado
   const echoInstance = (window as any).Echo;
-  if (echoInstance) {
+  const isAuthenticated = document.querySelector('meta[name="user-authenticated"]')?.getAttribute('content') === 'true';
+
+  if (echoInstance && isAuthenticated) {
     console.log('🔴 Echo conectado ao Reverb');
 
     echoInstance.private('orders')
@@ -292,6 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     console.log('📡 Escutando canal: private-orders');
+  } else if (echoInstance) {
+    console.log('ℹ️ Echo disponível, mas usuário não autenticado - canais privados desabilitados');
   } else {
     console.warn('⚠️ Echo não está disponível');
   }

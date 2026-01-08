@@ -63,5 +63,15 @@
                 {{ __('Entrar') }}
             </x-spire::button>
         </div>
+
+        @if (Route::has('register'))
+            <div class="mt-4 text-center">
+                <span class="text-sm text-gray-400">{{ __('Não tem uma conta?') }}</span>
+                <a class="text-sm text-indigo-400 hover:text-indigo-300 transition ml-1"
+                    href="{{ route('register') }}">
+                    {{ __('Registre-se') }}
+                </a>
+            </div>
+        @endif
     </form>
 </x-guest-layout>
