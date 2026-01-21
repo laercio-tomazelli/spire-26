@@ -5,11 +5,6 @@
  * It provides the init() function and all utilities.
  */
 
-// Alpine.js - for declarative UI components
-import Alpine from 'alpinejs';
-(window as unknown as { Alpine: typeof Alpine }).Alpine = Alpine;
-Alpine.start();
-
 import { SpireUIAPI, SpireUIInstance } from './types';
 import { instances, setGlobalErrorHandler } from './core';
 

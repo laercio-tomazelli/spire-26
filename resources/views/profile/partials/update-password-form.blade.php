@@ -13,41 +13,20 @@
         @csrf
         @method('put')
 
-        <x-spire::input
-            name="current_password"
-            type="password"
-            label="Senha Atual"
-            placeholder="••••••••"
-            autocomplete="current-password"
-            :error="$errors->updatePassword->first('current_password')"
-            password
-        />
+        <x-spire::input name="current_password" type="password" label="Senha Atual" placeholder="••••••••"
+            autocomplete="current-password" :error="$errors->updatePassword->first('current_password')" password />
 
-        <x-spire::input
-            name="password"
-            type="password"
-            label="Nova Senha"
-            placeholder="••••••••"
-            autocomplete="new-password"
-            :error="$errors->updatePassword->first('password')"
-            password
-        />
+        <x-spire::input name="password" type="password" label="Nova Senha" placeholder="••••••••"
+            autocomplete="new-password" :error="$errors->updatePassword->first('password')" password />
 
-        <x-spire::input
-            name="password_confirmation"
-            type="password"
-            label="Confirmar Senha"
-            placeholder="••••••••"
-            autocomplete="new-password"
-            password
-        />
+        <x-spire::input name="password_confirmation" type="password" label="Confirmar Senha" placeholder="••••••••"
+            autocomplete="new-password" password />
 
         <div class="flex items-center gap-4">
             <x-spire::button type="submit">{{ __('Salvar') }}</x-spire::button>
 
             @if (session('status') === 'password-updated')
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Salvo.') }}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 animate-fade-out">{{ __('Salvo.') }}</p>
             @endif
         </div>
     </form>

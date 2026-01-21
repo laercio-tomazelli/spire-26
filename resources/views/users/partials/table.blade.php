@@ -118,8 +118,8 @@
                                 @endcan
 
                                 @can('delete', $user)
-                                    <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline" x-data
-                                        @submit.prevent="if (confirm('Tem certeza que deseja excluir este usuário?')) $el.submit()">
+                                    <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline"
+                                        onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')">
                                         @csrf
                                         @method('DELETE')
                                         <x-spire::icon-button type="submit" variant="ghost" size="sm" title="Excluir">

@@ -17,26 +17,11 @@
         @csrf
         @method('patch')
 
-        <x-spire::input
-            name="name"
-            type="text"
-            label="Nome"
-            :value="old('name', $user->name)"
-            required
-            autofocus
-            autocomplete="name"
-            :error="$errors->first('name')"
-        />
+        <x-spire::input name="name" type="text" label="Nome" :value="old('name', $user->name)" required autofocus
+            autocomplete="name" :error="$errors->first('name')" />
 
-        <x-spire::input
-            name="email"
-            type="email"
-            label="E-mail"
-            :value="old('email', $user->email)"
-            required
-            autocomplete="username"
-            :error="$errors->first('email')"
-        />
+        <x-spire::input name="email" type="email" label="E-mail" :value="old('email', $user->email)" required autocomplete="username"
+            :error="$errors->first('email')" />
 
         @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
             <div>
@@ -61,8 +46,7 @@
             <x-spire::button type="submit">{{ __('Salvar') }}</x-spire::button>
 
             @if (session('status') === 'profile-updated')
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Salvo.') }}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 animate-fade-out">{{ __('Salvo.') }}</p>
             @endif
         </div>
     </form>

@@ -11,6 +11,7 @@ use App\Models\Manufacturer;
 use App\Models\Partner;
 use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class UserController extends Controller
     /**
      * Get filtered users query.
      */
-    private function getFilteredUsers(Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    private function getFilteredUsers(Request $request): LengthAwarePaginator
     {
         $query = User::query()
             ->with(['partner', 'manufacturer', 'tenant'])

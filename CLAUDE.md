@@ -165,6 +165,7 @@ php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServicePr
 
 ### O que NÃO fazer no Frontend
 
+-   ❌ Não usar Alpine.js - O projeto usa spire-ui (TypeScript puro, ~19KB gzip)
 -   ❌ Não usar JavaScript puro quando TypeScript é possível
 -   ❌ Não criar componentes diretamente no projeto (criar no spire-ui)
 -   ❌ Não usar estilos inline (`style="..."`)

@@ -9,13 +9,12 @@
         </p>
     </header>
 
-    <x-spire::button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-        class="!bg-red-600 hover:!bg-red-500 !from-red-600 !to-red-600">
+    <x-spire::button id="open-delete-modal" class="!bg-red-600 hover:!bg-red-500 !from-red-600 !to-red-600">
         {{ __('Excluir Conta') }}
     </x-spire::button>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+    <x-spire::modal id="confirm-user-deletion" title="Excluir Conta">
+        <form method="post" action="{{ route('profile.destroy') }}">
             @csrf
             @method('delete')
 
@@ -28,18 +27,12 @@
             </p>
 
             <div class="mt-6">
-                <x-spire::input
-                    name="password"
-                    type="password"
-                    label="Senha"
-                    placeholder="Sua senha"
-                    :error="$errors->userDeletion->first('password')"
-                    password
-                />
+                <x-spire::input name="password" type="password" label="Senha" placeholder="Sua senha" :error="$errors->userDeletion->first('password')"
+                    password />
             </div>
 
             <div class="mt-6 flex justify-end gap-3">
-                <x-spire::button type="button" x-on:click="$dispatch('close')"
+                <x-spire::button type="button" data-close
                     class="!bg-gray-200 !text-gray-800 hover:!bg-gray-300 !from-gray-200 !to-gray-200 dark:!bg-gray-700 dark:!text-gray-200 dark:hover:!bg-gray-600 dark:!from-gray-700 dark:!to-gray-700">
                     {{ __('Cancelar') }}
                 </x-spire::button>
@@ -49,5 +42,22 @@
                 </x-spire::button>
             </div>
         </form>
-    </x-modal>
+    </x-spire::modal>
+
+    @if ($errors->userDeletion->isNotEmpty())
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('confirm-user-deletion')?.$modal?.open();
+            });
+        </script>
+    @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('open-delete-modal')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('confirm-user-deletion')?.$modal?.open();
+            });
+        });
+    </script>
 </section>
