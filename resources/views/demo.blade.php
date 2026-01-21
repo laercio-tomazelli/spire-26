@@ -1,4 +1,4 @@
-<x-spire::layouts.app>
+<x-layouts.app>
     {{-- Banner de Exemplo --}}
     <x-spire::banner type="warning" id="demo-banner">
         ⚠️ Estamos com instabilidade no sistema de pedidos. Nossa equipe está trabalhando para restabelecer o serviço.
@@ -3737,4 +3737,4 @@
                 'Atalhos: Ctrl+K (command palette), Ctrl+Shift+N (toast), Ctrl+Shift+S (salvar), Esc (fechar)');
         });
     </script>
-</x-spire::layouts.app>
+</x-layouts.app>
