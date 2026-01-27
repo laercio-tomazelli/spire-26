@@ -245,7 +245,7 @@ class User extends Authenticatable
         $this->cachedPermissions = [];
 
         // Get permissions from roles
-        /** @var \Illuminate\Database\Eloquent\Collection<int, Role> $roles */
+        /** @var Collection<int, Role> $roles */
         $roles = $this->roles()->with('permissions:id,slug')->get();
         foreach ($roles as $role) {
             foreach ($role->permissions as $permission) {
@@ -254,7 +254,7 @@ class User extends Authenticatable
         }
 
         // Apply direct permissions (can override role permissions)
-        /** @var \Illuminate\Database\Eloquent\Collection<int, Permission> $directPermissions */
+        /** @var Collection<int, Permission> $directPermissions */
         $directPermissions = $this->permissions()->get();
         foreach ($directPermissions as $permission) {
             /** @var bool $granted */
