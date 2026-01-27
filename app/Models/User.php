@@ -218,21 +218,57 @@ class User extends Authenticatable
     // Permission Helpers
 
     /**
+     * Cached permissions for the current request.
+     *
+     * @var array<string, bool>|null
+     */
+    protected ?array $cachedPermissions = null;
+
+    /**
      * Check if user has a specific permission.
+     * Uses cached permissions to avoid N+1 queries.
      */
     public function hasPermission(string $permissionSlug): bool
     {
-        // Check direct permission (can be granted or revoked)
-        $directPermission = $this->permissions()->where('slug', $permissionSlug)->first();
-
-        if ($directPermission) {
-            return $directPermission->pivot->granted;
+        if ($this->cachedPermissions === null) {
+            $this->loadPermissionsCache();
         }
 
-        // Check role permissions
-        return $this->roles()
-            ->whereHas('permissions', fn ($q) => $q->where('slug', $permissionSlug))
-            ->exists();
+        return $this->cachedPermissions[$permissionSlug] ?? false;
+    }
+
+    /**
+     * Load all permissions into cache (granted and revoked).
+     */
+    protected function loadPermissionsCache(): void
+    {
+        $this->cachedPermissions = [];
+
+        // Get permissions from roles
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Role> $roles */
+        $roles = $this->roles()->with('permissions:id,slug')->get();
+        foreach ($roles as $role) {
+            foreach ($role->permissions as $permission) {
+                $this->cachedPermissions[$permission->slug] = true;
+            }
+        }
+
+        // Apply direct permissions (can override role permissions)
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Permission> $directPermissions */
+        $directPermissions = $this->permissions()->get();
+        foreach ($directPermissions as $permission) {
+            /** @var bool $granted */
+            $granted = $permission->pivot->granted ?? false;
+            $this->cachedPermissions[$permission->slug] = $granted;
+        }
+    }
+
+    /**
+     * Clear the cached permissions (useful after permission changes).
+     */
+    public function clearPermissionsCache(): void
+    {
+        $this->cachedPermissions = null;
     }
 
     /**

@@ -7,6 +7,7 @@ export class Skeleton implements SkeletonInstance {
 
   constructor(el: HTMLElement) {
     this.#el = el;
+    instances.set(el, this);
     this.#target = el.dataset.target ? document.querySelector(el.dataset.target) : null;
   }
 

@@ -13,6 +13,8 @@ export class Rating implements RatingInstance {
 
   constructor(el: HTMLElement) {
     this.#el = el;
+    instances.set(el, this);
+
     this.#stars = el.querySelectorAll('[data-rating-star]');
     this.#input = el.querySelector('[data-rating-input]');
     this.#valueDisplay = el.querySelector('[data-rating-value-display]');
@@ -72,7 +74,7 @@ export class Rating implements RatingInstance {
     this.#stars.forEach((star, index) => {
       const starValue = index + 1;
       const fill = star.querySelector('[data-rating-fill]') as HTMLElement;
-      
+
       if (fill) {
         let clipPercent = '100%';
         if (starValue <= val) {
@@ -96,7 +98,7 @@ export class Rating implements RatingInstance {
   setValue(val: number): this {
     this.#currentValue = Math.max(0, Math.min(val, this.#max));
     this.#el.dataset.value = String(this.#currentValue);
-    
+
     if (this.#input) {
       this.#input.value = String(this.#currentValue);
     }

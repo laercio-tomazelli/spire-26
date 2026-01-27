@@ -5,6 +5,7 @@ export class Button implements ButtonInstance {
   #el: HTMLButtonElement;
   #originalText: string;
   #originalClasses: string;
+  #isLoading: boolean = false;
 
   constructor(el: HTMLButtonElement) {
     this.#el = el;
@@ -13,6 +14,9 @@ export class Button implements ButtonInstance {
   }
 
   loading(state = true): this {
+    if (this.#isLoading === state) return this; // Evitar manipulação desnecessária
+
+    this.#isLoading = state;
     if (state) {
       this.#originalText = this.#el.textContent?.trim() || '';
     }
@@ -25,23 +29,33 @@ export class Button implements ButtonInstance {
   }
 
   success(msg = 'Salvo!', duration = 2000): this {
+    this.#isLoading = false; // Reset flag
     this.#el.textContent = msg;
     this.#el.classList.add('bg-green-600');
     emit(this.#el, 'button:success', { message: msg });
     setTimeout(() => {
-      this.loading(false);
+      this.#el.disabled = false;
+      this.#el.removeAttribute('aria-disabled');
+      this.#el.removeAttribute('aria-busy');
+      this.#el.textContent = this.#originalText;
       this.#el.classList.remove('bg-green-600');
+      emit(this.#el, 'button:reset', {});
     }, duration);
     return this;
   }
 
   error(msg = 'Erro!', duration = 2000): this {
+    this.#isLoading = false; // Reset flag
     this.#el.textContent = msg;
     this.#el.classList.add('bg-red-600');
     emit(this.#el, 'button:error', { message: msg });
     setTimeout(() => {
-      this.loading(false);
+      this.#el.disabled = false;
+      this.#el.removeAttribute('aria-disabled');
+      this.#el.removeAttribute('aria-busy');
+      this.#el.textContent = this.#originalText;
       this.#el.classList.remove('bg-red-600');
+      emit(this.#el, 'button:reset', {});
     }, duration);
     return this;
   }

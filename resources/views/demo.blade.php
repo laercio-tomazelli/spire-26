@@ -25,6 +25,7 @@
                 <x-spire::tab name="stepper">Stepper</x-spire::tab>
                 <x-spire::tab name="forms">Forms</x-spire::tab>
                 <x-spire::tab name="pickers">Pickers</x-spire::tab>
+                <x-spire::tab name="interface">Interface</x-spire::tab>
                 <x-spire::tab name="utilities">Utilities</x-spire::tab>
                 <x-spire::tab name="sidebar">Sidebar</x-spire::tab>
                 <x-spire::tab name="extras">Extras</x-spire::tab>
@@ -629,6 +630,65 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Checkboxes --}}
+                <div class="mt-8">
+                    <h2 class="text-xl font-bold mb-6">☑️ Checkboxes</h2>
+                    <div class="grid gap-8 md:grid-cols-2">
+                        {{-- Checkbox Individual --}}
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                            <h3 class="text-lg font-semibold mb-4">Checkbox Individual</h3>
+                            <div class="space-y-4">
+                                <x-spire::checkbox label="Receber newsletter" />
+                                <x-spire::checkbox label="Aceito os termos de uso" required />
+                                <x-spire::checkbox label="Concordo com a política de privacidade" checked />
+                                <x-spire::checkbox label="Opção desabilitada" disabled />
+                                <x-spire::checkbox label="Estado indeterminado" indeterminate />
+                            </div>
+                        </div>
+
+                        {{-- Checkbox Group --}}
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                            <h3 class="text-lg font-semibold mb-4">Grupo de Checkboxes</h3>
+                            <div class="space-y-4">
+                                <x-spire::checkbox-group label="Habilidades Técnicas" name="skills[]">
+                                    <x-spire::checkbox value="php" label="PHP" />
+                                    <x-spire::checkbox value="javascript" label="JavaScript" checked />
+                                    <x-spire::checkbox value="python" label="Python" />
+                                    <x-spire::checkbox value="java" label="Java" checked />
+                                </x-spire::checkbox-group>
+
+                                <x-spire::checkbox-group
+                                    label="Preferências"
+                                    name="preferences[]"
+                                    :options="['notificacoes' => 'Notificações por email', 'marketing' => 'Materiais de marketing', 'updates' => 'Atualizações do produto']"
+                                    :value="['notificacoes']"
+                                />
+                            </div>
+                        </div>
+
+                        {{-- Tamanhos --}}
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                            <h3 class="text-lg font-semibold mb-4">Tamanhos</h3>
+                            <div class="space-y-3">
+                                <x-spire::checkbox size="sm" label="Checkbox pequeno" />
+                                <x-spire::checkbox size="md" label="Checkbox médio" />
+                                <x-spire::checkbox size="lg" label="Checkbox grande" />
+                            </div>
+                        </div>
+
+                        {{-- Estados --}}
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                            <h3 class="text-lg font-semibold mb-4">Estados</h3>
+                            <div class="space-y-3">
+                                <x-spire::checkbox label="Estado normal" />
+                                <x-spire::checkbox label="Estado válido" variant="success" checked />
+                                <x-spire::checkbox label="Estado com erro" variant="error" />
+                                <x-spire::checkbox label="Estado desabilitado" disabled checked />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </x-spire::tab-panel>
 
             {{-- Panel: Pickers --}}
@@ -805,6 +865,161 @@
                                 <li>• <kbd class="px-1 bg-gray-200 dark:bg-gray-700 rounded">Configurações</kbd> - Abre
                                     configurações</li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </x-spire::tab-panel>
+
+            {{-- Panel: Interface --}}
+            <x-spire::tab-panel name="interface">
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {{-- Dropdown --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">📋 Dropdown</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Menus dropdown com posicionamento automático.
+                        </p>
+                        <div class="space-y-4">
+                            <x-spire::dropdown trigger="Ações">
+                                <x-spire::dropdown-item>Editar</x-spire::dropdown-item>
+                                <x-spire::dropdown-item>Duplicar</x-spire::dropdown-item>
+                                <x-spire::dropdown-divider />
+                                <x-spire::dropdown-item :danger="true">Excluir</x-spire::dropdown-item>
+                            </x-spire::dropdown>
+
+                            <x-spire::dropdown trigger="Conta" position="bottom-end" width="w-56">
+                                <x-spire::dropdown-divider label="Logado como" />
+                                <div class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">João Silva</div>
+                                <x-spire::dropdown-divider />
+                                <x-spire::dropdown-item :active="true">Dashboard</x-spire::dropdown-item>
+                                <x-spire::dropdown-item>Perfil</x-spire::dropdown-item>
+                                <x-spire::dropdown-item>Configurações</x-spire::dropdown-item>
+                                <x-spire::dropdown-divider />
+                                <x-spire::dropdown-item :danger="true">Sair</x-spire::dropdown-item>
+                            </x-spire::dropdown>
+                        </div>
+                    </div>
+
+                    {{-- Tooltip --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">💡 Tooltip</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Dicas contextuais ao passar o mouse.
+                        </p>
+                        <div class="flex flex-wrap gap-4 justify-center">
+                            <x-spire::tooltip content="Topo" position="top">
+                                <x-spire::button variant="outline" size="sm">Topo</x-spire::button>
+                            </x-spire::tooltip>
+                            <x-spire::tooltip content="Baixo" position="bottom">
+                                <x-spire::button variant="outline" size="sm">Baixo</x-spire::button>
+                            </x-spire::tooltip>
+                            <x-spire::tooltip content="Esquerda" position="left">
+                                <x-spire::button variant="outline" size="sm">Esquerda</x-spire::button>
+                            </x-spire::tooltip>
+                            <x-spire::tooltip content="Direita" position="right">
+                                <x-spire::button variant="outline" size="sm">Direita</x-spire::button>
+                            </x-spire::tooltip>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <x-spire::tooltip content="Tooltip com delay personalizado" :delay="500">
+                                <x-spire::button variant="ghost" size="sm">Com delay</x-spire::button>
+                            </x-spire::tooltip>
+                        </div>
+                    </div>
+
+                    {{-- Badge --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">🏷️ Badge</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Indicadores visuais para status e contadores.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex flex-wrap gap-2">
+                                <x-spire::badge>Default</x-spire::badge>
+                                <x-spire::badge variant="primary">Primary</x-spire::badge>
+                                <x-spire::badge variant="success">Success</x-spire::badge>
+                                <x-spire::badge variant="warning">Warning</x-spire::badge>
+                                <x-spire::badge variant="danger">Danger</x-spire::badge>
+                                <x-spire::badge variant="info">Info</x-spire::badge>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <x-spire::badge variant="success" :dot="true">Online</x-spire::badge>
+                                <x-spire::badge variant="danger" :dot="true">Offline</x-spire::badge>
+                                <x-spire::badge variant="warning" :dot="true">Aguardando</x-spire::badge>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <x-spire::badge variant="primary" size="sm">Small</x-spire::badge>
+                                <x-spire::badge variant="primary" size="md">Medium</x-spire::badge>
+                                <x-spire::badge variant="primary" size="lg">Large</x-spire::badge>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Skeleton --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">💀 Skeleton</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Placeholders animados para estados de carregamento.
+                        </p>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Card</label>
+                                <x-spire::skeleton type="card" :count="1" />
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Linhas</label>
+                                <x-spire::skeleton type="line" :count="3" />
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Avatares</label>
+                                <x-spire::skeleton type="avatar" :count="4" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Icon --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">🎨 Icon</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Ícones Heroicon com fácil integração.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-4 gap-3">
+                                <x-spire::icon name="menu" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="x" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="search" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="filter" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="settings" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="chevron-down" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="chevron-up" class="text-gray-600 dark:text-gray-400" />
+                                <x-spire::icon name="user" class="text-gray-600 dark:text-gray-400" />
+                            </div>
+                            <div class="flex gap-2">
+                                <x-spire::icon name="heart" variant="solid" class="text-red-500" />
+                                <x-spire::icon name="star" variant="solid" class="text-yellow-500" />
+                                <x-spire::icon name="check-circle" variant="solid" class="text-green-500" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Form Group --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                        <h2 class="text-xl font-bold mb-6">📋 Form Group</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Agrupamento estruturado para campos de formulário.
+                        </p>
+                        <div class="space-y-6">
+                            <x-spire::form-group label="Nome Completo" hint="Seu nome completo">
+                                <x-spire::input placeholder="Digite seu nome" />
+                            </x-spire::form-group>
+
+                            <x-spire::form-group label="Email" error="Email inválido" :required="true">
+                                <x-spire::input type="email" placeholder="seu@email.com" />
+                            </x-spire::form-group>
+
+                            <x-spire::form-group label="Mensagem" help="Digite sua mensagem">
+                                <x-spire::textarea placeholder="Sua mensagem aqui..." rows="3" />
+                            </x-spire::form-group>
                         </div>
                     </div>
                 </div>
@@ -3481,6 +3696,15 @@
                 SpireUI.toast.success(`${e.detail.files.length} arquivo(s) adicionado(s)`);
             });
 
+            // Checkbox events
+            document.querySelectorAll('[data-v="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const label = e.target.closest('[data-checkbox-container]')?.querySelector('label')?.textContent?.trim();
+                    const isChecked = e.target.checked;
+                    console.log(`Checkbox "${label}" ${isChecked ? 'marcado' : 'desmarcado'}`);
+                });
+            });
+
             // ========== PICKERS TAB ==========
             // DatePicker events
             document.getElementById('birth-date')?.addEventListener('datepicker:change', (e) => {
@@ -3735,6 +3959,112 @@
             console.log('🚀 Spire UI 2025 Demo carregado!');
             console.log(
                 'Atalhos: Ctrl+K (command palette), Ctrl+Shift+N (toast), Ctrl+Shift+S (salvar), Esc (fechar)');
+
+            // ========== INTERFACE TAB ==========
+            // Dropdown interactions
+            document.getElementById('dropdown-toggle')?.addEventListener('click', () => {
+                const dropdown = document.getElementById('demo-dropdown');
+                if (dropdown?.$dropdown?.isOpen()) {
+                    dropdown.$dropdown.close();
+                } else {
+                    dropdown.$dropdown.open();
+                }
+            });
+
+            document.getElementById('demo-dropdown')?.addEventListener('dropdown:opened', () => {
+                console.log('Dropdown aberto');
+            });
+
+            document.getElementById('demo-dropdown')?.addEventListener('dropdown:closed', () => {
+                console.log('Dropdown fechado');
+            });
+
+            document.getElementById('demo-dropdown')?.addEventListener('dropdown:selected', (e) => {
+                SpireUI.toast.info(`Selecionado: ${e.detail.item.label}`);
+            });
+
+            // Tooltip demo - mostrar/ocultar programaticamente
+            document.getElementById('show-tooltip')?.addEventListener('click', () => {
+                const tooltip = document.getElementById('demo-tooltip');
+                tooltip?.$tooltip?.show();
+                setTimeout(() => tooltip?.$tooltip?.hide(), 2000);
+            });
+
+            // Badge animations
+            document.getElementById('animate-badge')?.addEventListener('click', () => {
+                const badge = document.getElementById('animated-badge');
+                badge.classList.add('animate-pulse');
+                setTimeout(() => badge.classList.remove('animate-pulse'), 2000);
+                SpireUI.toast.info('Badge animado!');
+            });
+
+            // Skeleton loading simulation
+            document.getElementById('load-skeleton')?.addEventListener('click', () => {
+                const skeleton = document.getElementById('demo-skeleton');
+                skeleton.classList.remove('hidden');
+                setTimeout(() => {
+                    skeleton.classList.add('hidden');
+                    SpireUI.toast.success('Conteúdo carregado!');
+                }, 3000);
+            });
+
+            // Icon interactions
+            document.getElementById('icon-heart')?.addEventListener('click', function() {
+                this.classList.toggle('text-red-500');
+                this.classList.toggle('text-gray-400');
+                SpireUI.toast.info(this.classList.contains('text-red-500') ? '❤️ Curtido!' : '💔 Descurtido');
+            });
+
+            document.getElementById('icon-star')?.addEventListener('click', function() {
+                const isFilled = this.querySelector('svg').classList.contains('fill-current');
+                if (isFilled) {
+                    this.querySelector('svg').classList.remove('fill-current');
+                    this.querySelector('svg').classList.add('stroke-current');
+                } else {
+                    this.querySelector('svg').classList.add('fill-current');
+                    this.querySelector('svg').classList.remove('stroke-current');
+                }
+                SpireUI.toast.info(isFilled ? '⭐ Desfavoritado' : '⭐ Favoritado');
+            });
+
+            // Form Group validation demo
+            document.getElementById('validate-form-group')?.addEventListener('click', () => {
+                const emailInput = document.getElementById('email-input');
+                const passwordInput = document.getElementById('password-input');
+
+                let hasErrors = false;
+
+                // Validate email
+                if (!emailInput.value || !emailInput.value.includes('@')) {
+                    emailInput.closest('[x-data]').__x.$data.error = 'Email inválido';
+                    hasErrors = true;
+                } else {
+                    emailInput.closest('[x-data]').__x.$data.error = null;
+                }
+
+                // Validate password
+                if (!passwordInput.value || passwordInput.value.length < 6) {
+                    passwordInput.closest('[x-data]').__x.$data.error = 'Senha deve ter pelo menos 6 caracteres';
+                    hasErrors = true;
+                } else {
+                    passwordInput.closest('[x-data]').__x.$data.error = null;
+                }
+
+                if (hasErrors) {
+                    SpireUI.toast.error('Corrija os erros no formulário');
+                } else {
+                    SpireUI.toast.success('Formulário válido!');
+                }
+            });
+
+            // Form Group clear errors
+            document.getElementById('clear-form-errors')?.addEventListener('click', () => {
+                document.getElementById('email-input').closest('[x-data]').__x.$data.error = null;
+                document.getElementById('password-input').closest('[x-data]').__x.$data.error = null;
+                document.getElementById('email-input').value = '';
+                document.getElementById('password-input').value = '';
+                SpireUI.toast.info('Erros limpos');
+            });
         });
     </script>
 </x-layouts.app>

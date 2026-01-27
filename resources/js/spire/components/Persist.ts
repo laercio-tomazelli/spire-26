@@ -13,15 +13,16 @@ export class Persist implements PersistInstance {
     this.#storage = el.dataset.persistSession === 'true' ? sessionStorage : localStorage;
     this.#properties = (el.dataset.persist || 'value').split(',').map(p => p.trim());
 
+    instances.set(el, this);
     this.load();
     this.#setupAutoSave();
   }
 
   #setupAutoSave(): void {
     // Auto-save on form inputs
-    if (this.#el instanceof HTMLInputElement || 
-        this.#el instanceof HTMLSelectElement || 
-        this.#el instanceof HTMLTextAreaElement) {
+    if (this.#el instanceof HTMLInputElement ||
+      this.#el instanceof HTMLSelectElement ||
+      this.#el instanceof HTMLTextAreaElement) {
       this.#el.addEventListener('change', () => this.save());
       this.#el.addEventListener('input', () => this.save());
     }

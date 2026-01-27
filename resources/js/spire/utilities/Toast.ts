@@ -8,7 +8,7 @@ export class ToastManagerClass implements ToastManager {
   };
 
   #getContainer(): HTMLElement {
-    if (!this.#config.container) {
+    if (!this.#config.container || !document.body.contains(this.#config.container)) {
       this.#config.container = document.createElement('div');
       this.#config.container.className = 'fixed top-5 right-5 flex flex-col gap-3 max-w-sm';
       this.#config.container.style.zIndex = '9999';
@@ -38,7 +38,7 @@ export class ToastManagerClass implements ToastManager {
     t.className = `${colors[type]} text-white px-4 py-3 rounded-xl shadow-2xl transform translate-x-full transition-all duration-300 flex items-center gap-3`;
     t.setAttribute('role', 'alert');
     t.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
-    
+
     t.innerHTML = `
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         ${icons[type]}
@@ -74,7 +74,7 @@ export class ToastManagerClass implements ToastManager {
       if (toastData) {
         const { element, duration } = toastData;
         container.appendChild(element);
-        
+
         requestAnimationFrame(() => {
           element.classList.remove('translate-x-full');
         });
@@ -114,6 +114,11 @@ export class ToastManagerClass implements ToastManager {
     if (this.#config.container) {
       this.#config.container.innerHTML = '';
     }
+  }
+
+  // Método para testes: força processamento da queue
+  _processQueue(): void {
+    this.#processQueue();
   }
 }
 

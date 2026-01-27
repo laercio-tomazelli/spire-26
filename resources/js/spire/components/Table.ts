@@ -7,6 +7,7 @@ export class Table implements TableInstance {
 
   constructor(el: HTMLTableElement) {
     this.#el = el;
+    instances.set(el, this);
     this.#tbody = el.querySelector('tbody');
   }
 

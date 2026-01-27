@@ -1,0 +1,334 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { ColorPicker } from '../components/ColorPicker';
+
+describe('ColorPicker Component', () => {
+    let inputEl: HTMLInputElement;
+    let divEl: HTMLElement;
+    let inputPicker: ColorPicker;
+    let divPicker: ColorPicker;
+
+    beforeEach(() => {
+        // Setup input element
+        inputEl = document.createElement('input');
+        inputEl.type = 'text';
+        inputEl.value = '#EF4444'; // Use a color from default presets
+        document.body.appendChild(inputEl);
+        inputPicker = new ColorPicker(inputEl);
+
+        // Setup div element
+        divEl = document.createElement('div');
+        divEl.setAttribute('data-value', '#00FF00');
+        divEl.setAttribute('data-presets', '["#FF0000", "#00FF00", "#0000FF"]');
+        document.body.appendChild(divEl);
+        divPicker = new ColorPicker(divEl);
+    });
+
+    afterEach(() => {
+        document.body.removeChild(inputEl);
+        document.body.removeChild(divEl);
+    });
+
+    describe('Initialization', () => {
+        it('should initialize with input element', () => {
+            expect(inputPicker.value()).toBe('#EF4444');
+            expect(inputEl.value).toBe('#EF4444');
+            const preview = inputEl.parentElement?.querySelector('[data-color-preview]');
+            expect(preview).toBeTruthy();
+            expect((preview as HTMLElement)?.style.backgroundColor).toBe('rgb(239, 68, 68)');
+        });
+
+        it('should initialize with div element and create input', () => {
+            expect(divPicker.value()).toBe('#00FF00');
+            const createdInput = divEl.querySelector('input');
+            expect(createdInput).toBeTruthy();
+            expect(createdInput?.value).toBe('#00FF00');
+            const preview = divEl.querySelector('[data-color-preview]');
+            expect(preview).toBeTruthy();
+        });
+
+        it('should use default color when no value provided', () => {
+            const defaultEl = document.createElement('input');
+            defaultEl.type = 'text';
+            document.body.appendChild(defaultEl);
+            const defaultPicker = new ColorPicker(defaultEl);
+            expect(defaultPicker.value()).toBe('#3B82F6');
+            document.body.removeChild(defaultEl);
+        });
+
+        it('should parse presets from comma-separated string', () => {
+            const presetEl = document.createElement('input');
+            presetEl.type = 'text';
+            presetEl.setAttribute('data-presets', '#FF0000,#00FF00,#0000FF');
+            document.body.appendChild(presetEl);
+            const presetPicker = new ColorPicker(presetEl);
+            // We can't directly test private #presets, but the picker should be created
+            expect(presetPicker).toBeDefined();
+            document.body.removeChild(presetEl);
+        });
+
+        it('should parse presets from JSON array', () => {
+            const jsonEl = document.createElement('input');
+            jsonEl.type = 'text';
+            jsonEl.setAttribute('data-presets', '["#FF0000", "#00FF00"]');
+            document.body.appendChild(jsonEl);
+            const jsonPicker = new ColorPicker(jsonEl);
+            expect(jsonPicker).toBeDefined();
+            document.body.removeChild(jsonEl);
+        });
+
+        it('should use default presets when parsing fails', () => {
+            const invalidEl = document.createElement('input');
+            invalidEl.type = 'text';
+            invalidEl.setAttribute('data-presets', 'invalid-json');
+            document.body.appendChild(invalidEl);
+            const invalidPicker = new ColorPicker(invalidEl);
+            expect(invalidPicker).toBeDefined();
+            document.body.removeChild(invalidEl);
+        });
+    });
+
+    describe('Value Management', () => {
+        it('should get current value', () => {
+            expect(inputPicker.value()).toBe('#EF4444');
+
+            it('should set value and update input', () => {
+                inputPicker.setValue('#0000FF');
+                expect(inputPicker.value()).toBe('#0000FF');
+                expect(inputEl.value).toBe('#0000FF');
+            });
+
+            it('should update preview when value changes', () => {
+                inputPicker.setValue('#FFFF00');
+                const preview = inputEl.parentElement?.querySelector('[data-color-preview]') as HTMLElement;
+                expect(preview?.style.backgroundColor).toBe('rgb(255, 255, 0)');
+            });
+
+            it('should handle invalid hex values gracefully', () => {
+                inputPicker.setValue('invalid');
+                expect(inputPicker.value()).toBe('invalid');
+            });
+        });
+
+        describe('Picker Display', () => {
+            it('should open picker on input focus', () => {
+                inputEl.focus();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeTruthy();
+            });
+
+            it('should open picker on preview click', () => {
+                const preview = inputEl.parentElement?.querySelector('[data-color-preview]');
+                preview?.dispatchEvent(new Event('click'));
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeTruthy();
+            });
+
+it('should close picker when clicking outside', () => {
+      inputPicker.open();
+      let picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+      expect(picker).toBeTruthy();
+
+      // Wait for the event listener to be added
+      return new Promise(resolve => {
+        setTimeout(() => {
+          // Click outside (on document.body, not on picker or input)
+          document.dispatchEvent(new MouseEvent('click', { target: document.body }));
+          picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+          expect(picker).toBeFalsy();
+          resolve(void 0);
+        }, 1);
+      });
+            });
+
+            it('should not close when clicking inside picker', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeTruthy();
+
+                picker?.dispatchEvent(new Event('click'));
+                const stillPicker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(stillPicker).toBeTruthy();
+            });
+
+            it('should display preset colors', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                const presetButtons = picker?.querySelectorAll('[data-color]');
+                expect(presetButtons?.length).toBeGreaterThan(0);
+            });
+
+            it('should highlight current color in presets', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                // Since we're using default presets and current color is #EF4444 (first preset),
+                // check if the first button has the highlight class
+                const highlightedBtn = picker?.querySelector('.border-blue-500');
+                expect(highlightedBtn).toBeTruthy();
+                expect(highlightedBtn?.getAttribute('data-color')).toBe('#EF4444');
+            });
+        });
+
+        describe('Color Selection', () => {
+            it('should select color from preset', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                const presetBtn = picker?.querySelector('[data-color]'); // Get any preset button
+
+                const targetColor = presetBtn?.getAttribute('data-color');
+                presetBtn?.dispatchEvent(new Event('click'));
+                expect(inputPicker.value()).toBe(targetColor);
+                expect(inputEl.value).toBe(targetColor);
+            });
+
+            it('should update from native color input', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                const colorInput = picker?.querySelector('input[type="color"]') as HTMLInputElement;
+
+                colorInput.value = '#FF00FF';
+                colorInput.dispatchEvent(new Event('input'));
+                expect(inputPicker.value().toLowerCase()).toBe('#ff00ff');
+            });
+
+            it('should update from text input', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                const textInput = picker?.querySelector('input[type="text"]') as HTMLInputElement;
+
+                textInput.value = '#00FFFF';
+                textInput.dispatchEvent(new Event('input'));
+                expect(inputPicker.value()).toBe('#00FFFF');
+            });
+
+            it('should validate hex input', () => {
+                inputEl.value = '#12345';
+                inputEl.dispatchEvent(new Event('input'));
+                // Should not update currentColor for invalid input
+                expect(inputPicker.value()).toBe('#EF4444');
+
+                inputEl.value = '#123456';
+                inputEl.dispatchEvent(new Event('input'));
+                expect(inputPicker.value()).toBe('#123456');
+            });
+        });
+
+        describe('Events', () => {
+            it('should emit colorpicker:change event', () => {
+                const mockCallback = vi.fn();
+                inputEl.addEventListener('colorpicker:change', mockCallback);
+
+                inputPicker.setValue('#123456');
+                expect(mockCallback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: { color: '#123456' }
+                    })
+                );
+            });
+
+            it('should emit colorpicker:opened event', () => {
+                const mockCallback = vi.fn();
+                inputEl.addEventListener('colorpicker:opened', mockCallback);
+
+                inputPicker.open();
+                expect(mockCallback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {}
+                    })
+                );
+            });
+
+            it('should emit colorpicker:closed event', () => {
+                const mockCallback = vi.fn();
+                inputEl.addEventListener('colorpicker:closed', mockCallback);
+
+                inputPicker.open();
+                inputPicker.close();
+                expect(mockCallback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {}
+                    })
+                );
+            });
+        });
+
+        describe('Open/Close Methods', () => {
+            it('should open picker', () => {
+                inputPicker.open();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeTruthy();
+            });
+
+            it('should close picker', () => {
+                inputPicker.open();
+                inputPicker.close();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeFalsy();
+            });
+
+            it('should handle multiple open calls', () => {
+                inputPicker.open();
+                inputPicker.open(); // Should not create multiple pickers
+                const pickers = inputEl.parentElement?.querySelectorAll('.absolute.z-50');
+                expect(pickers?.length).toBe(1);
+            });
+
+            it('should handle multiple close calls', () => {
+                inputPicker.close();
+                inputPicker.close(); // Should not error
+                expect(inputPicker).toBeDefined();
+            });
+        });
+
+        describe('Edge Cases', () => {
+            it('should handle empty presets', () => {
+                const emptyEl = document.createElement('input');
+                emptyEl.type = 'text';
+                emptyEl.setAttribute('data-presets', '');
+                document.body.appendChild(emptyEl);
+                const emptyPicker = new ColorPicker(emptyEl);
+                emptyPicker.open();
+                const picker = emptyEl.parentElement?.querySelector('.absolute.z-50');
+                const presetButtons = picker?.querySelectorAll('[data-color]');
+                expect(presetButtons?.length).toBeGreaterThan(0); // Should use defaults
+                document.body.removeChild(emptyEl);
+            });
+
+            it('should handle malformed JSON presets gracefully', () => {
+                const malformedEl = document.createElement('input');
+                malformedEl.type = 'text';
+                malformedEl.setAttribute('data-presets', '["#FF0000", "#00FF00"'); // Missing closing bracket
+                document.body.appendChild(malformedEl);
+                const malformedPicker = new ColorPicker(malformedEl);
+                expect(malformedPicker).toBeDefined();
+                document.body.removeChild(malformedEl);
+            });
+        });
+
+        describe('Cleanup', () => {
+            it('should destroy without errors', () => {
+                inputPicker.destroy();
+                expect(inputPicker).toBeDefined();
+            });
+
+            it('should close picker on destroy', () => {
+                inputPicker.open();
+                inputPicker.destroy();
+                const picker = inputEl.parentElement?.querySelector('.absolute.z-50');
+                expect(picker).toBeFalsy();
+            });
+        });
+
+        describe('Performance', () => {
+            it('should perform value updates efficiently', () => {
+                const startTime = performance.now();
+
+                for (let i = 0; i < 100; i++) {
+                    inputPicker.setValue(`#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`);
+                }
+
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                expect(duration).toBeLessThan(500); // Should complete in less than 500ms
+            });
+        });
+    });

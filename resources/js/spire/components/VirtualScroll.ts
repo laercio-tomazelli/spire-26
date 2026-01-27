@@ -12,6 +12,7 @@ export class VirtualScroll implements VirtualScrollInstance {
 
   constructor(el: HTMLElement) {
     this.#el = el;
+    instances.set(el, this);
     this.#container = document.createElement('div');
     this.#itemHeight = parseInt(el.dataset.itemHeight || '48');
     this.#visibleCount = Math.ceil(el.clientHeight / this.#itemHeight) + 5;
@@ -39,11 +40,10 @@ export class VirtualScroll implements VirtualScrollInstance {
 
   #setupListeners(): void {
     this.#el.addEventListener('scroll', () => {
-      const newStartIndex = Math.floor(this.#el.scrollTop / this.#itemHeight);
-      if (newStartIndex !== this.#startIndex) {
-        this.#startIndex = newStartIndex;
-        this.#render();
-      }
+      const newStartIndex = Math.max(0, Math.floor(this.#el.scrollTop / this.#itemHeight));
+      const maxStartIndex = Math.max(0, this.#items.length - this.#visibleCount);
+      this.#startIndex = Math.min(newStartIndex, maxStartIndex);
+      this.#render();
     });
   }
 
@@ -51,6 +51,10 @@ export class VirtualScroll implements VirtualScrollInstance {
     const totalHeight = this.#items.length * this.#itemHeight;
     const spacer = this.#el.querySelector('[data-virtual-spacer]') as HTMLElement;
     if (spacer) spacer.style.height = `${totalHeight}px`;
+
+    // Clamp startIndex to valid range
+    const maxStartIndex = Math.max(0, this.#items.length - this.#visibleCount);
+    this.#startIndex = Math.max(0, Math.min(this.#startIndex, maxStartIndex));
 
     // Update container position
     this.#container.style.transform = `translateY(${this.#startIndex * this.#itemHeight}px)`;

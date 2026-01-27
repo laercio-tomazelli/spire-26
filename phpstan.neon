@@ -29,7 +29,6 @@ parameters:
 
         # Return types que funcionam em runtime mas PHPStan não entende
         - '#should return .* but returns#'
-        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Relations\\Pivot::#'
 
         # Comentários em ForeignKey que funcionam no MySQL
         - '#Call to an undefined method Illuminate\\Database\\Schema\\ForeignKeyDefinition::comment\(\)#'

@@ -27,6 +27,31 @@
     @endif
 
     {{-- Filters Container --}}
+
+<x-spire::card class="mb-6">
+            <x-spire::breadcrumbs :items="[['label' => 'Dashboard', 'href' => route('dashboard')], ['label' => 'Usuários']]" />
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                                Usuários
+                            </h1>
+                                                            <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                    Gerencie os usuários do sistema
+                                </div>
+                                                    </div>
+
+                                                    <div class="flex items-center gap-3">
+                                <a href="https://spire-26.wks.dev/users/create" data-v="button" class="inline-flex items-center justify-center h-9 px-4 text-sm rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Novo Usuário
+    </a>
+                            </div>
+                                            </div>
+</x-spire::card>
+
+
     <div id="users-filter-container">
         {{-- Filters --}}
         <x-spire::card class="mb-6">

@@ -12,12 +12,17 @@ export class Stepper implements StepperInstance {
 
   constructor(el: HTMLElement) {
     this.#el = el;
+    instances.set(el, this);
     this.#steps = el.querySelectorAll('[data-step]');
     this.#panels = el.querySelectorAll('[data-step-panel]');
     this.#totalSteps = this.#steps.length;
     this.#linear = el.dataset.linear !== 'false';
     this.#currentStep = parseInt(el.dataset.initialStep || '1');
-    
+    // Validate initial step
+    if (this.#currentStep < 1 || this.#currentStep > this.#totalSteps) {
+      this.#currentStep = 1;
+    }
+
     this.#setupA11y();
     this.#setupListeners();
     this.#updateDisplay();
@@ -26,12 +31,12 @@ export class Stepper implements StepperInstance {
   #setupA11y(): void {
     this.#el.setAttribute('role', 'navigation');
     this.#el.setAttribute('aria-label', 'Progresso');
-    
+
     this.#steps.forEach((step, index) => {
       step.setAttribute('role', 'tab');
       step.setAttribute('aria-selected', String(index + 1 === this.#currentStep));
     });
-    
+
     this.#panels.forEach(panel => {
       panel.setAttribute('role', 'tabpanel');
     });
@@ -57,8 +62,9 @@ export class Stepper implements StepperInstance {
 
   canGoTo(step: number): boolean {
     if (!this.#linear) return true;
-    // Can go to completed steps or next uncompleted step
-    return this.#completedSteps.has(step) || step <= Math.max(...Array.from(this.#completedSteps), 0) + 1;
+    // In linear mode, can go to any previous step, or next step if current is completed
+    return step <= this.#currentStep ||
+      (step === this.#currentStep + 1 && this.#completedSteps.has(this.#currentStep));
   }
 
   #updateDisplay(): void {
@@ -66,12 +72,12 @@ export class Stepper implements StepperInstance {
       const stepNum = index + 1;
       const isActive = stepNum === this.#currentStep;
       const isCompleted = this.#completedSteps.has(stepNum);
-      
+
       step.classList.toggle('active', isActive);
       step.classList.toggle('completed', isCompleted);
       step.setAttribute('aria-selected', String(isActive));
       step.setAttribute('aria-current', isActive ? 'step' : 'false');
-      
+
       // Update step indicator
       const indicator = step.querySelector('[data-step-indicator]');
       if (indicator) {
@@ -95,7 +101,12 @@ export class Stepper implements StepperInstance {
 
     // Update nav buttons
     this.#el.querySelectorAll('[data-step-prev]').forEach(btn => {
-      (btn as HTMLButtonElement).disabled = !this.canPrev();
+      const button = btn as HTMLButtonElement;
+      button.disabled = !this.canPrev();
+    });
+    this.#el.querySelectorAll('[data-step-next]').forEach(btn => {
+      const button = btn as HTMLButtonElement;
+      button.disabled = !this.canNext();
     });
   }
 
@@ -106,17 +117,18 @@ export class Stepper implements StepperInstance {
   goto(step: number): this {
     if (step < 1 || step > this.#totalSteps) return this;
     if (this.#linear && !this.canGoTo(step)) return this;
-    
+
     const prevStep = this.#currentStep;
     this.#currentStep = step;
-    this.#updateDisplay();
-    
-    emit(this.#el, 'stepper:change', { 
-      from: prevStep, 
-      to: step, 
-      completed: Array.from(this.#completedSteps) 
+
+    emit(this.#el, 'stepper:change', {
+      from: prevStep,
+      to: step,
+      completed: Array.from(this.#completedSteps)
     });
-    
+
+    this.#updateDisplay();
+
     return this;
   }
 
@@ -139,12 +151,12 @@ export class Stepper implements StepperInstance {
     const stepToComplete = step ?? this.#currentStep;
     this.#completedSteps.add(stepToComplete);
     this.#updateDisplay();
-    
-    emit(this.#el, 'stepper:completed', { 
+
+    emit(this.#el, 'stepper:completed', {
       step: stepToComplete,
       allCompleted: this.#completedSteps.size === this.#totalSteps
     });
-    
+
     return this;
   }
 
