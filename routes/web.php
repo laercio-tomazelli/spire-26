@@ -12,6 +12,8 @@ Route::get('/', fn (): Factory|View => view('welcome'));
 
 Route::get('/demo', fn (): Factory|View => view('demo'))->name('demo');
 
+Route::get('/payroll', fn (): Factory|View => view('payroll.dashboard'))->middleware(['auth', 'verified'])->name('payroll.dashboard');
+
 Route::get('/dashboard', fn (): Factory|View => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function (): void {
