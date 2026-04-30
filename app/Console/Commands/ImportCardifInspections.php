@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use ZipArchive;
-use SimpleXMLElement;
-use Illuminate\Support\Facades\Date;
-use Throwable;
 use App\Enums\InspectionStatus;
 use App\Models\Inspection;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Date;
+use SimpleXMLElement;
+use Throwable;
+use ZipArchive;
 
 class ImportCardifInspections extends Command
 {
