@@ -54,7 +54,7 @@ return new class extends Migration
 
             $table->index(['tenant_id', 'status']);
             $table->index(['tenant_id', 'inspection_date']);
-            $table->index(['assigned_to_user_id', 'inspection_date', 'inspection_time']);
+            $table->index(['assigned_to_user_id', 'inspection_date', 'inspection_time'], 'inspections_assignee_schedule_idx');
             $table->unique(['tenant_id', 'claim_number'], 'inspections_tenant_claim_unique');
         });
     }
