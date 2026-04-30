@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Cardif\InspectionController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Contracts\View\Factory;
@@ -12,9 +14,18 @@ Route::get('/', fn (): Factory|View => view('welcome'));
 
 Route::get('/demo', fn (): Factory|View => view('demo'))->name('demo');
 
+Route::get('/orders', [OrderController::class, 'index']);
+
+Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+
 Route::get('/payroll', fn (): Factory|View => view('payroll.dashboard'))->middleware(['auth', 'verified'])->name('payroll.dashboard');
 
 Route::get('/dashboard', fn (): Factory|View => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::prefix('cardif')->name('cardif.')->group(function (): void {
+    Route::get('/dashboard', fn (): Factory|View => view('cardif.dashboard'))->name('dashboard');
+    Route::resource('inspections', InspectionController::class)->parameters(['inspections' => 'inspection']);
+});
 
 Route::middleware('auth')->group(function (): void {
     // Profile

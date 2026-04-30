@@ -38,8 +38,11 @@
                         <h2 class="text-xl font-bold mb-6">Botões com Loading</h2>
                         <div class="space-y-4">
                             <x-spire::button id="save">Salvar Dados</x-spire::button>
-                            <x-spire::button id="send" class="from-green-500 to-teal-500">Enviar Email</x-spire::button>
+                            <x-spire::button id="send" class="from-green-500 to-teal-500">Enviar
+                                Email</x-spire::button>
                             <x-spire::button id="delete" class="from-red-500 to-red-600">Excluir</x-spire::button>
+                            <button id="test" data-v="button"
+                                class="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">Test</button>
                         </div>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
@@ -80,7 +83,8 @@
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Clearable</label>
-                                <x-spire::input placeholder="Clearable field" :clearable="true" value="Type something..." />
+                                <x-spire::input placeholder="Clearable field" :clearable="true"
+                                    value="Type something..." />
                             </div>
 
                             {{-- Prefix & Suffix --}}
@@ -106,7 +110,8 @@
                             <x-spire::input label="Read only" value="Read only" :readonly="true" />
 
                             {{-- Error --}}
-                            <x-spire::input label="With error" placeholder="Invalid input" error="This field is required" />
+                            <x-spire::input label="With error" placeholder="Invalid input"
+                                error="This field is required" />
 
                             {{-- Required --}}
                             <x-spire::input label="Required field" placeholder="This is required" :required="true" />
@@ -129,11 +134,13 @@
                                 value="secret123" />
 
                             {{-- Custom Icon --}}
-                            <x-spire::input label="Custom icons" :password="true" password-toggle="left" value="secret123"
+                            <x-spire::input label="Custom icons" :password="true" password-toggle="left"
+                                value="secret123"
                                 icon='<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>' />
 
                             {{-- Without Toggle (inline label) --}}
-                            <x-spire::input label="Without toggle" :inline="true" type="password" value="secret123" />
+                            <x-spire::input label="Without toggle" :inline="true" type="password"
+                                value="secret123" />
                         </div>
                     </div>
 
@@ -226,7 +233,8 @@
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                         <h2 class="text-xl font-bold mb-6">Tipos de Toast</h2>
                         <div class="grid grid-cols-2 gap-4">
-                            <x-spire::button id="toast-success" class="from-green-500 to-green-600">Success</x-spire::button>
+                            <x-spire::button id="toast-success"
+                                class="from-green-500 to-green-600">Success</x-spire::button>
                             <x-spire::button id="toast-error" class="from-red-500 to-red-600">Error</x-spire::button>
                             <x-spire::button id="toast-info" class="from-blue-500 to-blue-600">Info</x-spire::button>
                             <x-spire::button id="toast-warning"
@@ -238,7 +246,8 @@
                         <div class="space-y-4">
                             <x-spire::button id="toast-queue" class="from-purple-500 to-pink-500">Disparar 5
                                 Toasts</x-spire::button>
-                            <x-spire::button id="toast-clear" class="from-gray-500 to-gray-600">Limpar Todos</x-spire::button>
+                            <x-spire::button id="toast-clear" class="from-gray-500 to-gray-600">Limpar
+                                Todos</x-spire::button>
                         </div>
                     </div>
                 </div>
@@ -259,7 +268,8 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                             Retorna uma Promise com true/false.
                         </p>
-                        <x-spire::button id="open-confirm" class="from-red-500 to-red-600">Excluir Item</x-spire::button>
+                        <x-spire::button id="open-confirm" class="from-red-500 to-red-600">Excluir
+                            Item</x-spire::button>
                     </div>
                 </div>
             </x-spire::tab-panel>
@@ -435,10 +445,12 @@
                         <div class="mt-6 flex flex-wrap gap-2">
                             <x-spire::button id="progress-increment"
                                 class="from-green-500 to-green-600">+10%</x-spire::button>
-                            <x-spire::button id="progress-decrement" class="from-red-500 to-red-600">-10%</x-spire::button>
+                            <x-spire::button id="progress-decrement"
+                                class="from-red-500 to-red-600">-10%</x-spire::button>
                             <x-spire::button id="progress-complete"
                                 class="from-purple-500 to-pink-500">Completar</x-spire::button>
-                            <x-spire::button id="progress-reset" class="from-gray-500 to-gray-600">Reset</x-spire::button>
+                            <x-spire::button id="progress-reset"
+                                class="from-gray-500 to-gray-600">Reset</x-spire::button>
                         </div>
                     </div>
 
@@ -658,12 +670,12 @@
                                     <x-spire::checkbox value="java" label="Java" checked />
                                 </x-spire::checkbox-group>
 
-                                <x-spire::checkbox-group
-                                    label="Preferências"
-                                    name="preferences[]"
-                                    :options="['notificacoes' => 'Notificações por email', 'marketing' => 'Materiais de marketing', 'updates' => 'Atualizações do produto']"
-                                    :value="['notificacoes']"
-                                />
+                                <x-spire::checkbox-group label="Preferências" name="preferences[]" :options="[
+                                    'notificacoes' => 'Notificações por email',
+                                    'marketing' => 'Materiais de marketing',
+                                    'updates' => 'Atualizações do produto',
+                                ]"
+                                    :value="['notificacoes']" />
                             </div>
                         </div>
 
@@ -759,16 +771,16 @@
                             Busca e seleção com autocomplete.
                         </p>
                         <div class="space-y-4">
-                            <x-spire::combobox label="Selecione um país" placeholder="Buscar país..." :options="[
-                                ['value' => 'br', 'label' => 'Brasil', 'description' => 'América do Sul'],
-                                ['value' => 'us', 'label' => 'Estados Unidos', 'description' => 'América do Norte'],
-                                ['value' => 'uk', 'label' => 'Reino Unido', 'description' => 'Europa'],
-                                ['value' => 'jp', 'label' => 'Japão', 'description' => 'Ásia'],
-                                ['value' => 'de', 'label' => 'Alemanha', 'description' => 'Europa'],
-                                ['value' => 'fr', 'label' => 'França', 'description' => 'Europa'],
-                                ['value' => 'pt', 'label' => 'Portugal', 'description' => 'Europa'],
-                            ]"
-                                hint="Digite para filtrar" />
+                            <x-spire::combobox label="Selecione um país" placeholder="Buscar país..."
+                                :options="[
+                                    ['value' => 'br', 'label' => 'Brasil', 'description' => 'América do Sul'],
+                                    ['value' => 'us', 'label' => 'Estados Unidos', 'description' => 'América do Norte'],
+                                    ['value' => 'uk', 'label' => 'Reino Unido', 'description' => 'Europa'],
+                                    ['value' => 'jp', 'label' => 'Japão', 'description' => 'Ásia'],
+                                    ['value' => 'de', 'label' => 'Alemanha', 'description' => 'Europa'],
+                                    ['value' => 'fr', 'label' => 'França', 'description' => 'Europa'],
+                                    ['value' => 'pt', 'label' => 'Portugal', 'description' => 'Europa'],
+                                ]" hint="Digite para filtrar" />
 
                             <x-spire::combobox label="Múltipla seleção" placeholder="Selecione tecnologias..."
                                 :multiple="true" :options="[
@@ -789,8 +801,8 @@
                             Input para múltiplas tags.
                         </p>
                         <div class="space-y-4">
-                            <x-spire::tag-input label="Tags" placeholder="Digite e pressione Enter" :value="['Laravel', 'Vue.js', 'Tailwind']"
-                                hint="Pressione Enter ou vírgula para adicionar" />
+                            <x-spire::tag-input label="Tags" placeholder="Digite e pressione Enter"
+                                :value="['Laravel', 'Vue.js', 'Tailwind']" hint="Pressione Enter ou vírgula para adicionar" />
 
                             <x-spire::tag-input label="Com sugestões" :suggestions="['React', 'Vue', 'Angular', 'Svelte', 'Next.js', 'Nuxt', 'Remix']"
                                 placeholder="Digite para ver sugestões..." />
@@ -1075,7 +1087,8 @@
                             Requisições com CSRF automático.
                         </p>
                         <div class="space-y-4">
-                            <x-spire::button id="http-get" class="from-blue-500 to-blue-600">GET Request</x-spire::button>
+                            <x-spire::button id="http-get" class="from-blue-500 to-blue-600">GET
+                                Request</x-spire::button>
                             <div id="http-result"
                                 class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg text-xs font-mono h-24 overflow-y-auto">
                                 <p class="text-gray-400">Resultado aparecerá aqui...</p>
@@ -2107,7 +2120,8 @@
                             <x-spire::header title="Pedidos" icon="🛒">
                                 <div class="flex items-center gap-2">
                                     <x-spire::badge variant="warning" :dot="true">5 Pendentes</x-spire::badge>
-                                    <x-spire::badge variant="success" :dot="true">12 Concluídos</x-spire::badge>
+                                    <x-spire::badge variant="success" :dot="true">12
+                                        Concluídos</x-spire::badge>
                                 </div>
                             </x-spire::header>
 
@@ -2511,10 +2525,12 @@
                             <label class="text-xs text-gray-500 dark:text-gray-400 mb-3 block">Controle via
                                 JavaScript</label>
                             <div class="flex flex-wrap items-center gap-3">
-                                <x-spire::button size="sm" onclick="SpireUI.carousel('demo-carousel-1').prev()">
+                                <x-spire::button size="sm"
+                                    onclick="SpireUI.carousel('demo-carousel-1').prev()">
                                     ⬅️ Anterior
                                 </x-spire::button>
-                                <x-spire::button size="sm" onclick="SpireUI.carousel('demo-carousel-1').next()">
+                                <x-spire::button size="sm"
+                                    onclick="SpireUI.carousel('demo-carousel-1').next()">
                                     Próximo ➡️
                                 </x-spire::button>
                                 <x-spire::button size="sm" class="from-green-500 to-green-600"
@@ -2612,10 +2628,10 @@
                         <div class="mt-6 grid sm:grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl">
                             <x-spire::stats-card variant="minimal" title="Visitas" value="12.4K" change="+5%"
                                 icon="eye" iconColor="primary" />
-                            <x-spire::stats-card variant="minimal" title="Downloads" value="3.2K" change="+18%"
-                                icon="download" iconColor="success" />
-                            <x-spire::stats-card variant="minimal" title="Avaliação" value="4.9" icon="star"
-                                iconColor="warning" />
+                            <x-spire::stats-card variant="minimal" title="Downloads" value="3.2K"
+                                change="+18%" icon="download" iconColor="success" />
+                            <x-spire::stats-card variant="minimal" title="Avaliação" value="4.9"
+                                icon="star" iconColor="warning" />
                         </div>
                     </div>
 
@@ -2669,9 +2685,12 @@
                             {{-- Tamanhos --}}
                             <div class="text-center">
                                 <div class="flex items-end gap-3">
-                                    <x-spire::notification-bell :count="3" size="sm" :showDropdown="false" />
-                                    <x-spire::notification-bell :count="3" size="md" :showDropdown="false" />
-                                    <x-spire::notification-bell :count="3" size="lg" :showDropdown="false" />
+                                    <x-spire::notification-bell :count="3" size="sm"
+                                        :showDropdown="false" />
+                                    <x-spire::notification-bell :count="3" size="md"
+                                        :showDropdown="false" />
+                                    <x-spire::notification-bell :count="3" size="lg"
+                                        :showDropdown="false" />
                                 </div>
                                 <span class="text-xs text-gray-500 mt-2 block">Tamanhos</span>
                             </div>
@@ -2727,9 +2746,9 @@
                                 ]" />
 
                             {{-- Enterprise --}}
-                            <x-spire::pricing-card name="Enterprise" description="Para grandes times" price="199"
-                                period="/mês" color="purple" :highlighted="true" ctaLabel="Falar com vendas"
-                                :features="[
+                            <x-spire::pricing-card name="Enterprise" description="Para grandes times"
+                                price="199" period="/mês" color="purple" :highlighted="true"
+                                ctaLabel="Falar com vendas" :features="[
                                     ['label' => 'Tudo do Pro', 'highlight' => true],
                                     'Armazenamento ilimitado',
                                     'Suporte 24/7 dedicado',
@@ -3056,9 +3075,11 @@
                             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                                 Gerenciamento</p>
                             <div class="flex flex-wrap gap-2">
-                                <x-spire::button id="tabs-disable-2" class="from-yellow-500 to-orange-500">Desabilitar
+                                <x-spire::button id="tabs-disable-2"
+                                    class="from-yellow-500 to-orange-500">Desabilitar
                                     Tab 2</x-spire::button>
-                                <x-spire::button id="tabs-enable-2" class="from-green-500 to-green-600">Habilitar Tab
+                                <x-spire::button id="tabs-enable-2" class="from-green-500 to-green-600">Habilitar
+                                    Tab
                                     2</x-spire::button>
                                 <x-spire::button id="tabs-hide-3" class="from-gray-500 to-gray-600">Ocultar Tab
                                     3</x-spire::button>
@@ -3076,9 +3097,11 @@
                             <div class="flex flex-wrap gap-2">
                                 <x-spire::button id="tabs-error" class="from-red-500 to-red-600">🔴 Erro Tab
                                     1</x-spire::button>
-                                <x-spire::button id="tabs-warning" class="from-amber-500 to-orange-500">🟠 Warning Tab
+                                <x-spire::button id="tabs-warning" class="from-amber-500 to-orange-500">🟠 Warning
+                                    Tab
                                     2</x-spire::button>
-                                <x-spire::button id="tabs-success" class="from-green-500 to-green-600">🟢 Sucesso Tab
+                                <x-spire::button id="tabs-success" class="from-green-500 to-green-600">🟢 Sucesso
+                                    Tab
                                     3</x-spire::button>
                                 <x-spire::button id="tabs-pulse" class="from-pink-500 to-rose-500">💓
                                     Pulsante</x-spire::button>
@@ -3374,6 +3397,16 @@
                 }
             });
 
+
+
+            document.getElementById('test')?.addEventListener('click', function() {
+                this.$button.loading(true);
+                setTimeout(() => {
+                    console.log(this.$button);
+                    SpireUI.toast.success('Teste realizado com sucesso!');
+                }, 1000);
+            });
+
             // Escutar eventos customizados
             document.getElementById('save')?.addEventListener('button:loading', (e) => {
                 console.log('Evento: button:loading', e.detail);
@@ -3655,10 +3688,10 @@
             SpireUI.shortcuts.register('escape', () => {
                 // Fecha drawers abertos
                 ['drawer-left', 'drawer-right', 'drawer-top', 'drawer-bottom', 'cart-drawer'].forEach(
-                id => {
-                    const el = document.getElementById(id);
-                    if (el?.$drawer?.isOpen()) el.$drawer.close();
-                });
+                    id => {
+                        const el = document.getElementById(id);
+                        if (el?.$drawer?.isOpen()) el.$drawer.close();
+                    });
             });
 
             // ========== FORMS TAB ==========
@@ -3699,7 +3732,8 @@
             // Checkbox events
             document.querySelectorAll('[data-v="checkbox"]').forEach(checkbox => {
                 checkbox.addEventListener('change', (e) => {
-                    const label = e.target.closest('[data-checkbox-container]')?.querySelector('label')?.textContent?.trim();
+                    const label = e.target.closest('[data-checkbox-container]')?.querySelector(
+                        'label')?.textContent?.trim();
                     const isChecked = e.target.checked;
                     console.log(`Checkbox "${label}" ${isChecked ? 'marcado' : 'desmarcado'}`);
                 });
@@ -4012,7 +4046,8 @@
             document.getElementById('icon-heart')?.addEventListener('click', function() {
                 this.classList.toggle('text-red-500');
                 this.classList.toggle('text-gray-400');
-                SpireUI.toast.info(this.classList.contains('text-red-500') ? '❤️ Curtido!' : '💔 Descurtido');
+                SpireUI.toast.info(this.classList.contains('text-red-500') ? '❤️ Curtido!' :
+                    '💔 Descurtido');
             });
 
             document.getElementById('icon-star')?.addEventListener('click', function() {
@@ -4044,7 +4079,8 @@
 
                 // Validate password
                 if (!passwordInput.value || passwordInput.value.length < 6) {
-                    passwordInput.closest('[x-data]').__x.$data.error = 'Senha deve ter pelo menos 6 caracteres';
+                    passwordInput.closest('[x-data]').__x.$data.error =
+                        'Senha deve ter pelo menos 6 caracteres';
                     hasErrors = true;
                 } else {
                     passwordInput.closest('[x-data]').__x.$data.error = null;

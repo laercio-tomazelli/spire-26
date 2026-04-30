@@ -99,7 +99,7 @@
     </x-spire::sidebar>
 
     {{-- Main Content Area --}}
-    <div class="lg:ml-64 transition-all duration-300">
+    <div class="lg:ml-64 transition-all duration-300 bg-amber-50">
         {{-- Navbar --}}
         <x-spire::navbar sidebar="main-sidebar">
             {{-- Logo no navbar (visível quando sidebar colapsada) --}}
@@ -168,10 +168,10 @@
         </x-spire::navbar>
 
         {{-- Page Content --}}
-        <main class="min-h-screen">
+        <main class="min-h-[calc(100vh-64px)]">
             {{-- Page Header --}}
             <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     {{-- Breadcrumbs --}}
                     @if (isset($breadcrumbs))
                         <div class="mb-4">

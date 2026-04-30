@@ -26,7 +26,7 @@
         {{-- Left: Icon + Title --}}
         <div class="flex items-center gap-3 min-w-0">
             {{-- Icon --}}
-            @if($icon)
+            @if ($icon)
                 <span class="text-2xl shrink-0">{{ $icon }}</span>
             @elseif(isset($iconSlot))
                 <div class="shrink-0">
@@ -36,7 +36,7 @@
 
             {{-- Title & Subtitle --}}
             <div class="min-w-0">
-                @if($title)
+                @if ($title)
                     <h1 class="text-lg font-semibold text-gray-900 dark:text-white truncate">
                         {{ $title }}
                     </h1>
@@ -44,7 +44,7 @@
                     {{ $titleSlot }}
                 @endif
 
-                @if($subtitle)
+                @if ($subtitle)
                     <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
                         {{ $subtitle }}
                     </p>
@@ -55,7 +55,7 @@
         </div>
 
         {{-- Right: Actions --}}
-        @if($slot->isNotEmpty() || isset($actions))
+        @if ($slot->isNotEmpty() || isset($actions))
             <div class="flex items-center gap-3 shrink-0">
                 @isset($actions)
                     {{ $actions }}
