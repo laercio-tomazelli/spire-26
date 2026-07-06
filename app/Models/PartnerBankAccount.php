@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 /**
  * @property-read string $formatted_account
@@ -20,27 +22,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'partner_id',
+    'bank_name',
+    'bank_code',
+    'agency',
+    'agency_digit',
+    'account_number',
+    'account_digit',
+    'account_type',
+    'holder_name',
+    'holder_document',
+    'pix_key',
+    'pix_key_type',
+    'is_primary',
+    'is_active',
+])]
 class PartnerBankAccount extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'partner_id',
-        'bank_name',
-        'bank_code',
-        'agency',
-        'agency_digit',
-        'account_number',
-        'account_digit',
-        'account_type',
-        'holder_name',
-        'holder_document',
-        'pix_key',
-        'pix_key_type',
-        'is_primary',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

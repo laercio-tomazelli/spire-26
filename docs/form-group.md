@@ -206,7 +206,7 @@ O componente Form Group fornece agrupamento estruturado para campos de formulár
 </form>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Validação em Tempo Real
 

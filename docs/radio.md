@@ -179,7 +179,7 @@ O componente Radio fornece botões de rádio para seleção única com agrupamen
 </form>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Seleção Dinâmica
 

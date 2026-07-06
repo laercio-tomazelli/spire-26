@@ -148,7 +148,7 @@ O componente Checkbox fornece caixas de seleção individuais e em grupo com est
 </x-spire::form-group>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Seleção Múltipla com Controle
 

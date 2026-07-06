@@ -180,7 +180,7 @@ O componente Dropdown fornece menus suspensos customizáveis com posicionamento 
 </x-spire::dropdown>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Controle Programático
 

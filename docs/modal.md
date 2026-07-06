@@ -290,7 +290,7 @@ document.dispatchEvent(new CustomEvent('modal-close', {
 }));
 ```
 
-### Com Alpine.js
+### Exemplo legado com Alpine (nao usar em novas telas)
 
 ```blade
 <div x-data="{ showModal: false }">

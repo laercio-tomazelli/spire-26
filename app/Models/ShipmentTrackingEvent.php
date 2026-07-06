@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -37,19 +39,19 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'shipment_id',
+    'occurred_at',
+    'status',
+    'location',
+    'description',
+    'raw_data',
+])]
 class ShipmentTrackingEvent extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'shipment_id',
-        'occurred_at',
-        'status',
-        'location',
-        'description',
-        'raw_data',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

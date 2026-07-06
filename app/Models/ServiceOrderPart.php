@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -107,31 +109,31 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'service_order_id',
+    'part_id',
+    'inventory_item_id',
+    'part_code',
+    'part_name',
+    'quantity',
+    'unit_cost',
+    'unit_price',
+    'total_price',
+    'serial_number',
+    'status',
+    'requested_at',
+    'approved_at',
+    'shipped_at',
+    'received_at',
+    'used_at',
+    'returned_at',
+    'notes',
+])]
 class ServiceOrderPart extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'service_order_id',
-        'part_id',
-        'inventory_item_id',
-        'part_code',
-        'part_name',
-        'quantity',
-        'unit_cost',
-        'unit_price',
-        'total_price',
-        'serial_number',
-        'status',
-        'requested_at',
-        'approved_at',
-        'shipped_at',
-        'received_at',
-        'used_at',
-        'returned_at',
-        'notes',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -166,6 +168,7 @@ class ServiceOrderPart extends Model
     }
 
     // Boot method to calculate total_price
+    #[Override]
     protected static function boot(): void
     {
         parent::boot();

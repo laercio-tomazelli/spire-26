@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -38,19 +40,19 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'service_order_id',
+    'user_id',
+    'type',
+    'content',
+    'is_internal',
+    'is_pinned',
+])]
 class ServiceOrderComment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'service_order_id',
-        'user_id',
-        'type',
-        'content',
-        'is_internal',
-        'is_pinned',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -136,7 +136,7 @@ O componente Skeleton fornece placeholders animados para indicar carregamento de
 </div>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Loading State
 

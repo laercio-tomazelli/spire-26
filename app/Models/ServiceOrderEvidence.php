@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 /**
  * @property-read string $formatted_file_size
@@ -20,24 +23,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'service_order_id',
+    'uploaded_by',
+    'type',
+    'category',
+    'file_name',
+    'file_path',
+    'file_size',
+    'mime_type',
+    'description',
+])]
+#[Table(name: 'service_order_evidence')]
 class ServiceOrderEvidence extends Model
 {
     use HasFactory;
 
-    protected $table = 'service_order_evidence';
-
-    protected $fillable = [
-        'service_order_id',
-        'uploaded_by',
-        'type',
-        'category',
-        'file_name',
-        'file_path',
-        'file_size',
-        'mime_type',
-        'description',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

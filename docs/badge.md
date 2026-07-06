@@ -165,7 +165,7 @@ O componente Badge fornece indicadores visuais compactos para status, contadores
 </div>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Badges Dinâmicos
 

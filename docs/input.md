@@ -169,7 +169,7 @@ O componente Input fornece campos de entrada flexíveis com validação, máscar
 </x-spire::form-group>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Busca Reativa
 

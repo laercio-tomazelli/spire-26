@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ManufacturerFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -45,23 +47,23 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'name',
+    'slug',
+    'document',
+    'email',
+    'phone',
+    'website',
+    'logo_url',
+    'is_active',
+])]
 class Manufacturer extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'name',
-        'slug',
-        'document',
-        'email',
-        'phone',
-        'website',
-        'logo_url',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

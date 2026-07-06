@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 /**
  * @property-read ServiceOrder|null $serviceOrder
@@ -19,23 +21,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'service_order_id',
+    'user_id',
+    'channel',
+    'direction',
+    'subject',
+    'content',
+    'started_at',
+    'ended_at',
+    'duration_seconds',
+    'result',
+])]
 class ServiceOrderSupport extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'service_order_id',
-        'user_id',
-        'channel',
-        'direction',
-        'subject',
-        'content',
-        'started_at',
-        'ended_at',
-        'duration_seconds',
-        'result',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

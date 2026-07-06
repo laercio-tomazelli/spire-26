@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 /**
  * @property-read Collection<int, ServiceOrder> $serviceOrders
@@ -24,24 +26,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'name',
+    'slug',
+    'code',
+    'description',
+    'duration_months',
+    'covers_parts',
+    'covers_labor',
+    'covers_travel',
+    'is_active',
+])]
 class WarrantyType extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'name',
-        'slug',
-        'code',
-        'description',
-        'duration_months',
-        'covers_parts',
-        'covers_labor',
-        'covers_travel',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

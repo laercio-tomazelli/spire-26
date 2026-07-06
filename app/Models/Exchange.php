@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -113,36 +115,36 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'brand_id',
+    'service_order_id',
+    'customer_id',
+    'exchange_number',
+    'status_id',
+    'reason_id',
+    'type',
+    'product_model_id',
+    'product_serial_number',
+    'defect_description',
+    'requested_at',
+    'approved_at',
+    'approved_by',
+    'shipped_at',
+    'received_at',
+    'completed_at',
+    'canceled_at',
+    'cancellation_reason',
+    'tracking_code_outbound',
+    'tracking_code_inbound',
+    'notes',
+])]
 class Exchange extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'brand_id',
-        'service_order_id',
-        'customer_id',
-        'exchange_number',
-        'status_id',
-        'reason_id',
-        'type',
-        'product_model_id',
-        'product_serial_number',
-        'defect_description',
-        'requested_at',
-        'approved_at',
-        'approved_by',
-        'shipped_at',
-        'received_at',
-        'completed_at',
-        'canceled_at',
-        'cancellation_reason',
-        'tracking_code_outbound',
-        'tracking_code_inbound',
-        'notes',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -81,41 +83,41 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'invoice_id',
+    'product_code',
+    'ean',
+    'product_name',
+    'ncm',
+    'cfop',
+    'cest',
+    'unit',
+    'quantity',
+    'unit_price',
+    'total_price',
+    'icms_origin',
+    'icms_cst',
+    'icms_base_mode',
+    'icms_base',
+    'icms_rate',
+    'icms_value',
+    'ipi_cst',
+    'ipi_framework',
+    'ipi_value',
+    'pis_cst',
+    'pis_base',
+    'pis_rate',
+    'pis_value',
+    'cofins_cst',
+    'cofins_base',
+    'cofins_rate',
+    'cofins_value',
+])]
 class InvoiceItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'invoice_id',
-        'product_code',
-        'ean',
-        'product_name',
-        'ncm',
-        'cfop',
-        'cest',
-        'unit',
-        'quantity',
-        'unit_price',
-        'total_price',
-        'icms_origin',
-        'icms_cst',
-        'icms_base_mode',
-        'icms_base',
-        'icms_rate',
-        'icms_value',
-        'ipi_cst',
-        'ipi_framework',
-        'ipi_value',
-        'pis_cst',
-        'pis_base',
-        'pis_rate',
-        'pis_value',
-        'cofins_cst',
-        'cofins_base',
-        'cofins_rate',
-        'cofins_value',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

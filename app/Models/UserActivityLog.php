@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -49,23 +51,23 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'user_id',
+    'action',
+    'model_type',
+    'model_id',
+    'old_values',
+    'new_values',
+    'ip_address',
+    'user_agent',
+])]
 class UserActivityLog extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'user_id',
-        'action',
-        'model_type',
-        'model_id',
-        'old_values',
-        'new_values',
-        'ip_address',
-        'user_agent',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

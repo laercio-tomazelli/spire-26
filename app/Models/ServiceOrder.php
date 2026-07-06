@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ServiceOrderFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -264,68 +266,68 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'brand_id',
+    'partner_id',
+    'customer_id',
+    'product_model_id',
+    'service_order_number',
+    'external_reference',
+    'status_id',
+    'sub_status_id',
+    'service_type_id',
+    'warranty_type_id',
+    'priority_id',
+    'origin_id',
+    'defect_id',
+    'defect_found_id',
+    'solution_id',
+    'purchase_date',
+    'warranty_expires_at',
+    'product_serial_number',
+    'product_condition',
+    'reported_defect',
+    'defect_description',
+    'solution_description',
+    'internal_notes',
+    'received_at',
+    'started_at',
+    'completed_at',
+    'closed_at',
+    'canceled_at',
+    'cancellation_reason',
+    'scheduled_date',
+    'scheduled_period',
+    'technician_id',
+    'assigned_by',
+    'assigned_at',
+    'rating',
+    'rating_comment',
+    'rated_at',
+    'is_under_warranty',
+    'requires_approval',
+    'is_approved',
+    'approved_by',
+    'approved_at',
+    'total_parts',
+    'total_labor',
+    'total_travel',
+    'total_discount',
+    'total',
+    'invoiced_amount',
+    'is_invoiced',
+    'invoice_number',
+    'invoice_key',
+    'invoiced_at',
+    'monthly_closing_id',
+])]
 class ServiceOrder extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'brand_id',
-        'partner_id',
-        'customer_id',
-        'product_model_id',
-        'service_order_number',
-        'external_reference',
-        'status_id',
-        'sub_status_id',
-        'service_type_id',
-        'warranty_type_id',
-        'priority_id',
-        'origin_id',
-        'defect_id',
-        'defect_found_id',
-        'solution_id',
-        'purchase_date',
-        'warranty_expires_at',
-        'product_serial_number',
-        'product_condition',
-        'reported_defect',
-        'defect_description',
-        'solution_description',
-        'internal_notes',
-        'received_at',
-        'started_at',
-        'completed_at',
-        'closed_at',
-        'canceled_at',
-        'cancellation_reason',
-        'scheduled_date',
-        'scheduled_period',
-        'technician_id',
-        'assigned_by',
-        'assigned_at',
-        'rating',
-        'rating_comment',
-        'rated_at',
-        'is_under_warranty',
-        'requires_approval',
-        'is_approved',
-        'approved_by',
-        'approved_at',
-        'total_parts',
-        'total_labor',
-        'total_travel',
-        'total_discount',
-        'total',
-        'invoiced_amount',
-        'is_invoiced',
-        'invoice_number',
-        'invoice_key',
-        'invoiced_at',
-        'monthly_closing_id',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -31,11 +31,10 @@ Esta documentação detalha todos os componentes disponíveis no Spire UI, com e
 
 ## 🚀 Guia Rápido
 
-### Instalação Básica
+### Setup Local
 
-1. **Instale as dependências:**
+1. **Instale as dependências JavaScript:**
 ```bash
-composer require spire/spire-ui
 npm install
 ```
 
@@ -52,7 +51,7 @@ window.SpireUI = SpireUI;
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import './spire/spire.css';
+@import './vendor/spire-ui/spire.css';
 ```
 
 4. **Use nos templates:**
@@ -69,7 +68,7 @@ resources/
 │   ├── utilities/      # Utilitários
 │   ├── types/          # Definições TypeScript
 │   └── core/           # Núcleo da biblioteca
-├── views/components/   # Templates Blade
+├── views/components/ui/ # Templates Blade
 └── css/                # Estilos customizados
 ```
 
@@ -77,7 +76,7 @@ resources/
 
 - **Prefixo**: Todos os componentes usam o prefixo `x-spire::`
 - **Atributos**: Propriedades são passadas como atributos HTML
-- **Eventos**: Eventos Alpine.js são suportados
+- **Eventos**: Interações são implementadas pelos componentes TypeScript locais
 - **Acessibilidade**: Todos os componentes seguem WCAG 2.1 AA
 - **Responsividade**: Design mobile-first
 
@@ -88,7 +87,7 @@ resources/
 ### Performance
 - Use lazy loading para componentes pesados
 - Implemente virtualização para listas grandes
-- Minimize re-renders com Alpine.js
+- Evite duplicar comportamento que já existe nos componentes TypeScript locais
 
 ### Acessibilidade
 - Sempre forneça labels descritivos
@@ -104,7 +103,4 @@ resources/
 
 ## 🆘 Suporte
 
-- 📖 [Documentação Completa](https://spire-ui.dev)
-- 💬 [Discord Community](https://discord.gg/spire-ui)
-- 🐛 [GitHub Issues](https://github.com/spire-ui/spire-ui/issues)
-- 📧 [Email Support](mailto:support@spire-ui.dev)
+Use esta pasta `docs/` como fonte de referência dos componentes locais e mantenha os exemplos sincronizados com `resources/views/components/ui/` e `resources/js/spire/`.

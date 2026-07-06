@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 /**
  * @property-read Collection<int, ServiceOrder> $serviceOrders
@@ -25,24 +28,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'status_id',
+    'name',
+    'slug',
+    'description',
+    'color',
+    'sort_order',
+    'is_active',
+])]
+#[Table(name: 'service_order_sub_statuses')]
 class ServiceOrderSubStatus extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $table = 'service_order_sub_statuses';
-
-    protected $fillable = [
-        'tenant_id',
-        'status_id',
-        'name',
-        'slug',
-        'description',
-        'color',
-        'sort_order',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

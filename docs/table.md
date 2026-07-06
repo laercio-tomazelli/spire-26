@@ -214,7 +214,7 @@ A busca funciona em todos os campos visíveis da tabela.
 </x-spire::table>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Busca Reativa
 

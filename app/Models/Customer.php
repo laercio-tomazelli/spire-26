@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\CustomerFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -91,35 +93,35 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'type',
+    'document',
+    'name',
+    'trade_name',
+    'email',
+    'phone',
+    'mobile',
+    'address',
+    'address_number',
+    'address_complement',
+    'neighborhood',
+    'city',
+    'city_code',
+    'state',
+    'postal_code',
+    'country',
+    'latitude',
+    'longitude',
+    'notes',
+    'is_active',
+])]
 class Customer extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'type',
-        'document',
-        'name',
-        'trade_name',
-        'email',
-        'phone',
-        'mobile',
-        'address',
-        'address_number',
-        'address_complement',
-        'neighborhood',
-        'city',
-        'city_code',
-        'state',
-        'postal_code',
-        'country',
-        'latitude',
-        'longitude',
-        'notes',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

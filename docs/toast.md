@@ -96,7 +96,7 @@ O componente Toast fornece notificações temporárias não-intrusivas para feed
 </x-spire::toast-container>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Controle Programático
 

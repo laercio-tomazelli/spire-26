@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserType;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +20,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -95,50 +98,39 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'partner_id',
+    'manufacturer_id',
+    'user_type',
+    'is_partner_admin',
+    'created_by_user_id',
+    'username',
+    'name',
+    'email',
+    'password',
+    'phone',
+    'mobile',
+    'avatar',
+    'is_active',
+    'last_login_at',
+    'last_login_ip',
+])]
+#[Hidden([
+    'password',
+    'remember_token',
+])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'tenant_id',
-        'partner_id',
-        'manufacturer_id',
-        'user_type',
-        'is_partner_admin',
-        'created_by_user_id',
-        'username',
-        'name',
-        'email',
-        'password',
-        'phone',
-        'mobile',
-        'avatar',
-        'is_active',
-        'last_login_at',
-        'last_login_ip',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -276,13 +268,7 @@ class User extends Authenticatable
      */
     public function hasAnyPermission(array $permissionSlugs): bool
     {
-        foreach ($permissionSlugs as $slug) {
-            if ($this->hasPermission($slug)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($permissionSlugs, fn (string $slug): bool => $this->hasPermission($slug));
     }
 
     /**
@@ -290,13 +276,7 @@ class User extends Authenticatable
      */
     public function hasAllPermissions(array $permissionSlugs): bool
     {
-        foreach ($permissionSlugs as $slug) {
-            if (! $this->hasPermission($slug)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($permissionSlugs, fn (string $slug): bool => $this->hasPermission($slug));
     }
 
     /**

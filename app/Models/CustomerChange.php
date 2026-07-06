@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,19 +38,18 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'customer_id',
+    'service_order_id',
+    'field_name',
+    'old_value',
+    'new_value',
+    'changed_by',
+    'reason',
+])]
 class CustomerChange extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'customer_id',
-        'service_order_id',
-        'field_name',
-        'old_value',
-        'new_value',
-        'changed_by',
-        'reason',
-    ];
 
     // Relationships
 

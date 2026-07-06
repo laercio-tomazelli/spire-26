@@ -62,7 +62,7 @@ O trait adiciona automaticamente:
 ## Stack Técnica
 
 -   **PHP** 8.4+ (com `declare(strict_types=1)`)
--   **Laravel** 12
+-   **Laravel** 13
 -   **MariaDB** 11.4+ (desenvolvimento e testes)
 -   **Pest** 4 (testes)
 -   **PHPStan** level 5
@@ -81,18 +81,20 @@ O trait adiciona automaticamente:
 
 ## Frontend - spire-ui
 
-O projeto utiliza a biblioteca **spire-ui** (`laercio-tomazelli/spire-ui`) para todos os componentes de interface.
+O projeto utiliza a biblioteca **spire-ui** como código local versionado neste repositório para todos os componentes de interface.
 
 ### Diretrizes Obrigatórias
 
 1. **Sempre usar componentes spire-ui** - Verificar primeiro se existe um componente disponível
 2. **TypeScript** - Preferir TypeScript sobre JavaScript puro
 3. **Tailwind CSS** - Usar classes Tailwind para estilos, evitar CSS inline ou classes CSS comuns
-4. **Contribuir com spire-ui** - Se um componente não existir ou precisar de alteração:
-    - Criar/modificar no repositório `spire-ui-package`
-    - Manter compatibilidade com versões anteriores
-    - Seguir as convenções do projeto spire-ui
-    - Fazer push e atualizar o package no projeto principal
+4. **Evoluir spire-ui localmente** - Se um componente não existir ou precisar de alteração:
+    - Criar/modificar diretamente neste repositório
+    - Componentes Blade ficam em `resources/views/components/ui/`
+    - Componentes TypeScript ficam em `resources/js/spire/components/`
+    - Utilitários TypeScript ficam em `resources/js/spire/utilities/`
+    - Manter compatibilidade com usos existentes
+    - Atualizar testes e documentação do componente quando aplicável
 
 ### Componentes Blade Disponíveis
 
@@ -140,34 +142,19 @@ const formatted = Currency.format(1234.56, "BRL");
 
 ### Quando Criar/Modificar spire-ui
 
-Se precisar de um componente que não existe ou modificar um existente:
+Se precisar de um componente que não existe ou modificar um existente, faça a alteração no código local do projeto:
 
-```bash
-# 1. Ir para o repositório spire-ui-package
-cd /home/ldo/dev/projects/spire-ui-package
-
-# 2. Fazer as alterações necessárias
-# - Componentes Blade: resources/views/components/ui/
-# - Componentes TS: resources/js/spire/components/
-# - Utilitários TS: resources/js/spire/utilities/
-
-# 3. Commit e push
-git add .
-git commit -m "feat: add NewComponent"
-git push
-
-# 4. Voltar ao projeto e atualizar
-cd /home/ldo/dev/projects/spire-26
-composer update laercio-tomazelli/spire-ui
-php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServiceProvider" --tag=spire-ui-assets --force
-php artisan vendor:publish --provider="LaercioTomazelli\SpireUI\SpireUIServiceProvider" --tag=spire-ui-views --force
-```
+-   Componentes Blade: `resources/views/components/ui/`
+-   Componentes TypeScript: `resources/js/spire/components/`
+-   Utilitários TypeScript: `resources/js/spire/utilities/`
+-   Testes TypeScript: `resources/js/spire/test/`
+-   Documentação: `docs/`
 
 ### O que NÃO fazer no Frontend
 
 -   ❌ Não usar Alpine.js - O projeto usa spire-ui (TypeScript puro, ~19KB gzip)
 -   ❌ Não usar JavaScript puro quando TypeScript é possível
--   ❌ Não criar componentes diretamente no projeto (criar no spire-ui)
+-   ❌ Não criar componentes fora da estrutura local do spire-ui
 -   ❌ Não usar estilos inline (`style="..."`)
 -   ❌ Não criar classes CSS comuns (usar Tailwind)
 -   ❌ Não usar jQuery ou bibliotecas externas sem necessidade
@@ -272,7 +259,7 @@ final readonly class ServiceOrderService
 }
 ```
 
-## Estrutura Laravel 12
+## Estrutura Laravel 13
 
 -   **Sem** `app/Http/Kernel.php` - use `bootstrap/app.php`
 -   **Sem** `app/Console/Kernel.php` - comandos auto-registram
@@ -360,7 +347,7 @@ it('creates a service order for a partner', function (): void {
 ### Frontend
 
 -   ❌ Não usar JavaScript puro quando TypeScript é possível
--   ❌ Não criar componentes UI diretamente no projeto (criar no spire-ui-package)
+-   ❌ Não criar componentes UI fora da estrutura local do spire-ui
 -   ❌ Não usar estilos inline (`style="..."`)
 -   ❌ Não criar classes CSS comuns (usar Tailwind)
 -   ❌ Não usar jQuery ou bibliotecas externas sem necessidade
@@ -372,8 +359,7 @@ it('creates a service order for a partner', function (): void {
 -   `database/seeders/` - Seeders com dados de exemplo realistas
 -   `app/Models/Concerns/BelongsToTenant.php` - Trait de multi-tenancy
 -   `resources/js/spire/` - Componentes e utilitários TypeScript do spire-ui
--   `resources/views/vendor/spire-ui/` - Componentes Blade do spire-ui
--   `/home/ldo/dev/projects/spire-ui-package/` - Repositório fonte do spire-ui
+-   `resources/views/components/ui/` - Componentes Blade locais do spire-ui
 
 ## Verificação
 

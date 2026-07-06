@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -83,24 +85,24 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'order_id',
+    'part_id',
+    'inventory_item_id',
+    'part_code',
+    'part_name',
+    'quantity',
+    'unit_price',
+    'discount',
+    'total_price',
+    'serial_number',
+    'notes',
+])]
 class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'order_id',
-        'part_id',
-        'inventory_item_id',
-        'part_code',
-        'part_name',
-        'quantity',
-        'unit_price',
-        'discount',
-        'total_price',
-        'serial_number',
-        'notes',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -129,6 +131,7 @@ class OrderItem extends Model
     }
 
     // Boot method to calculate total_price
+    #[Override]
     protected static function boot(): void
     {
         parent::boot();

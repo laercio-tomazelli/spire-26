@@ -145,7 +145,7 @@ O componente Tooltip fornece dicas contextuais que aparecem ao passar o mouse so
 </div>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Tooltip Dinâmico
 

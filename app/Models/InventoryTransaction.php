@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -50,24 +52,24 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'warehouse_id',
+    'inventory_item_id',
+    'part_id',
+    'type',
+    'quantity',
+    'unit_cost',
+    'reference_type',
+    'reference_id',
+    'reason',
+    'notes',
+    'user_id',
+])]
 class InventoryTransaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'warehouse_id',
-        'inventory_item_id',
-        'part_id',
-        'type',
-        'quantity',
-        'unit_cost',
-        'reference_type',
-        'reference_id',
-        'reason',
-        'notes',
-        'user_id',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -37,18 +39,18 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'shipment_id',
+    'shippable_type',
+    'shippable_id',
+    'description',
+    'quantity',
+])]
 class ShipmentItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'shipment_id',
-        'shippable_type',
-        'shippable_id',
-        'description',
-        'quantity',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -145,7 +145,7 @@ O componente Icon fornece ícones Heroicon com fácil integração e customizaç
 </nav>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Ícones Dinâmicos
 

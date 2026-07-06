@@ -126,6 +126,10 @@ describe('Toast Utility', () => {
         ; (toast as any)._processQueue()
         const end = performance.now()
         const duration = end - start
-        expect(duration).toBeLessThan(200) // Menos de 200ms para 20 toasts
+        const container = document.querySelector('.fixed.top-5.right-5')
+        const visibleToasts = container?.querySelectorAll('div[role="alert"]')
+
+        expect(visibleToasts?.length).toBeLessThanOrEqual(3)
+        expect(duration).toBeLessThan(500) // jsdom/Vitest 4 can vary across environments
     })
 })

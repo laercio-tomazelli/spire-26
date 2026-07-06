@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\TenantFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -61,26 +63,26 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'name',
+    'slug',
+    'document',
+    'email',
+    'phone',
+    'address',
+    'city',
+    'state',
+    'postal_code',
+    'country',
+    'logo_url',
+    'settings',
+    'is_active',
+])]
 class Tenant extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'document',
-        'email',
-        'phone',
-        'address',
-        'city',
-        'state',
-        'postal_code',
-        'country',
-        'logo_url',
-        'settings',
-        'is_active',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

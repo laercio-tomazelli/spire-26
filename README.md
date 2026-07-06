@@ -1,12 +1,12 @@
 # Spire UI
 
-[![Tests](https://img.shields.io/badge/tests-853%20passed-brightgreen)](https://github.com/spire-ui/spire-ui)
+[![Tests](https://img.shields.io/badge/tests-853%20passed-brightgreen)](#)
 [![PHPStan](https://img.shields.io/badge/PHPStan-100%25-brightgreen)](https://phpstan.org/)
-[![Laravel](https://img.shields.io/badge/Laravel-11.x-red)](https://laravel.com/)
+[![Laravel](https://img.shields.io/badge/Laravel-13.x-red)](https://laravel.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**Spire UI** é uma biblioteca moderna de componentes de interface para aplicações Laravel, construída com TypeScript, Tailwind CSS e Alpine.js. Oferece uma experiência de desenvolvimento elegante e acessível, com foco em performance e usabilidade.
+**Spire UI** é a biblioteca local de componentes de interface do SPIRE 26, construída com TypeScript, Tailwind CSS e Blade. O código é versionado diretamente neste repositório em `resources/js/spire`, `resources/views/components/ui` e `resources/css/vendor/spire-ui`.
 
 ## ✨ Características
 
@@ -22,34 +22,24 @@
 
 ### Pré-requisitos
 
-- PHP 8.2+
-- Laravel 11.x
+- PHP 8.4+
+- Laravel 13.x
 - Node.js 18+
 - NPM ou Yarn
 
-### Instalação
+### Setup Local
 
-1. **Instale o pacote via Composer:**
-```bash
-composer require spire/spire-ui
-```
-
-2. **Instale as dependências JavaScript:**
+1. **Instale as dependências JavaScript:**
 ```bash
 npm install
 ```
 
-3. **Publique os assets:**
-```bash
-php artisan vendor:publish --provider="Spire\SpireServiceProvider"
-```
-
-4. **Compile os assets:**
+2. **Compile os assets:**
 ```bash
 npm run build
 ```
 
-5. **Configure o Tailwind CSS:**
+3. **Configure o Tailwind CSS:**
 ```javascript
 // vite.config.js
 import { defineConfig } from 'vite';
@@ -87,7 +77,7 @@ window.SpireUI = SpireUI;
 @import 'tailwindcss/utilities';
 
 /* Spire UI Styles */
-@import './spire/spire.css';
+@import './vendor/spire-ui/spire.css';
 ```
 
 ### 3. Use nos Templates Blade
@@ -160,7 +150,10 @@ window.SpireUI = SpireUI;
 ### Formulário Completo
 
 ```blade
-<form x-data="formData" @submit.prevent="submitForm">
+<form method="POST" action="{{ route('profile.update') }}">
+    @csrf
+    @method('PATCH')
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <x-spire::input
             label="Nome"
@@ -323,7 +316,7 @@ composer check
     variant="primary|secondary|outline|ghost|danger"
     size="sm|md|lg"
     disabled="{{ $disabled }}"
-    @click="handleClick"
+    type="button|submit|reset"
 >
     Conteúdo do botão
 </x-spire::button>
@@ -465,7 +458,6 @@ Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICEN
 ## 🙏 Agradecimentos
 
 - [Laravel](https://laravel.com/) - Framework PHP
-- [Alpine.js](https://alpinejs.dev/) - Framework JavaScript reativo
 - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utilitário
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript tipado
 - [Vitest](https://vitest.dev/) - Framework de testes

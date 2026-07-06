@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -107,50 +109,50 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
+#[Fillable([
+    'tenant_id',
+    'carrier_id',
+    'tracking_code',
+    'type',
+    'origin_name',
+    'origin_document',
+    'origin_address',
+    'origin_address_number',
+    'origin_neighborhood',
+    'origin_city',
+    'origin_state',
+    'origin_postal_code',
+    'destination_name',
+    'destination_document',
+    'destination_address',
+    'destination_address_number',
+    'destination_neighborhood',
+    'destination_city',
+    'destination_state',
+    'destination_postal_code',
+    'weight',
+    'length',
+    'width',
+    'height',
+    'declared_value',
+    'volumes',
+    'shipping_cost',
+    'insurance_cost',
+    'total_cost',
+    'status',
+    'shipped_at',
+    'estimated_delivery_at',
+    'delivered_at',
+    'invoice_number',
+    'invoice_key',
+    'notes',
+])]
 class Shipment extends Model
 {
     use BelongsToTenant;
     use HasFactory;
 
-    protected $fillable = [
-        'tenant_id',
-        'carrier_id',
-        'tracking_code',
-        'type',
-        'origin_name',
-        'origin_document',
-        'origin_address',
-        'origin_address_number',
-        'origin_neighborhood',
-        'origin_city',
-        'origin_state',
-        'origin_postal_code',
-        'destination_name',
-        'destination_document',
-        'destination_address',
-        'destination_address_number',
-        'destination_neighborhood',
-        'destination_city',
-        'destination_state',
-        'destination_postal_code',
-        'weight',
-        'length',
-        'width',
-        'height',
-        'declared_value',
-        'volumes',
-        'shipping_cost',
-        'insurance_cost',
-        'total_cost',
-        'status',
-        'shipped_at',
-        'estimated_delivery_at',
-        'delivered_at',
-        'invoice_number',
-        'invoice_key',
-        'notes',
-    ];
-
+    #[Override]
     protected function casts(): array
     {
         return [

@@ -131,7 +131,7 @@ O componente Textarea fornece campos de texto multilinha com auto-resize, valida
 </x-spire::form-group>
 ```
 
-## Integração com Alpine.js
+## Exemplo legado com Alpine (nao usar em novas telas)
 
 ### Contador de Caracteres
 

@@ -94,7 +94,7 @@ O componente Button fornece botões flexíveis e acessíveis com múltiplas vari
 
 ## Exemplos Avançados
 
-### Botão de Loading com Alpine.js
+### Botão de loading legado com Alpine (nao usar em novas telas)
 
 ```blade
 <div x-data="{ loading: false }" class="space-y-4">
