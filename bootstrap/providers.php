@@ -1,8 +1,10 @@
 <?php
 
 declare(strict_types=1);
+use App\Providers\AppServiceProvider;
+use App\Providers\AuthServiceProvider;
 
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\AuthServiceProvider::class,
+    AppServiceProvider::class,
+    AuthServiceProvider::class,
 ];
